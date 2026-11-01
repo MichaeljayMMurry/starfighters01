@@ -1,0 +1,10 @@
+STARFIGHTERS — Fleet Command update
+
+WINDOWS: Double-click STARFIGHTERS.html. It plays offline.
+ANDROID: Copy STARFIGHTERS-Android.apk to your phone and open it to install/update. Android will ask you to confirm.
+WEBSITE: Extract Starfighters-Website.zip, then upload everything INSIDE it to your GitHub repository. index.html belongs at the top level, with downloads/ beside it. Your live website updates after the GitHub Pages deployment finishes.
+
+Controls: W/S thrust, triple W auto-forward, triple S cancel and coast, A/D steer, Q/E rotate, LEFT SHIFT boost, Space lasers, M missiles, N MBC, P pause. Auto Target locks up to three enemies; add others manually. Select allies for Take Control in Custom.
+
+Game sources and full notes: C:\Users\Micha\game-collection\murrys-game\README.md
+Android build 1.2 / versionCode 3. Physical Android performance and native Quit still require a device test.
