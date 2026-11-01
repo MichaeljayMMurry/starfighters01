@@ -8,23 +8,35 @@
 <style>
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:#03060d;color:#dfe9f3;font:13px/1.45 'Segoe UI',Arial,sans-serif}canvas{display:block;outline:none;touch-action:none}button{font:inherit;color:inherit;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;border:1px solid #536879;background:#101e2be8;border-radius:5px;padding:9px 13px}button:hover{background:#274050;border-color:#b8d9e3}button:focus-visible{outline:2px solid #f4d27a;outline-offset:3px}button[aria-pressed=true]{border-color:#f2ce72;color:#f2ce72}button:disabled{opacity:.35;cursor:default}[hidden]{display:none!important}.screen{position:absolute;inset:0;z-index:30;display:flex;align-items:center;pointer-events:none;background:linear-gradient(90deg,#030812ee 0%,#030812b0 38%,#03081210 80%)}.screen>*{pointer-events:auto}.menu-content{margin-left:8vw;max-width:720px}.eyebrow{font-size:10px;letter-spacing:4px;color:#93a8b9;margin:0 0 12px}.logo{margin:0;color:#f1d386;font-family:'Arial Black','Segoe UI',sans-serif;font-weight:900;font-size:clamp(43px,7.3vw,108px);line-height:1;letter-spacing:-3px;transform:scaleY(.83);transform-origin:left;text-shadow:0 0 35px #e5b44c22;-webkit-text-stroke:1px #f7e1a6}.menu-subtitle{margin:14px 0 38px;color:#a0b5c6;letter-spacing:5px;font-size:11px}.menu-nav{display:flex;flex-direction:column;align-items:stretch;width:255px;gap:8px}.menu-nav button{background:linear-gradient(90deg,#152638b0,#15263820);border:0;border-left:2px solid #587087;border-radius:0;text-align:left;padding:13px 19px;letter-spacing:4px;font-size:19px;font-weight:600;transition:background .2s,border-color .2s,padding .2s}.menu-nav button:hover{background:linear-gradient(90deg,#ad87363b,transparent);border-color:#f3d383;padding-left:26px;color:#f3d383}.menu-nav small{font-size:9px;letter-spacing:1px;color:#8ba0b1;display:block;margin-top:3px}.menu-caption{margin-top:28px;font-size:10px;letter-spacing:2px;color:#6f879a}.corner{position:absolute;right:25px;bottom:22px;font-size:10px;letter-spacing:3px;color:#8aa3b7;pointer-events:none}.intro{justify-content:center;background:#02050add;cursor:pointer}.intro-title{animation:arrival 3.2s cubic-bezier(.2,.7,.3,1) both;transform-origin:center;font-size:clamp(45px,11vw,165px);color:transparent;-webkit-text-stroke:2px #f2d17d;letter-spacing:-5px}.skip{position:absolute;bottom:35px;left:50%;transform:translateX(-50%);border:0;background:transparent;color:#95a7b5;font-size:10px;letter-spacing:4px}.screen-card{margin:auto;width:min(570px,calc(100vw - 40px));padding:35px;background:#08121de8;border:1px solid #465769;border-top:2px solid #c6a560;border-radius:4px;box-shadow:0 30px 100px #0008;backdrop-filter:blur(9px)}.screen-card h2{font-weight:400;letter-spacing:5px;font-size:28px;margin:0 0 12px}.screen-card p{color:#a5b8c7;margin:12px 0 23px}.choices{display:flex;flex-direction:column;gap:9px}.choices button{text-align:left;display:flex;justify-content:space-between;align-items:center;padding:14px 18px}.choices small{color:#96abbb;font-size:11px}.row{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}.row button{flex:1}.settings{margin:18px 0;display:flex;flex-wrap:wrap;gap:8px}.settings button{font-size:11px}.help{border-top:1px solid #304152;padding-top:12px;font-size:11px;color:#a5b8c7;line-height:1.8}.help b{color:#e4d299}.game-overlay{position:absolute;z-index:3;background:#07111cce;border:1px solid #34485d;border-radius:7px;backdrop-filter:blur(6px)}#flight-panel{top:18px;left:18px;width:190px;padding:9px 11px;font-size:11px}#flight-panel .row{margin:0;justify-content:space-between;gap:5px}#flight-status{color:#8ca5b9;font-size:10px}progress{display:block;width:100%;height:6px;margin:5px 0;accent-color:#6abfd6}#turbo-status{font-size:10px;color:#8bbed0}#arsenal{right:18px;top:18px;width:205px;padding:8px}.bank{display:flex;gap:3px;flex-wrap:wrap;margin:4px 0}.unit{font:10px/1.4 'Segoe UI',Arial,sans-serif;border:1px solid #355467;border-radius:3px;padding:2px 4px;color:#a8c2cc;min-width:43px;background:#0a1d2b}.unit[data-state=ready]{border-color:#396258;color:#a6d9c8}.unit[data-state=charging]{border-color:#89dfff;color:#bbf5ff;background:#123849}.unit[data-state=blocked]{border-color:#d5b454;color:#f7da7f;background:#382e13}#block-warning{font-size:9px;color:#edd07d;line-height:1.35;margin-top:6px}#damage-panel{left:18px;bottom:18px;width:198px;padding:9px 11px;font-size:11px}#damage-report{font-size:9px;color:#bc9981}#player-health{accent-color:#78bba3}#target-panel{bottom:18px;left:50%;transform:translateX(-50%);width:355px;padding:8px 10px}#contacts{display:flex;flex-wrap:wrap;gap:4px}#contacts button{font-size:10px;padding:4px 7px;border-color:#416477;background:#102637}#target-summary{font-size:10px;color:#b8d5df;margin-bottom:5px}#hit-feedback{font-size:10px;color:#cfb581;min-height:14px;margin-top:5px}#pause-button{position:absolute;right:18px;bottom:18px;z-index:5;width:38px;height:32px;padding:0;color:#cddbe4}#notice{position:absolute;top:20px;left:50%;transform:translateX(-50%);z-index:6;font-size:11px;color:#f0d393;pointer-events:none;text-shadow:0 1px 5px #000}#target-markers{position:absolute;inset:0;pointer-events:none;z-index:2}.target-marker{position:absolute;border:1px solid var(--lock-color,#80dfef);box-shadow:inset 0 0 12px #75e6ff10}.target-marker span{position:absolute;left:0;top:-19px;font-size:9px;white-space:nowrap;color:var(--lock-color,#80dfef);text-shadow:0 1px 4px #000;font-weight:bold}body:not(.playing) .game-overlay,body:not(.playing) #pause-button,body:not(.playing) #target-markers,body:not(.playing) #notice{display:none}body[data-hud=minimal] #flight-panel{display:none}body[data-hud=none] .game-overlay,body[data-hud=none] #pause-button,body[data-hud=none] #target-markers,body[data-hud=none] #notice{display:none!important}#touch-controls,#touch-restore{display:none}body.touch-mode.playing #touch-controls{display:block;position:absolute;inset:0;pointer-events:none;z-index:8}#touch-controls button{pointer-events:auto;min-height:43px;font-size:10px;padding:5px 8px;background:#10283ce0;border-color:#6490a8}#touch-controls button.pressed{background:#3a7089;border-color:#b8edff}#touch-topbar{position:absolute;top:max(6px,env(safe-area-inset-top));left:max(7px,env(safe-area-inset-left));right:max(7px,env(safe-area-inset-right));display:flex;gap:5px;justify-content:space-between}#touch-topbar button{flex:1;max-width:95px}#touch-move{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));left:max(12px,env(safe-area-inset-left));display:grid;grid-template-columns:repeat(3,52px);gap:6px}#touch-move button{height:49px;font-size:21px;line-height:1.1}#touch-controls small{display:block;font-size:8px;color:#a7cadd}#touch-fire{position:absolute;bottom:max(12px,env(safe-area-inset-bottom));right:max(12px,env(safe-area-inset-right));display:grid;grid-template-columns:repeat(2,77px);gap:7px}#touch-fire button{height:52px;font-size:12px}body.touch-mode #flight-panel{top:57px;left:7px;width:130px;padding:5px;font-size:10px}body.touch-mode #flight-status{display:none}body.touch-mode #arsenal{top:57px;left:50%;right:auto;transform:translateX(-50%);width:min(355px,calc(100vw - 290px));padding:5px}body.touch-mode .unit{font-size:9px;min-width:0;padding:1px 3px}body.touch-mode #damage-panel{bottom:auto;top:126px;left:7px;width:130px;padding:5px;font-size:10px}body.touch-mode #damage-report{display:none}body.touch-mode #target-panel{bottom:12px;width:calc(100vw - 385px);max-width:355px;padding:5px}body.touch-mode #target-summary,body.touch-mode #contacts button,body.touch-mode #hit-feedback{font-size:9px}body.touch-mode #pause-button{display:none}body.touch-mode #notice{top:177px;font-size:10px}body.touch-mode[data-hud=none] #touch-controls{display:none}body.touch-mode.playing[data-hud=none] #touch-restore{display:block;position:absolute;top:0;right:0;width:70px;height:58px;z-index:20;opacity:0}#error{display:none;position:absolute;z-index:100;inset:30%;background:#142030;padding:25px;border:1px solid #abc}#result-detail{white-space:pre-line}#demo-settings[hidden]{display:none}#quit-screen{background:#03070fdf}.exit-title{font-size:50px;color:#ead18e;margin:0 0 15px;letter-spacing:5px}@keyframes arrival{0%{opacity:0;transform:scale(1.7) perspective(800px) rotateX(12deg)}18%{opacity:1}78%{opacity:1;transform:scale(.85) perspective(800px) rotateX(0)}100%{opacity:0;transform:scale(.45)}}@media(prefers-reduced-motion:reduce){.intro-title{animation:none;color:#f2d17d;-webkit-text-stroke:0}}@media(max-height:550px){.menu-subtitle{margin:8px 0 20px}.menu-caption{margin-top:15px}.menu-nav button{padding:9px 15px}.screen-card{padding:20px}.screen-card h2{font-size:22px}.screen-card p{margin:8px 0 14px}.help{font-size:10px;line-height:1.6}.settings{margin:10px 0}.logo{font-size:clamp(38px,7vw,82px)}}@media(max-width:700px){#target-panel{width:265px;bottom:12px}#arsenal{width:175px;right:10px;top:10px}#flight-panel{left:10px;top:10px;width:155px}#damage-panel{left:10px;bottom:12px;width:155px}.logo{letter-spacing:-2px}.menu-content{margin-left:7vw}.menu-subtitle{letter-spacing:3px;font-size:10px}.corner{display:none}}
 .screen-card{max-height:calc(100vh - 28px);overflow:auto}
-.cinematic-backdrop #screens,.cinematic-backdrop .game-overlay,.cinematic-backdrop #touch-controls,.cinematic-backdrop #pause-button,.cinematic-backdrop #notice{display:none!important}.spawn-tools{display:flex;gap:8px;align-items:end;flex-wrap:wrap;width:100%;border-top:1px solid #34485d;padding-top:12px}.spawn-tools label{display:grid;gap:4px;color:#9db2c6;font-size:11px}.spawn-tools input,.spawn-tools select{background:#0a1927;color:#e4eaf2;border:1px solid #536879;border-radius:4px;padding:8px;font:inherit}.spawn-tools input{width:65px}.spawn-tools small{display:block;width:100%;color:#8ba0b1}#contacts{max-height:145px;overflow-y:auto;scrollbar-width:thin}#target-panel{width:min(440px,calc(100vw - 445px))}@media(max-width:750px){#target-panel{width:265px}#contacts{max-height:95px}}body.touch-mode #contacts{max-height:65px}</style>
+.cinematic-backdrop #screens,.cinematic-backdrop .game-overlay,.cinematic-backdrop #touch-controls,.cinematic-backdrop #pause-button,.cinematic-backdrop #notice{display:none!important}.spawn-tools{display:flex;gap:8px;align-items:end;flex-wrap:wrap;width:100%;border-top:1px solid #34485d;padding-top:12px}.spawn-tools label{display:grid;gap:4px;color:#9db2c6;font-size:11px}.spawn-tools input,.spawn-tools select{background:#0a1927;color:#e4eaf2;border:1px solid #536879;border-radius:4px;padding:8px;font:inherit}.spawn-tools input{width:65px}.spawn-tools small{display:block;width:100%;color:#8ba0b1}#contacts{max-height:145px;overflow-y:auto;scrollbar-width:thin}#target-panel{width:min(440px,calc(100vw - 445px))}@media(max-width:750px){#target-panel{width:265px}#contacts{max-height:95px}}body.touch-mode #contacts{max-height:65px}
+.custom-fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.custom-fields label{display:grid;gap:6px;font-size:11px;color:#a8bacb}.custom-fields input,.custom-fields select{width:100%;padding:9px;background:#101e2b;color:#e4eef7;border:1px solid #4e667d;border-radius:4px}.experimental-label{display:block;font-size:11px;margin-top:20px;color:#c9b890}.faction-emblems{display:flex;justify-content:space-around;margin:18px 0}.faction-emblems img{width:56px;height:56px;filter:invert(85%) sepia(30%)}.unit{cursor:pointer}.unit[data-state=damaged]{background:#3e3419;color:#f1d26d;border-color:#bf983c}.unit[data-state=severe]{background:#532a13;color:#ffb468;border-color:#d67c33}.unit[data-state=destroyed]{background:#35171d;color:#ef818b;border-color:#993b48;opacity:.85}#player-shield{accent-color:#74bbef}#damage-panel{left:50%;transform:translateX(-50%);bottom:12px;width:245px}#target-panel{left:18px;transform:none;bottom:18px;width:min(410px,32vw)}#contacts{max-height:115px}.target-actions{display:flex;align-items:center;gap:6px;margin-bottom:6px}.target-actions button{font-size:9px;padding:5px 7px}.target-actions span{font-size:8px;color:#91bfae}.cinematic-backdrop #auto-forward{display:none}
+body.touch-mode #touch-topbar{right:auto;width:auto;gap:7px;justify-content:flex-start}body.touch-mode #touch-topbar button{min-height:38px;height:38px;min-width:45px;max-width:70px;flex:none;font-size:8px;padding:4px 7px}body.touch-mode #touch-topbar button:first-child{min-width:53px}body.touch-mode #flight-panel{top:52px;left:8px;width:142px;font-size:9px;padding:5px 7px}body.touch-mode #flight-status{display:block;font-size:8px}body.touch-mode #turbo-status{font-size:8px}body.touch-mode #arsenal{left:auto;right:8px;top:57px;transform:none;width:157px;padding:5px}body.touch-mode #arsenal .bank{gap:3px;margin:3px 0}body.touch-mode .unit{font-size:8px;padding:3px 4px;min-width:34px;min-height:25px}body.touch-mode #block-warning{font-size:8px}body.touch-mode #damage-panel{left:50%;right:auto;top:auto;bottom:8px;transform:translateX(-50%);width:190px;padding:5px 8px;font-size:9px}body.touch-mode #damage-report{display:block;font-size:8px}body.touch-mode #target-panel{left:50%;top:auto;bottom:91px;transform:translateX(-50%);width:min(270px,calc(100vw - 395px));padding:5px}body.touch-mode #contacts{max-height:56px}body.touch-mode #contacts button{font-size:8px;padding:5px;min-height:27px}body.touch-mode #target-summary{font-size:8px}body.touch-mode #hit-feedback{font-size:8px;min-height:10px}body.touch-mode .target-actions{flex-wrap:wrap;gap:4px;margin:0 0 3px}body.touch-mode .target-actions button{font-size:8px;padding:5px;min-height:28px}body.touch-mode .target-actions span{font-size:7px}body.touch-mode #touch-move{grid-template-columns:repeat(3,45px);gap:9px;bottom:9px;left:9px}body.touch-mode #touch-move button{height:44px;min-height:44px;padding:3px;font-size:19px}body.touch-mode #touch-controls small{font-size:7px}body.touch-mode #touch-fire{grid-template-columns:repeat(2,62px);gap:9px;bottom:9px;right:9px}body.touch-mode #touch-fire button{height:45px;min-height:45px;font-size:10px}body.touch-mode #notice{top:110px;font-size:9px;max-width:45vw;text-align:center}body.touch-mode #touch-topbar button[data-control=KeyR]{display:none}body.touch-mode[data-phase=demo] #touch-topbar button[data-control=KeyR]{display:block}@media(max-width:700px){body.touch-mode #touch-topbar{gap:5px}body.touch-mode #touch-topbar button{min-width:38px;padding:3px 5px;min-height:36px;height:36px}body.touch-mode #arsenal{width:138px}body.touch-mode #flight-panel{width:122px}body.touch-mode #target-panel{width:max(155px,calc(100vw - 360px));bottom:105px}body.touch-mode #damage-panel{width:170px}}@media(orientation:portrait){body.touch-mode #target-panel{bottom:125px;width:calc(100vw - 24px)}body.touch-mode #arsenal{top:120px}body.touch-mode #touch-topbar{max-width:calc(100vw - 14px);flex-wrap:wrap}body.touch-mode #damage-panel{bottom:110px;width:175px}}
+
+
+@media(orientation:landscape) and (min-width:741px){body.touch-mode #damage-panel{width:180px}body.touch-mode #target-panel{left:calc(50% + 105px);top:auto;bottom:8px;transform:none;width:calc((100vw - 510px)/2);max-width:175px}body.touch-mode #contacts{max-height:47px}body.touch-mode #target-summary{font-size:7px}body.touch-mode #hit-feedback{font-size:7px;max-height:25px;overflow:hidden}body.touch-mode .target-actions span{display:none}}
+@media(orientation:landscape) and (max-width:740px){body.touch-mode #target-panel{top:52px;bottom:auto;left:50%;transform:translateX(-50%);width:230px}body.touch-mode #contacts{max-height:40px}body.touch-mode .target-actions span{display:none}}
+
+#contacts button{line-height:1.45}#target-panel{width:min(440px,35vw)}body.touch-mode #contacts button{font-size:8px}.custom-fields{grid-template-columns:1fr 1fr}body.touch-mode #arsenal{max-height:42vh;overflow:auto;scrollbar-width:thin}
+
+body{color-scheme:dark}body.touch-mode #arsenal{overscroll-behavior:contain;scrollbar-width:thin}body.touch-mode #arsenal .unit{touch-action:pan-y}
+</style>
 </head>
 <body data-hud="full" data-phase="intro">
 <div id="screens">
 <section id="intro-screen" class="screen intro" aria-label="Starfighters intro"><h1 class="logo intro-title">STARFIGHTERS</h1><button class="skip" data-action="skip">CLICK OR SPACE TO SKIP</button></section>
 <section id="menu-screen" class="screen" hidden aria-label="Main menu"><div class="menu-content"><p class="eyebrow">MURRY PRESENTS</p><h1 class="logo">STARFIGHTERS</h1><p class="menu-subtitle">CAPITAL SHIP WARFARE</p><nav class="menu-nav" aria-label="Main menu actions"><button data-action="start">START<small>Choose your battle</small></button><button data-action="demo">DEMO<small>Weapons &amp; flight sandbox</small></button><button data-action="quit">QUIT</button></nav><div class="menu-caption">OFFLINE · SINGLE PLAYER · EARLY BUILD</div></div><div class="corner">LIVE BATTLE / FREE FOR ALL</div></section>
-<section id="difficulty-screen" class="screen" hidden aria-label="Choose difficulty"><div class="screen-card"><p class="eyebrow">ENGAGEMENT SELECTION</p><h2>CHOOSE YOUR BATTLE</h2><p>Pilot your Venator against Imperial destroyers.</p><div class="choices"><button data-action="easy"><b>EASY</b><small>1 versus 1</small></button><button data-action="medium"><b>MEDIUM</b><small>1 versus 2</small></button><button data-action="hard"><b>HARD</b><small>1 versus 3</small></button></div><div class="row"><button data-action="menu">Back</button></div></div></section>
-<section id="pause-screen" class="screen" hidden aria-label="Paused"><div class="screen-card"><p class="eyebrow" id="pause-mode">BATTLE PAUSED</p><h2>HOLD POSITION</h2><div class="row"><button data-action="resume">Resume</button><button data-action="restart">Restart</button><button data-action="menu">Main menu</button></div><div id="demo-settings" class="settings" hidden><button id="ai-toggle" data-action="ai" aria-pressed="false">Enemy AI: OFF</button><button id="invincible-toggle" data-action="invincible" aria-pressed="false">Invincible: OFF</button><button data-action="dummy">Spawn dummy</button><button data-action="restore-enemy">Reset enemy hull</button><div class="spawn-tools"><label>Enemy <select id="spawn-faction"><option value="imperial">Imperial destroyer</option><option value="republic">Venator</option></select></label><label>Ships <input id="spawn-count" type="number" min="1" step="1" value="1" inputmode="numeric"></label><button data-action="spawn-enemy">Spawn enemies</button><small>Spawn again to add more. Enemy AI activates every spawned ship.</small></div></div><div class="settings"><button data-action="camera">Reset camera</button><button data-action="inspect">Inspect ship</button><button id="touch-toggle" data-action="touch" aria-pressed="false">Touch controls</button></div><div class="help"><b>W/S</b> thrust / reverse · <b>A/D</b> steer · <b>Q/E</b> rotate · <b>T</b> turbo<br><b>Space</b> lasers (tap / hold) · <b>M</b> missiles (10s) · <b>N</b> MBC (3s charge / 15s cooldown)<br>Click ships to add/remove one target per weapon mount (currently 14). Guns divide automatically.<br><b>Esc</b> clear targets · <b>P</b> pause · <b>R</b> dummy (Demo) · <b>C</b> camera · <b>I</b> inspect<br><b>H</b> minimal HUD · double <b>H</b> hide all. Drag to orbit, scroll/pinch to zoom.<br>Touch: hold movement / Fire / Boost; tap weapons. Double HUD hides all; tap upper-right to restore.</div><div class="row"><button data-action="quit">Quit</button></div></div></section>
-<section id="result-screen" class="screen" hidden aria-label="Battle result"><div class="screen-card"><p class="eyebrow">ENGAGEMENT COMPLETE</p><h2 id="result-title">VICTORY</h2><p id="result-detail"></p><div class="row"><button data-action="restart">Restart</button><button data-action="menu">Main menu</button><button data-action="quit">Quit</button></div></div></section>
+<section id="difficulty-screen" class="screen" hidden aria-label="Choose difficulty"><div class="screen-card"><p class="eyebrow">ENGAGEMENT SELECTION</p><h2>CHOOSE YOUR BATTLE</h2><p>Pilot your Venator against Imperial destroyers.</p><div class="choices"><button data-action="easy"><b>EASY</b><small>1 versus 1</small></button><button data-action="medium"><b>MEDIUM</b><small>1 versus 2</small></button><button data-action="hard"><b>HARD</b><small>1 versus 3</small></button><button data-action="custom"><b>CUSTOM</b><small>Choose faction &amp; fleets</small></button></div><div class="row"><button data-action="menu">Back</button></div></div></section>
+<section id="custom-screen" class="screen" hidden aria-label="Custom fleet battle"><div class="screen-card"><p class="eyebrow">FLEET COMMAND</p><h2>CUSTOM BATTLE</h2><div class="faction-emblems"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg0KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iNjAwIiBoZWlnaHQ9IjYwMCI+DQo8Y2lyY2xlIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIzMS44NTE4IiBjeD0iMzAwIiBjeT0iMzAwIiByPSIyODQuMDc0MSIvPg0KPGNpcmNsZSBjeD0iMzAwIiBjeT0iMzAwIiByPSI5My4yMTIyIi8+PGcgaWQ9IkhhbGYiPjxnIGlkPSJFbG10Ij4NCjxwYXRoIGQ9Ik0xNjQuMzMxLDEyMi4wMTRBMjIzLjc5NywyMjMuNzk3IDAgMCwxIDI3MC4wNzcsNzguMjEyNQ0KVjQ4LjE2MDVBMjUzLjYxMSwyNTMuNjExIDAgMCwwIDE0My4wODEsMTAwLjc2NFoiLz4NCjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwMDAwMCIgc3Ryb2tlLXdpZHRoPSIzOC44ODEiIGQ9Ik0zMDAsMzAwdjE4Ny45NjgiLz4NCjwvZz48dXNlIHhsaW5rOmhyZWY9IiNFbG10IiB0cmFuc2Zvcm09InJvdGF0ZSg0NSwzMDAsMzAwKSIvPg0KPHVzZSB4bGluazpocmVmPSIjRWxtdCIgdHJhbnNmb3JtPSJyb3RhdGUoOTAsMzAwLDMwMCkiLz4NCjx1c2UgeGxpbms6aHJlZj0iI0VsbXQiIHRyYW5zZm9ybT0icm90YXRlKDEzNSwzMDAsMzAwKSIvPjwvZz4NCjx1c2UgeGxpbms6aHJlZj0iI0hhbGYiIHRyYW5zZm9ybT0icm90YXRlKDE4MCwzMDAsMzAwKSIvPjwvc3ZnPg==" alt="Galactic Republic emblem"><img src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4wLy9FTiINCgkiaHR0cDovL3d3dy53My5vcmcvVFIvMjAwMS9SRUMtU1ZHLTIwMDEwOTA0L0RURC9zdmcxMC5kdGQiPg0KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMCIgd2lkdGg9IjYwMCIgaGVpZ2h0PSI2MDAuMDAwMDYiIGlkPSJzMSI+DQo8ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMTg3LjE0Mjg2LC0xMTAuOTMzNTgpIiBpZD0ibDEiPg0KPHBhdGggZD0iTTQ4Ny4xNDI4NCwxMTAuOTMzNThDMzIxLjU0Mjg2LDExMC45MzM1OCAxODcuMTQyODYsMjQ1LjMzMzYyIDE4Ny4xNDI4Niw0MTAuOTMzNjJDMTg3LjE0Mjg2LDU3Ni41MzM2MiAzMjEuNTQyODQsNzEwLjkzMzY2IDQ4Ny4xNDI4NCw3MTAuOTMzNjJDNjUyLjc0Mjg0LDcxMC45MzM2MiA3ODcuMTQyODYsNTc2LjUzMzY2IDc4Ny4xNDI4Niw0MTAuOTMzNjJDNzg3LjE0Mjg2LDI0NS4zMzM2IDY1Mi43NDI4NCwxMTAuOTMzNTggNDg3LjE0Mjg0LDExMC45MzM1OHpNNDcyLjk4NDY4LDEzNS44MDYwNkM0NzMuMTUzNDgsMTM1Ljc5NzUgNDczLjMyNjAyLDEzNS44MTQzIDQ3My40OTQ4OCwxMzUuODA2MDZMNDc0Ljc3MDQsMTU2LjE1MDQ0QzQ1Ny40NjcwOCwxNTYuOTc1NCA0NDAuNjI1NzIsMTU5LjQ5ODc4IDQyNC4zODc3NCwxNjMuNjEyMThMNDI5LjQyNjAyLDE4My40NDYzOEMzODYuODA0MDgsMTk0LjI0MjMgMzQ4Ljg0MDYyLDIxNi42ODc3OCAzMTkuMDk0MzgsMjQ3LjIyMTg4TDMwNC40ODk3OCwyMzIuOTM2MThDMjkyLjYxMTU2LDI0NS4xMjIxNCAyODEuOTkyMDQsMjU4LjUwNzkyIDI3Mi43Mjk2LDI3Mi44NTk2NEwyNTUuNjM3NzYsMjYxLjU3MTM2QzMwMi4zMTg3NCwxODkuMzk0MDYgMzgxLjgzMzE0LDE0MC40MzE0OCA0NzIuOTg0NjgsMTM1LjgwNjA2ek01MDAuNzkwOCwxMzUuODA2MDZDNTkyLjE1NDI4LDE0MC4yNzUzNCA2NzEuODgwNTQsMTg5LjI2MDM4IDcxOC42NDc5NiwyNjEuNTcxMzZMNzAxLjU1NjEyLDI3Mi44NTk2NEM2OTIuMzE0NSwyNTguNTQ0MDYgNjgxLjcwNDc0LDI0NS4xNjA0IDY2OS44NTk2OCwyMzIuOTk5OTRMNjU1LjI1NTEsMjQ3LjIyMTg4QzYyNS41MDQyMiwyMTYuNjcxNDggNTg3LjQ5NjUsMTk0LjI0NjA0IDU0NC44NTk3LDE4My40NDYzOEw1NDkuODk3OTYsMTYzLjYxMjE4QzUzMy42NTk5OCwxNTkuNDk4NzggNTE2LjgxODY0LDE1Ni45NzU0IDQ5OS41MTUzLDE1Ni4xNTA0NEw1MDAuNzkwOCwxMzUuODA2MDZ6TTQ4Ny4xNDI4NCwyMjUuNzI5NTJDNDk1LjgxNjMyLDIyNS43MDk2NCA1MDQuNDg5ODIsMjI2LjIzOTcyIDUxMS42MzI2NiwyMjcuMjYwMTZMNTAwLjQ3MTk0LDMyMC4xMTczQzUyMy45MzE0LDMyMy41MzgyMiA1NDQuNDk5OCwzMzUuODE2MSA1NTguNjk4OTgsMzUzLjQ3MTg4TDYzMy4xODg3NiwyOTcuNjA0NTJDNjQyLjIzNjg2LDMwOC44NzYzMiA2NTIuNDk0NDgsMzI2LjU1OTI4IDY1Ny44Njk5LDMzOS45NTE0OEw1NzIuMjgzMTYsMzc2LjU1ODZDNTc2LjU4NTA2LDM4Ny4xODcwNiA1NzguOTc5NiwzOTguNzY4NiA1NzguOTc5Niw0MTAuOTMzNjJDNTc4Ljk3OTYsNDIyLjY1MzIyIDU3Ni44MDA4NCw0MzMuODUyMzIgNTcyLjc5MzM2LDQ0NC4xNjA2Nkw2NTcuNjc4NTYsNDgwLjQ0ODk0QzY1Mi40NDA5OCw0OTMuOTIwNjggNjQyLjI5MDM2LDUxMS41NzIwOCA2MzMuMzgwMSw1MjIuOTIzNDJMNTU5LjQwMDUsNDY3LjU2NjI4QzU0NS4yMjAyLDQ4NS42MjUzOCA1MjQuNDE2MjYsNDk4LjIzNjI2IDUwMC42NjMyNCw1MDEuNzQ5OTRMNTExLjYzMjY2LDU5My4wNzY0OEM0OTcuMzQ2OTQsNTk1LjI3NjQ2IDQ3Ni45Mzg3OCw1OTUuMjQ0ODggNDYyLjY1MzA2LDU5My4yMDQwNEw0NzMuNjIyNDQsNTAxLjc0OTk0QzQ0OS44NTIyOCw0OTguMjMzNzIgNDI5LjA2NjE4LDQ4NS41ODI1MiA0MTQuODg1Miw0NjcuNTAyNUwzNDEuMDk2OTQsNTIyLjg1OTY0QzMzMi4wNDg4Niw1MTEuNTg3ODQgMzIxLjc5MTI0LDQ5My45MDQ4OCAzMTYuNDE1OCw0ODAuNTEyN0w0MDEuNDkyMzQsNDQ0LjA5Njg4QzM5Ny40OTg1LDQzMy44MDM4MiAzOTUuMzA2MTIsNDIyLjYzMjIyIDM5NS4zMDYxMiw0MTAuOTMzNjJDMzk1LjMwNjEyLDM5OC43NDc2IDM5Ny42ODY1LDM4Ny4xMzgyNCA0MDIuMDAyNTQsMzc2LjQ5NDg0TDMxNi42MDcxNCwzNDAuMDE1MjRDMzIxLjg0NDc0LDMyNi41NDM1IDMzMS45OTUzNCwzMDguODkyMSAzNDAuOTA1NjIsMjk3LjU0MDc0TDQxNS41ODY3MiwzNTMuNDcxODhDNDI5Ljc4NTksMzM1LjgxNjEgNDUwLjM1NDMsMzIzLjUzODIyIDQ3My44MTM3OCwzMjAuMTE3M0w0NjIuNjUzMDYsMjI3LjM4NzY4QzQ2OS43OTU5MiwyMjYuMjg3NyA0NzguNDY5MzgsMjI1Ljc0OTQyIDQ4Ny4xNDI4NCwyMjUuNzI5NTJ6TTI0MS45ODk4LDI4NS4xNjgzMkwyNjAuMzU3MTQsMjk0LjIyNDQ0QzI1Mi42MTA0LDMwOS4yNDI3OCAyNDYuMjc2NiwzMjUuMDk5MDYgMjQxLjYwNzE0LDM0MS42NzM0TDI2MS4yNSwzNDcuMjIxODhDMjU1LjUzOTUyLDM2Ny40ODcxNCAyNTIuNDQ4OTgsMzg4Ljg1IDI1Mi40NDg5OCw0MTAuOTMzNjJDMjUyLjQ0ODk4LDQzMy4wMzg2NiAyNTUuNTI4OCw0NTQuNDI2NCAyNjEuMjUsNDc0LjcwOTEyTDI0MS42MDcxNCw0ODAuMjU3NkMyNDYuMjczMzgsNDk2LjgwNTI2IDI1Mi42MTk5Miw1MTIuNjQ3NTYgMjYwLjM1NzE0LDUyNy42NDI4TDI0MS45ODk4LDUzNi42OTg5MkMyMjIuNTkxNjIsNDk4Ljk4NzU4IDIxMS42MzI2Niw0NTYuMjM0NDQgMjExLjYzMjY2LDQxMC45MzM2MkMyMTEuNjMyNjYsMzY1LjYzMjc4IDIyMi41OTE2MiwzMjIuODc5NjYgMjQxLjk4OTgsMjg1LjE2ODMyek03MzIuMjk1OTIsMjg1LjE2ODMyQzc1MS42OTQxLDMyMi44Nzk2NiA3NjIuNjUzMDIsMzY1LjYzMjc4IDc2Mi42NTMwMiw0MTAuOTMzNjJDNzYyLjY1MzAyLDQ1Ni4yMzQ0NCA3NTEuNjk0MSw0OTguOTg3NTggNzMyLjI5NTkyLDUzNi42OTg5Mkw3MTMuOTI4NTYsNTI3LjY0MjhDNzIxLjY2OTA2LDUxMi42NDMxIDcyOC4wMTA4LDQ5Ni44MTA2NiA3MzIuNjc4NTgsNDgwLjI1NzZMNzEzLjAzNTcyLDQ3NC43MDkxMkM3MTguNzU2OSw0NTQuNDI2NCA3MjEuODM2NzQsNDMzLjAzODY2IDcyMS44MzY3NCw0MTAuOTMzNjJDNzIxLjgzNjc0LDM4OC44NSA3MTguNzQ2MjIsMzY3LjQ4NzE0IDcxMy4wMzU3MiwzNDcuMjIxODhMNzMyLjY3ODU4LDM0MS42NzM0QzcyOC4wMTA0MiwzMjUuMTAzNyA3MjEuNjcyMTIsMzA5LjIzOTE4IDcxMy45Mjg1NiwyOTQuMjI0NDRMNzMyLjI5NTkyLDI4NS4xNjgzMnpNMjcyLjcyOTYsNTQ5LjAwNzYyQzI4MS45OTU1OCw1NjMuMzU5MDYgMjkyLjYxMTA0LDU3Ni43NDQ1NCAzMDQuNDg5NzgsNTg4LjkzMTA4TDMxOS4wOTQzOCw1NzQuNjQ1MzZDMzQ4Ljg0MDYyLDYwNS4xNzk0NCAzODYuODA0MDgsNjI3LjYyNDk2IDQyOS40MjYwMiw2MzguNDIwODhMNDI0LjM4Nzc0LDY1OC4yNTUwNEM0NDAuNjI1NzIsNjYyLjM2ODQyIDQ1Ny40NjcwOCw2NjQuODkxODQgNDc0Ljc3MDQsNjY1LjcxNjhMNDczLjQ5NDg4LDY4Ni4wNjExOEMzODIuMTMxNDQsNjgxLjU5MTg2IDMwMi40MDUxNiw2MzIuNjA2ODIgMjU1LjYzNzc2LDU2MC4yOTU4OEwyNzIuNzI5Niw1NDkuMDA3NjJ6TTcwMS42MTk5LDU0OS4wMDc2Mkw3MTguNjQ3OTYsNTYwLjI5NTg4QzY3MS44ODA1NCw2MzIuNjA2ODIgNTkyLjE1NDI4LDY4MS41OTE4NiA1MDAuNzkwOCw2ODYuMDYxMThMNDk5LjUxNTMsNjY1LjcxNjhDNTE2LjgxODY0LDY2NC44OTE4NCA1MzMuNjU5OTgsNjYyLjM2ODQyIDU0OS44OTc5Niw2NTguMjU1MDRMNTQ0Ljg1OTcsNjM4LjQyMDg4QzU4Ny40OTY1LDYyNy42MjExOCA2MjUuNTA0MjIsNjA1LjE5NTc0IDY1NS4yNTUxLDU3NC42NDUzNkw2NjkuODU5NjgsNTg4Ljg2NzNDNjgxLjcxOTU2LDU3Ni42OTE2MiA2OTIuMzY2OTgsNTYzLjM0MjU0IDcwMS42MTk5LDU0OS4wMDc2MnoiIHN0eWxlPSJvcGFjaXR5OjE7ZmlsbDojMDAwO2ZpbGwtb3BhY2l0eToxO3N0cm9rZTpub25lO3N0cm9rZS13aWR0aDozO3N0cm9rZS1taXRlcmxpbWl0OjQ7c3Ryb2tlLWRhc2hhcnJheTpub25lO3N0cm9rZS1kYXNob2Zmc2V0OjEuODtzdHJva2Utb3BhY2l0eToxO2Rpc3BsYXk6aW5saW5lIiBpZD0icDEiLz4NCjwvZz4NCjwvc3ZnPg==" alt="Galactic Empire emblem"></div><div class="custom-fields"><label>Your faction<select id="custom-faction"><option value="republic">Republic · Venator</option><option value="imperial">Empire · Star Destroyer</option></select></label><label>Enemy faction<select id="custom-enemy-faction"><option value="imperial">Empire · Star Destroyer</option><option value="republic">Republic · Venator</option></select></label><label>Allied ships (including you)<input id="custom-allies" type="number" min="1" max="20" value="5"></label><label>Enemy ships<input id="custom-enemies" type="number" min="1" max="20" value="5"></label><label>AI tactics<select id="custom-difficulty"><option value="1">Easy</option><option value="2" selected>Medium</option><option value="3">Hard</option></select></label></div><label class="experimental-label"><input id="custom-experimental" type="checkbox"> Experimental scenery · planet &amp; decorative Clone Wars battle</label><p>Surviving allies take over when your ship is lost. Select an ally to target it or take command. Friendly fire is enabled.</p><div class="row"><button data-action="launch-custom">Launch fleet</button><button data-action="start">Back</button></div></div></section>
+<section id="pause-screen" class="screen" hidden aria-label="Paused"><div class="screen-card"><p class="eyebrow" id="pause-mode">BATTLE PAUSED</p><h2>HOLD POSITION</h2><div class="row"><button data-action="resume">Resume</button><button data-action="restart">Restart</button><button data-action="menu">Main menu</button></div><div id="demo-settings" class="settings" hidden><button id="ai-toggle" data-action="ai" aria-pressed="false">Fleet AI: OFF</button><button id="invincible-toggle" data-action="invincible" aria-pressed="false">Invincible: OFF</button><button data-action="dummy">Spawn dummy</button><button data-action="restore-enemy">Reset spawned hulls</button><div class="spawn-tools"><label>Ship class <select id="spawn-faction"><option value="imperial">Imperial destroyer</option><option value="republic">Venator</option></select></label><label>Ships <input id="spawn-count" type="number" min="1" step="1" value="1" inputmode="numeric"></label><button data-action="spawn-ally">Spawn allies</button><button data-action="spawn-enemy">Spawn enemies</button><small>Ship class and side are independent. AI activates all spawned ships.</small></div></div><div class="settings"><button data-action="camera">Reset camera</button><button data-action="inspect">Inspect ship</button><button id="touch-toggle" data-action="touch" aria-pressed="false">Touch controls</button></div><div class="help"><b>W/S</b> thrust / reverse · <b>A/D</b> steer · <b>Q/E</b> rotate · <b>Left Shift</b> boost<br><b>Space</b> lasers (tap / hold) · <b>M</b> missiles (30s) · <b>N</b> MBC (3s charge / 60s cooldown)<br>Click ships to add/remove one target per working weapon mount (14 Venator / 20 Imperial). Guns divide automatically.<br>Triple W: auto forward · triple S: coast. Auto Target locks up to three enemies.<br><b>Esc</b> clear targets · <b>P</b> pause · <b>R</b> dummy (Demo) · <b>C</b> camera · <b>I</b> inspect<br><b>H</b> minimal HUD · double <b>H</b> hide all. Drag to orbit, scroll/pinch to zoom.<br>Touch: hold movement / Fire / Boost; tap weapons. Double HUD hides all; tap upper-right to restore.</div><div class="row"><button data-action="quit">Quit</button></div></div></section>
+<section id="result-screen" class="screen" hidden aria-label="Battle result"><div class="screen-card"><p class="eyebrow">ENGAGEMENT COMPLETE</p><h2 id="result-title">VICTORY</h2><p id="result-detail"></p><div class="row"><button data-action="play-again">Play again</button><button data-action="menu">Main menu</button><button data-action="quit">Quit</button></div></div></section>
 <section id="quit-screen" class="screen" hidden aria-label="Exit screen"><div class="screen-card"><h2>UNTIL NEXT TIME</h2><p>You can close this tab. Your offline game is ready whenever you return.</p><button data-action="menu">Return to main menu</button></div></section>
 </div>
 <section id="flight-panel" class="game-overlay" aria-label="Flight status"><div class="row"><span id="selected-name">VENATOR</span><span><span id="speed">0.0</span> u/s</span></div><div id="flight-status">Standing by</div><progress id="turbo-bar" max="100" value="100" aria-label="Turbo charge"></progress><div id="turbo-status">Turbo ready</div></section>
 <section id="arsenal" class="game-overlay" aria-label="Weapon readiness"><div id="normal-bank" class="bank"></div><div id="missile-bank" class="bank"></div><div id="mbc-bank" class="bank"></div><div id="block-warning" role="status">Firing paths clear</div></section>
-<section id="damage-panel" class="game-overlay" aria-label="Player hull"><div>HULL <span id="player-hp">1000 / 1000</span></div><progress id="player-health" max="1000" value="1000" aria-label="Your hull"></progress><div id="damage-report">No hull damage</div></section>
-<section id="target-panel" class="game-overlay" aria-label="Selected targets"><div id="target-summary">NO TARGETS · 0 / 14</div><div id="contacts"></div><div id="hit-feedback" role="status" aria-live="polite"></div></section>
+<section id="damage-panel" class="game-overlay" aria-label="Player hull"><div>HULL <span id="player-hp">1000 / 1000</span></div><progress id="player-health" max="1000" value="1000" aria-label="Your hull"></progress><div>SHIELD <span id="shield-hp">3700 / 3700</span></div><progress id="player-shield" max="3700" value="3700" aria-label="Your shields"></progress><div id="damage-report">No hull damage</div><small id="fps-readout" aria-label="Rendering frame rate"></small></section>
+<section id="target-panel" class="game-overlay" aria-label="Selected targets"><div class="target-actions"><button id="auto-target" data-action="auto-target" aria-pressed="false">AUTO TARGET OFF</button><button id="take-control" data-action="transfer" hidden>TAKE CONTROL</button><span id="auto-forward">CRUISE OFF</span></div><div id="target-summary">NO TARGETS · 0 / 14</div><div id="contacts"></div><div id="hit-feedback" role="status" aria-live="polite"></div></section>
 <button id="pause-button" data-action="pause" aria-label="Pause game">Ⅱ</button><div id="notice" role="status"></div><div id="target-markers" aria-hidden="true"></div>
-<div id="touch-controls" aria-label="Touch flight controls"><div id="touch-topbar"><button data-control="menu" data-mode="tap" aria-label="Pause and open menu">MENU</button><button data-control="Escape" data-mode="tap" aria-label="Clear targets">CLEAR</button><button data-control="camera" data-mode="tap" aria-label="Reset camera">CAMERA</button><button data-control="inspect" data-mode="tap" aria-label="Inspect ship">INSPECT</button><button data-control="KeyR" data-mode="tap" aria-label="Spawn immortal dummy">DUMMY</button><button data-control="fullscreen" data-mode="tap" aria-label="Enter fullscreen">FULL</button><button data-control="KeyH" data-mode="tap" aria-label="Toggle HUD, double tap hides everything">HUD</button></div><div id="touch-move"><button data-control="KeyQ" aria-label="Hold to rotate left">↶<small>ROTATE L</small></button><button data-control="KeyW" aria-label="Hold to move forward">↑<small>FORWARD</small></button><button data-control="KeyE" aria-label="Hold to rotate right">↷<small>ROTATE R</small></button><button data-control="KeyA" aria-label="Hold to steer left">←<small>LEFT</small></button><button data-control="KeyS" aria-label="Hold to reverse">↓<small>REVERSE</small></button><button data-control="KeyD" aria-label="Hold to steer right">→<small>RIGHT</small></button></div><div id="touch-fire"><button data-control="Space" aria-label="Hold or tap to fire lasers">FIRE<small>HOLD / TAP</small></button><button data-control="KeyM" data-mode="tap" aria-label="Fire next missile battery">MISSILE<small>MB · TAP</small></button><button data-control="KeyN" data-mode="tap" aria-label="Charge next main battery cannon">MBC<small>CHARGE · TAP</small></button><button data-control="KeyT" aria-label="Hold for turbo boost">BOOST<small>HOLD</small></button></div></div>
+<div id="touch-controls" aria-label="Touch flight controls"><div id="touch-topbar"><button data-control="menu" data-mode="tap" aria-label="Pause and open menu">MENU</button><button data-control="Escape" data-mode="tap" aria-label="Clear targets">CLEAR</button><button data-control="camera" data-mode="tap" aria-label="Reset camera">CAMERA</button><button data-control="inspect" data-mode="tap" aria-label="Inspect ship">INSPECT</button><button data-control="KeyR" data-mode="tap" aria-label="Spawn immortal dummy">DUMMY</button><button data-control="fullscreen" data-mode="tap" aria-label="Enter fullscreen">FULL</button><button data-control="auto-target" data-mode="tap" aria-label="Toggle automatic target locks">AUTO</button><button data-control="KeyH" data-mode="tap" aria-label="Toggle HUD, double tap hides everything">HUD</button></div><div id="touch-move"><button data-control="KeyQ" aria-label="Hold to rotate left">↶<small>ROTATE L</small></button><button data-control="KeyW" aria-label="Hold to move forward">↑<small>FORWARD</small></button><button data-control="KeyE" aria-label="Hold to rotate right">↷<small>ROTATE R</small></button><button data-control="KeyA" aria-label="Hold to steer left">←<small>LEFT</small></button><button data-control="KeyS" aria-label="Hold to reverse">↓<small>REVERSE</small></button><button data-control="KeyD" aria-label="Hold to steer right">→<small>RIGHT</small></button></div><div id="touch-fire"><button data-control="Space" aria-label="Hold or tap to fire lasers">FIRE<small>HOLD / TAP</small></button><button data-control="KeyM" data-mode="tap" aria-label="Fire next missile battery">MISSILE<small>MB · TAP</small></button><button data-control="KeyN" data-mode="tap" aria-label="Charge next main battery cannon">MBC<small>CHARGE · TAP</small></button><button data-control="ShiftLeft" aria-label="Hold for turbo boost">BOOST<small>HOLD</small></button></div></div>
 <button id="touch-restore" aria-label="Restore hidden touch controls">Restore controls</button><div id="error" role="alert"></div><noscript>This offline game requires JavaScript enabled.</noscript>
 <script type="module">
 const hostPlatform=(function detectPlatform(nav){
@@ -54207,7 +54219,8 @@ class OrbitControls extends EventDispatcher {
 
 				case MOUSE.ROTATE:
 
-					if ( event.ctrlKey || event.metaKey || event.shiftKey ) {
+					// Keep orbit available during game boost when panning is disabled.
+					if ( scope.enablePan && ( event.ctrlKey || event.metaKey || event.shiftKey ) ) {
 
 						if ( scope.enablePan === false ) return;
 
@@ -54590,12 +54603,12 @@ return OrbitControls;
 // Ship-local flight on the X/Z plane. The model's bow points along local +X.
 // Speeds are world units/second; yaw and turn rates use radians.
 const FLIGHT = Object.freeze({
-  forwardSpeed: 18, reverseSpeed: 4, sideSpeed: 3,
-  forwardAcceleration: 3.2, reverseAcceleration: 1.4, braking: 3.8,
+  forwardSpeed: 85, reverseSpeed: 8, sideSpeed: 6,
+  forwardAcceleration: 18, reverseAcceleration: 5, braking: 24,
   steeringRate: 0.28, rotationRate: 0.34, turnAcceleration: 0.55,
-  driftResponse: 1.8, coastDeceleration: 1.8
+  driftResponse: 1.8, coastDeceleration: 6
 });
-const TURBO = Object.freeze({ duration: 5, recharge: 10, speed: 42, acceleration: 7 });
+const TURBO = Object.freeze({ duration: 10, recharge: 12, speed: 170, acceleration: 36 });
 
 function createFlight(x = 0, z = 0, yaw = 0) {
   return { x, z, yaw, speed: 0, sideSpeed: 0, yawRate: 0, vx: 0, vz: 0, boostCharge: 1, boostActive: false, boostLevel: 0 };
@@ -54606,14 +54619,16 @@ function approach(value, target, amount) {
 }
 
 function stepFlight(ship, input, dt) {
+  const stats=ship.stats||{speed:FLIGHT.forwardSpeed,boostDuration:TURBO.duration,boostRecharge:TURBO.recharge},engine=Math.max(0,Math.min(1,ship.engineFactor??1));
   ship.boostActive = !!input.boost && !input.backward && ship.boostCharge > 1e-8;
-  if (ship.boostActive) ship.boostCharge = Math.max(0,ship.boostCharge-dt/TURBO.duration);
-  else if (!input.boost) ship.boostCharge = Math.min(1,ship.boostCharge+dt/TURBO.recharge);
+  ship.boostActive=ship.boostActive&&engine>0;
+  if (ship.boostActive) ship.boostCharge = Math.max(0,ship.boostCharge-dt/stats.boostDuration);
+  else if (!input.boost) ship.boostCharge = Math.min(1,ship.boostCharge+dt/stats.boostRecharge);
   ship.boostLevel = approach(ship.boostLevel,ship.boostActive?1:0,dt*2);
   const throttle = Number(!!input.forward || ship.boostActive) - Number(!!input.backward);
   const side = Number(!!input.right) - Number(!!input.left);
   const rotation = Number(!!input.rotateLeft) - Number(!!input.rotateRight);
-  const targetSpeed = ship.boostActive ? TURBO.speed : throttle > 0 ? FLIGHT.forwardSpeed : throttle < 0 ? -FLIGHT.reverseSpeed : 0;
+  const targetSpeed = (ship.boostActive ? stats.speed*2 : throttle > 0 ? stats.speed : throttle < 0 ? -FLIGHT.reverseSpeed : 0)*engine;
   const oppositeThrust = ship.speed * throttle < 0;
   const acceleration = oppositeThrust ? FLIGHT.braking : ship.boostActive ? TURBO.acceleration : throttle > 0 ? FLIGHT.forwardAcceleration
     : throttle < 0 ? FLIGHT.reverseAcceleration : FLIGHT.coastDeceleration;
@@ -54637,19 +54652,103 @@ function stepFlight(ship, input, dt) {
   ship.z += ship.vz * dt;
 }
 
+const FACTIONS=Object.freeze({
+ republic:{name:'Republic',hull:3700,shield:3700,speed:85,mass:.55,boostDuration:10,boostRecharge:12,hullRepair:8,shieldRepair:45},
+ imperial:{name:'Empire',hull:4700,shield:2700,speed:50,mass:1,boostDuration:6,boostRecharge:20,hullRepair:7,shieldRepair:35}
+});
+function allWeapons(ship){return ['normal','missile','mbc'].flatMap(kind=>ship.armament[kind]);}
+function initializeSystems(ship,engineMounts=[]){
+ const stats=FACTIONS[ship.faction]||FACTIONS.republic;
+ Object.assign(ship,{health:stats.hull,maxHealth:stats.hull,shield:stats.shield,maxShield:stats.shield,shieldFlash:0,lastHullHit:-Infinity,lastShieldHit:-Infinity,repairChecks:new Set(),repairPrevious:1});
+ Object.assign(ship.flight,{stats,engineFactor:1});
+ for(const gun of allWeapons(ship))Object.assign(gun,{health:140,maxHealth:140,severity:0,rebuilding:false});
+ ship.engines=engineMounts.map((mount,index)=>({mount,index,health:300,maxHealth:300,severity:0,rebuilding:false}));
+}
+function failureBand(ratio){return ratio>=.75?{damage:0,destroy:0}:ratio>.55?{damage:.4,destroy:.25}:ratio>=.45?{damage:.55,destroy:.45}:{damage:.9,destroy:.6};}
+function localHit(ship,x,y,z){const f=ship.flight,k=f.modelScale||1,c=Math.cos(f.yaw),s=Math.sin(f.yaw),dx=(x-f.x)/k,dz=(z-f.z)/k,bank=f.bank||0;return {x:c*dx-s*dz,y:(y||0)/k*Math.cos(bank)+(s*dx+c*dz)*Math.sin(bank),z:(s*dx+c*dz)*Math.cos(bank)-(y||0)/k*Math.sin(bank)};}
+function hitComponent(ship,damage,x,y,z,kind,incoming,random=Math.random){
+ if(!ship.engines||ship.invulnerable)return null;
+ const band=failureBand(ship.health/ship.maxHealth);if(!band.damage)return null;
+ const p=localHit(ship,x,y,z),candidates=[];
+ for(const gun of allWeapons(ship)){if(gun.health<=0)continue;const m=gun.mount,d=Math.hypot(p.x-m.x,p.y-(m.y+.5),p.z-m.z);if(d<2.8||kind==='collision')candidates.push({part:gun,d});}
+ // Engines can only be hit from astern; side/nose hits never damage them.
+ const f=ship.flight,localDx=incoming?Math.cos(f.yaw)*incoming.dx-Math.sin(f.yaw)*incoming.dz:0;
+ if(p.x< -10&&localDx>.35)for(const engine of ship.engines){if(engine.health<=0)continue;const m=engine.mount,d=Math.hypot(p.x-m.x,p.y-m.y,p.z-m.z);if(d<3)candidates.push({part:engine,d});}
+ if(!candidates.length)return null;candidates.sort((a,b)=>a.d-b.d);const part=candidates[0].part;
+ if(random()<band.destroy)part.health=0;
+ else if(random()<band.damage){part.health=Math.max(1,part.health-Math.max(damage*2,part.maxHealth*.35));part.severity=ship.health/ship.maxHealth<=.55?2:1;}
+ else return null;
+ part.rebuilding=false;return part;
+}
+function absorbDamage(ship,damage,time,bypass=false){
+ if(ship.invulnerable)return {hullDamage:0,shieldDamage:0};
+ if(!bypass&&ship.maxShield)ship.lastShieldHit=time;
+ let shieldDamage=0;
+ if(!bypass&&ship.shield>0){shieldDamage=Math.min(ship.shield,damage);ship.shield-=shieldDamage;damage-=shieldDamage;ship.lastShieldHit=time;ship.shieldFlash=ship.shield>0?.45:.85;}
+ const hullDamage=ship.immortal?damage:Math.min(ship.health,damage);
+  if(damage>0){ship.lastHullHit=time;if(!ship.immortal)ship.health=Math.max(0,ship.health-damage);if(ship.repairChecks)for(const threshold of [.4,.85,1])if(ship.health/ship.maxHealth<threshold)ship.repairChecks.delete(threshold);}
+ return {hullDamage,shieldDamage};
+}
+function repairSystems(ship,time,dt,random=Math.random){
+ if(ship.health<=0||ship.immortal||!ship.engines)return;
+ const stats=FACTIONS[ship.faction];ship.shieldFlash=Math.max(0,ship.shieldFlash-dt);
+ if(time-ship.lastShieldHit>=20)ship.shield=Math.min(ship.maxShield,ship.shield+stats.shieldRepair*dt);
+ const before=ship.health/ship.maxHealth;
+ if(time-ship.lastHullHit>=20){
+  ship.health=Math.min(ship.maxHealth,ship.health+stats.hullRepair*dt);const ratio=ship.health/ship.maxHealth,parts=[...allWeapons(ship),...ship.engines];
+  for(const [threshold,chance] of [[.4,.25],[.85,.6],[1,1]])if(before<=threshold&&ratio>=threshold&&!ship.repairChecks.has(threshold)){
+   ship.repairChecks.add(threshold);const destroyed=parts.filter(p=>p.health<=0);
+   if(threshold===1){for(const part of destroyed){part.health=1;part.rebuilding=true;}}
+   else if(destroyed.length&&random()<chance){const part=destroyed[Math.min(destroyed.length-1,Math.floor(random()*destroyed.length))];part.health=1;part.rebuilding=true;}
+  }
+  // Repaired hull does not instantly refill component health.
+  for(const part of parts)if(part.health>0&&part.health<part.maxHealth){part.health=Math.min(part.maxHealth,part.health+part.maxHealth*.018*dt);if(part.health===part.maxHealth){part.severity=0;part.rebuilding=false;}}
+ }
+ const engines=ship.engines;ship.flight.engineFactor=engines.length?engines.reduce((n,e)=>n+e.health/e.maxHealth,0)/engines.length:1;
+}
+function reloadMultiplier(gun){if(gun.health===undefined)return 1;if(gun.health<=0)return Infinity;const loss=1-gun.health/gun.maxHealth;return 1+loss*(gun.severity>=2?3.6:1.8);}
+function hullOutline(ship,padding=0){
+ const points=ship.faction==='imperial'?[[27,0],[-17,12.5],[-19,-12.5]]:[[24,0],[4,5.3],[-7,8.2],[-20,6.5],[-20,-6.5],[-7,-8.2],[4,-5.3]];
+ const f=ship.flight,k=(f.modelScale||1)*(1+padding),c=Math.cos(f.yaw),s=Math.sin(f.yaw);
+ return points.map(([x,z])=>({x:f.x+(c*x+s*z)*k,z:f.z+(-s*x+c*z)*k}));
+}
+// Convex hull extrusion; unlike a circular contact radius this respects bows and broadsides.
+function hullSegmentHit(x0,y0,z0,x1,y1,z1,ship,padding=0){
+ if(!ship.faction)return null;const a=localHit(ship,x0,y0,z0),b=localHit(ship,x1,y1,z1),outline=hullOutline({...ship,flight:{x:0,z:0,yaw:0,modelScale:1}},padding/(ship.flight.modelScale||1)/20);
+ let enter=0,leave=1;const clip=(v,d)=>{if(Math.abs(d)<1e-9)return v>=0;const t=-v/d;if(d>0)enter=Math.max(enter,t);else leave=Math.min(leave,t);return enter<=leave;};
+ let area=0;for(let i=0;i<outline.length;i++){const p=outline[i],q=outline[(i+1)%outline.length];area+=p.x*q.z-q.x*p.z;}const sign=area>0?1:-1;
+ for(let i=0;i<outline.length;i++){const p=outline[i],q=outline[(i+1)%outline.length],dx=q.x-p.x,dz=q.z-p.z;if(!clip(sign*(dx*(a.z-p.z)-dz*(a.x-p.x)),sign*(dx*(b.z-a.z)-dz*(b.x-a.x))))return null;}
+ if(!clip(a.y+1,b.y-a.y)||!clip(11-a.y,a.y-b.y))return null;
+ return enter>=0&&enter<=1?enter:null;
+}
+
+function createNavigation(){return {autoForward:false,taps:{KeyW:[],KeyS:[]},suppressedAuto:new Map()};}
+function tapNavigation(state,code,time){
+ if(!state.taps[code])return null;const taps=state.taps[code].filter(t=>time-t<=1);taps.push(time);state.taps[code]=taps;
+ if(taps.length<3)return null;state.taps[code]=[];state.taps[code==='KeyW'?'KeyS':'KeyW']=[];
+ state.autoForward=code==='KeyW';return state.autoForward?'on':'off';
+}
+function automaticLocks(ship,ships,time,capacity){
+ ship.manualLocks=(ship.manualLocks||[]).filter(t=>t.health>0&&!t.removed&&t!==ship).slice(0,capacity);
+ if(!ship.autoTarget)return ship.manualLocks;
+ const candidates=ships.filter(t=>t!==ship&&t.health>0&&t.team!==ship.team&&!ship.manualLocks.includes(t)&&(ship.navigation.suppressedAuto.get(t.id)||0)<=time);
+ candidates.sort((a,b)=>Math.hypot(a.flight.x-ship.flight.x,a.flight.z-ship.flight.z)-Math.hypot(b.flight.x-ship.flight.x,b.flight.z-ship.flight.z));
+ return [...ship.manualLocks,...candidates.slice(0,Math.min(3,capacity-ship.manualLocks.length))];
+}
+
 const WEAPONS = Object.freeze({
-  normal:{damage:20,speed:80,range:220,reload:1.5},
-  missile:{damage:35,speed:70,initialSpeed:26,acceleration:35,range:300,reload:30,gap:.32,turnRate:1.5},
-  mbc:{damage:100,range:360,charge:3,reload:35,beamLife:.45}
+  normal:{damage:10,speed:320,range:850,reload:2.4,gap:.18,volley:4},
+  missile:{damage:35,speed:460,initialSpeed:180,acceleration:150,range:2600,reload:30,gap:.32,turnRate:1.5,volley:4},
+  mbc:{damage:50,range:1700,charge:3,reload:60,beamLife:.45}
 });
 const PRACTICE=Object.freeze({distance:110,radius:7,health:1000});
 const angleDelta=(a,b)=>Math.atan2(Math.sin(a-b),Math.cos(a-b));
 const targetPose=entity=>entity.flight||entity;
 const targetAlive=entity=>!!entity&&!entity.removed&&(entity.immortal||entity.health>0||(entity.isPlayer&&!entity.mortal));
-function createCombat(){return {time:0,nextId:1,projectiles:[],beams:[],debris:[],targets:[],shots:0,hits:0,target:null,obstruction:null};}
+function createCombat(){return {time:0,nextId:1,projectiles:[],beams:[],debris:[],targets:[],contacts:new Map(),shots:0,hits:0,target:null,obstruction:null};}
 function createArmament(config){
   const arm={cursor:{normal:0,missile:0,mbc:0},target:null,targets:[],owner:null};
-  for(const kind of ['normal','missile','mbc'])arm[kind]=(config[kind]||[]).map(mount=>({mount,readyAt:0,chargeUntil:null,salvoAt:null,salvoTarget:null,barrel:0,yaw:mount.yaw||0,desiredYaw:0,tracking:false,blocked:false,flashUntil:0,lastTip:0}));
+  for(const kind of ['normal','missile','mbc'])arm[kind]=(config[kind]||[]).map(mount=>({mount,readyAt:0,chargeUntil:null,salvoAt:null,salvoTarget:null,salvoRemaining:0,barrel:0,yaw:mount.yaw||0,desiredYaw:0,tracking:false,blocked:false,flashUntil:0,lastTip:0}));
   return arm;
 }
 function setTarget(arm,target){
@@ -54658,7 +54757,7 @@ function setTarget(arm,target){
   for(const kind of ['normal','missile','mbc'])for(const state of arm[kind])state.target=arm.target;
   if(!arm.target)for(const kind of ['normal','missile','mbc'])for(const state of arm[kind]){state.desiredYaw=state.yaw;state.tracking=false;}
 }
-function targetCapacity(arm){return ['normal','missile','mbc'].reduce((count,kind)=>count+(arm[kind]?.length||0),0);}
+function targetCapacity(arm){return ['normal','missile','mbc'].reduce((count,kind)=>count+(arm[kind]?.filter(g=>g.health!==0).length||0),0);}
 function setTargets(arm,targets){
   arm.targets=[...new Set(targets)].filter(targetAlive).slice(0,targetCapacity(arm));arm.target=arm.targets[0]||null;arm.assignmentKey=null;
   if(!arm.targets.length)for(const kind of ['normal','missile','mbc'])for(const state of arm[kind]){state.target=null;state.desiredYaw=state.yaw;state.tracking=false;}
@@ -54675,6 +54774,7 @@ function assignWeaponTargets(combat,entry){
   for(const kind of ['normal','missile','mbc']){
     const counts=new Map(targets.map(t=>[t,0]));
     for(const state of arm[kind]){
+      if(state.health===0){state.target=null;continue;}
       if(!targets.length){state.target=null;continue;}
       const f=entry.flight,m=state.mount,scale=f.modelScale||1,c=Math.cos(f.yaw),s=Math.sin(f.yaw),x=f.x+(c*m.x+s*m.z)*scale,z=f.z+(-s*m.x+c*m.z)*scale;
       let best=null,bestCost=Infinity;
@@ -54683,7 +54783,7 @@ function assignWeaponTargets(combat,entry){
         // Favour a broadside's outward arc, then spread guns evenly among reachable enemies.
         const inward=m.z*(p.z-z)<0?80:0;
         let blocked=0;
-        if(targets.length>1&&combat.obstruction){const saved=state.yaw;state.yaw=yaw;blocked=combat.obstruction(entry,state,kind,0)?10000:0;state.yaw=saved;}
+        if(targets.length>1&&combat.obstruction){const saved=state.yaw;state.yaw=yaw;blocked=combat.obstruction(entry,state,kind,0)?10000:0;state.yaw=saved;if(state.mount.view){state.mount.view.rotation.y=saved;state.mount.view.updateMatrixWorld(true);}}
         const cost=overall.get(target)*(strictSpread?1000000:150)+counts.get(target)*100+blocked+inward+range*.04+Math.abs(angleDelta(yaw,state.yaw))*5+(target===state.target?-9:0)+(range>WEAPONS[kind].range?250:0);
         if(cost<bestCost){bestCost=cost;best=target;}
       }
@@ -54691,7 +54791,7 @@ function assignWeaponTargets(combat,entry){
     }
   }
 }
-function weaponReload(arm,kind){return arm.owner?.reloads?.[kind]??WEAPONS[kind].reload;}
+function weaponReload(arm,kind,state){return WEAPONS[kind].reload*(state?reloadMultiplier(state):1);}
 function resetPractice(combat,ship){
   if(combat.target?.immortal)combat.target.removed=true;
   combat.targets=combat.targets.filter(t=>!t.removed);
@@ -54713,19 +54813,20 @@ function worldMuzzle(ship,state,tipIndex=0){
   const scale=ship.modelScale||1;
   return {x:ship.x+(co*x+si*z)*scale,y:y*scale,z:ship.z+(-si*x+co*z)*scale,yaw:Math.atan2(-worldDz,worldDx),dy:-s*sb};
 }
-function applyDamage(combat,target,damage,kind,x,y,z,events,self=false){
+function applyDamage(combat,target,damage,kind,x,y,z,events,self=false,incoming=null){
   if(!targetAlive(target))return;
   target.totalDamage=(target.totalDamage||0)+damage;target.hitCount=(target.hitCount||0)+1;target.lastDamage=damage;
   (target.recentHits ||= []).push({time:combat.time,damage});
-  if(!target.immortal&&!target.invulnerable)target.health=Math.max(0,target.health-damage);
+  const result=absorbDamage(target,damage,combat.time,self);
+  const component=result.hullDamage>0?hitComponent(target,result.hullDamage,x,y,z,kind,incoming,combat.random||Math.random):null;
   target.flash=.18;
   if(self){target.selfDamage=(target.selfDamage||0)+damage;target.lastReport=`MBC struck own hull: −${damage}`;}
   else combat.hits++;
-  events.push({type:self?'self-hit':!targetAlive(target)?'destroyed':'hit',kind,damage,x,y,z,target,health:target.health});
+  events.push({type:self?'self-hit':!targetAlive(target)?'destroyed':result.hullDamage===0&&result.shieldDamage>0?'shield-hit':'hit',kind,damage:result.hullDamage+result.shieldDamage,...result,component,x,y,z,target,health:target.health});
 }
-function firstHit(combat,owner,x,z,endX,endZ,padding){
+function firstHit(combat,owner,x,z,endX,endZ,padding,y=2,endY=y){
   let best=null;
-  for(const target of combat.targets){if(target===owner||!targetAlive(target))continue;const t=segmentCircleHit(x,z,endX,endZ,target,padding);if(t!==null&&(!best||t<best.t))best={target,t};}
+  for(const target of combat.targets){if(target===owner||!targetAlive(target))continue;const t=target.faction?hullSegmentHit(x,y,z,endX,endY,endZ,target,padding):segmentCircleHit(x,z,endX,endZ,target,padding);if(t!==null&&(!best||t<best.t))best={target,t};}
   return best;
 }
 function obstruction(combat,arm,state,kind,tip){
@@ -54737,15 +54838,16 @@ function launch(combat,arm,ship,state,kind,index,events,tipIndex,lockedTarget=st
   const block=obstruction(combat,arm,state,kind,tip);
   if(block&&!forced){events.push({type:'blocked',kind,index,owner:arm.owner});return false;}
   const settings=WEAPONS[kind],p=worldMuzzle(ship,state,tip),dx=Math.cos(p.yaw),dz=-Math.sin(p.yaw);
+  if(targetAlive(lockedTarget)){const t=targetPose(lockedTarget),range=Math.hypot(t.x-p.x,t.z-p.z);p.dy=((lockedTarget.faction?1.4*(t.modelScale||1):2.5)-p.y)/Math.max(1,range);}
   state.barrel++;state.lastTip=tip;state.flashUntil=combat.time+.12;combat.shots++;events.push({type:'fired',kind,index,owner:arm.owner});
   if(kind==='mbc'){
     let endX=p.x+dx*settings.range,endZ=p.z+dz*settings.range;
-    const hit=firstHit(combat,arm.owner,p.x,p.z,endX,endZ,.22);
+    const hit=firstHit(combat,arm.owner,p.x,p.z,endX,endZ,.22,p.y,p.y+p.dy*settings.range);
     const enemyDistance=hit?hit.t*settings.range:Infinity;
     if(block&&block.distance<enemyDistance){
       endX=block.x;endZ=block.z;
       if(arm.owner)applyDamage(combat,arm.owner,settings.damage,kind,endX,block.y??p.y,endZ,events,true);
-    }else if(hit){endX=p.x+(endX-p.x)*hit.t;endZ=p.z+(endZ-p.z)*hit.t;applyDamage(combat,hit.target,settings.damage,kind,endX,p.y,endZ,events);}
+    }else if(hit){endX=p.x+(endX-p.x)*hit.t;endZ=p.z+(endZ-p.z)*hit.t;applyDamage(combat,hit.target,settings.damage,kind,endX,p.y+p.dy*hit.t*settings.range,endZ,events,false,{dx,dz});}
     const distance=Math.hypot(endX-p.x,endZ-p.z);
     combat.beams.push({id:combat.nextId++,owner:arm.owner,x:p.x,y:p.y,z:p.z,endX,endY:p.y+(p.dy||0)*distance,endZ,life:settings.beamLife,remaining:settings.beamLife});
   }else combat.projectiles.push({id:combat.nextId++,kind,owner:arm.owner,target:kind==='missile'?lockedTarget:null,x:p.x,y:p.y,z:p.z,dx,dz,
@@ -54756,14 +54858,15 @@ function triggerWeapon(combat,arm,ship,kind,predicate=null){
   const bank=arm[kind],events=[];
   for(let offset=0;offset<bank.length;offset++){
     const index=(arm.cursor[kind]+offset)%bank.length,state=bank[index];
+    if(state.health===0)continue;
     if(predicate&&!predicate(state))continue;
     if(state.readyAt>combat.time+1e-8||state.chargeUntil!==null||state.salvoAt!==null)continue;
     if(obstruction(combat,arm,state,kind,kind==='missile'?0:undefined)){events.push({type:'blocked',kind,index,owner:arm.owner});continue;}
     arm.cursor[kind]=(index+1)%bank.length;
     if(kind==='mbc'){state.chargeUntil=combat.time+WEAPONS.mbc.charge;events.push({type:'charging',kind,index,owner:arm.owner});}
     else if(launch(combat,arm,ship,state,kind,index,events,kind==='missile'?0:undefined)){
-      state.readyAt=combat.time+weaponReload(arm,kind);
-      if(kind==='missile'){state.salvoAt=combat.time+WEAPONS.missile.gap;state.salvoTarget=state.target??arm.target;}
+      state.readyAt=combat.time+weaponReload(arm,kind,state);state.reloadScale=reloadMultiplier(state);
+      state.salvoAt=combat.time+WEAPONS[kind].gap;state.salvoRemaining=3;state.salvoTarget=state.target??arm.target;
     }
     return events;
   }
@@ -54771,19 +54874,25 @@ function triggerWeapon(combat,arm,ship,kind,predicate=null){
 }
 function stepCombat(combat,ships,dt){
   combat.time+=dt;const events=[];
-  for(const target of combat.targets){target.flash=Math.max(0,(target.flash||0)-dt);if(target.recentHits)target.recentHits=target.recentHits.filter(h=>combat.time-h.time<=5);}
-  for(const entry of ships){if(!targetAlive(entry))continue;const arm=entry.armament;arm.owner ||= entry;const f=entry.flight;assignWeaponTargets(combat,entry);
+  for(const target of combat.targets){target.flash=Math.max(0,(target.flash||0)-dt);repairSystems(target,combat.time,dt,combat.random||Math.random);if(target.recentHits)target.recentHits=target.recentHits.filter(h=>combat.time-h.time<=5);}
+  for(const entry of ships){if(!targetAlive(entry))continue;entry.probeVersion=combat.time;const arm=entry.armament;arm.owner ||= entry;const f=entry.flight;assignWeaponTargets(combat,entry);
     for(const kind of ['normal','missile','mbc'])arm[kind].forEach((state,index)=>{
+      if(state.health===0){state.chargeUntil=state.salvoAt=null;state.salvoRemaining=0;return;}
+      const reloadScale=reloadMultiplier(state),previousScale=state.reloadScale||1;
+      if(state.readyAt>combat.time&&Math.abs(reloadScale-previousScale)>1e-6)state.readyAt=combat.time+(state.readyAt-combat.time)*reloadScale/previousScale;
+      state.reloadScale=reloadScale;
       if(targetAlive(state.target)){
         const t=targetPose(state.target),co=Math.cos(f.yaw),si=Math.sin(f.yaw),m=state.mount;
         const scale=f.modelScale||1,x=f.x+(co*m.x+si*m.z)*scale,z=f.z+(-si*m.x+co*m.z)*scale;
         state.desiredYaw=angleDelta(Math.atan2(-(t.z-z),t.x-x),f.yaw);state.tracking=true;
       }else if(state.tracking){state.desiredYaw=state.yaw;state.tracking=false;}
-      const delta=angleDelta(state.desiredYaw,state.yaw),rate=kind==='mbc'?.12:kind==='missile'?.38:.65;
+      const delta=angleDelta(state.desiredYaw,state.yaw),rate=kind==='mbc'?.55:kind==='missile'?1.15:1.6;
       state.yaw+=Math.max(-rate*dt,Math.min(rate*dt,delta));state.yaw=angleDelta(state.yaw,0);
-      if(combat.time>=(state.nextBlockPoll||0)){obstruction(combat,arm,state,kind);state.nextBlockPoll=combat.time+.1;}
-      if(state.chargeUntil!==null&&combat.time+1e-8>=state.chargeUntil){state.chargeUntil=null;state.readyAt=combat.time+weaponReload(arm,'mbc');launch(combat,arm,f,state,'mbc',index,events,undefined,state.target,true);}
-      if(state.salvoAt!==null&&combat.time+1e-8>=state.salvoAt){state.salvoAt=null;launch(combat,arm,f,state,'missile',index,events,1,state.salvoTarget);state.salvoTarget=null;}
+      // Only the controlled ship needs passive HUD checks. Stagger one per tick;
+      // every real launch still does a fresh, exact own-hull test.
+      if(entry.isPlayer&&combat.time>=(state.nextBlockPoll||0)&&combat.time>=(entry.nextHudProbe||0)){obstruction(combat,arm,state,kind);state.nextBlockPoll=combat.time+.3;entry.nextHudProbe=combat.time+.016;}
+      if(state.chargeUntil!==null&&combat.time+1e-8>=state.chargeUntil){state.chargeUntil=null;state.readyAt=combat.time+weaponReload(arm,'mbc',state);state.reloadScale=reloadMultiplier(state);launch(combat,arm,f,state,'mbc',index,events,undefined,state.target,true);}
+      if(state.salvoAt!==null&&combat.time+1e-8>=state.salvoAt){launch(combat,arm,f,state,kind,index,events,undefined,state.salvoTarget);state.salvoRemaining--;if(state.salvoRemaining>0)state.salvoAt+=WEAPONS[kind].gap;else{state.salvoAt=null;state.salvoTarget=null;}}
     });
   }
   for(let i=combat.projectiles.length-1;i>=0;i--){
@@ -54793,8 +54902,8 @@ function stepCombat(combat,ships,dt){
       if(targetAlive(p.target)){const t=targetPose(p.target),desired=Math.atan2(-(t.z-p.z),t.x-p.x),current=Math.atan2(-p.dz,p.dx),d=angleDelta(desired,current),yaw=current+Math.max(-settings.turnRate*dt,Math.min(settings.turnRate*dt,d));p.dx=Math.cos(yaw);p.dz=-Math.sin(yaw);}
     }
     const vx=p.dx*p.speed+p.inheritX,vz=p.dz*p.speed+p.inheritZ,speed=Math.hypot(vx,vz),distance=Math.min(speed*dt,p.remaining);
-    const x=p.x+(speed?vx/speed*distance:0),z=p.z+(speed?vz/speed*distance:0),hit=firstHit(combat,p.owner,p.x,p.z,x,z,p.kind==='missile'?.3:.16);
-    if(hit){applyDamage(combat,hit.target,settings.damage,p.kind,p.x+(x-p.x)*hit.t,p.y,p.z+(z-p.z)*hit.t,events);combat.projectiles.splice(i,1);}
+    const x=p.x+(speed?vx/speed*distance:0),z=p.z+(speed?vz/speed*distance:0),y=p.y+(p.dy||0)*distance,hit=firstHit(combat,p.owner,p.x,p.z,x,z,p.kind==='missile'?.3:.16,p.y,y);
+    if(hit){applyDamage(combat,hit.target,settings.damage,p.kind,p.x+(x-p.x)*hit.t,p.y+(y-p.y)*hit.t,p.z+(z-p.z)*hit.t,events,false,{dx:p.dx,dz:p.dz});combat.projectiles.splice(i,1);}
     else{p.x=x;p.z=z;p.y+=(p.dy||0)*distance;p.remaining-=distance;if(p.remaining<=1e-8)combat.projectiles.splice(i,1);}
   }
   for(let i=combat.beams.length-1;i>=0;i--){combat.beams[i].remaining-=dt;if(combat.beams[i].remaining<=0)combat.beams.splice(i,1);}
@@ -54811,7 +54920,7 @@ function practiceAim(ship,target){const p=targetPose(target),dx=p.x-ship.x,dz=p.
 // Lightweight, texture-free meshes based on the user's weapon layout sketches.
 // The bow is local +X; Y is up. All muzzle positions share this coordinate frame.
 function createShipModels(T) {
-  const material = (color, extra = {}) => new T.MeshStandardMaterial({ color, flatShading: true, roughness: .8, metalness: .15, ...extra });
+  const material = (color, extra = {}) => new T.MeshStandardMaterial({ color, flatShading: false, roughness: .72, metalness: .22, ...extra });
   const armor = material(0xc5cbd0);
   const upper = material(0xe0e3e3);
   const lower = material(0x838e9c);
@@ -54898,7 +55007,7 @@ function createShipModels(T) {
     gun.position.set(x, y, z);
     gun.scale.setScalar(scale);
     g.add(gun);
-    const pedestal = new T.Mesh(new T.CylinderGeometry(.67, .8, .28, 8), trim);
+    const pedestal = new T.Mesh(new T.CylinderGeometry(.67, .8, .28, 12), trim);
     pedestal.position.y = .14;
     gun.add(pedestal);
     tapered(gun, rectangle(0,0,1.65,1.35), rectangle(-.15,0,1.25,1), .28, .72, weaponArmor);
@@ -54907,7 +55016,7 @@ function createShipModels(T) {
     const tips=[];const anchors=[];
     for (const height of [.78,1.2]) for (const side of [-.3,.3]) {
       box(gun, 1.1, .26, .25, gunmetal, .9, height, side);
-      tube(gun, [1.1,height,side], [2.2,height,side], .115, dark, .095, 6);
+      tube(gun, [1.1,height,side], [2.2,height,side], .115, dark, .095, 10);
       box(gun, .11, .28, .27, accent, 1.32, height, side);
       const tip = new T.Object3D();
       tip.name = 'Shell cannon muzzle';
@@ -54928,10 +55037,10 @@ function createShipModels(T) {
     tube(group, [0,0,sign*1.18], [0,0,sign*1.26], .29, beamGlow);
     g.userData.beamMounts.push(group);
   }
-  function missilePod(g, x, z) {
+  function missilePod(g, x, z, y=3.3) {
     const group = new T.Group();
     group.name = 'Three-tube missile launcher';
-    group.position.set(x, 3.3, z);
+    group.position.set(x, y, z);
     group.scale.set(.48,.3,.48);
     g.add(group);
     const base=new T.Mesh(new T.CylinderGeometry(.75,.95,.3,8),trim);base.position.y=.15;group.add(base);
@@ -54945,10 +55054,10 @@ function createShipModels(T) {
     }
     box(group, .6, .08, 1.45, accent, -.65, 2.36, 0);
     g.userData.missilePods.push(group);
-    g.userData.weapons.missile.push({x,y:3.3,z,tips,view:group,anchors});
+    g.userData.weapons.missile.push({x,y,z,tips,view:group,anchors});
   }
-  function mbc(g,x,z) {
-    const group=new T.Group();group.name='Main battery cannon';group.position.set(x,3.3,z);g.add(group);
+  function mbc(g,x,z,y=3.3) {
+    const group=new T.Group();group.name='Main battery cannon';group.position.set(x,y,z);g.add(group);
     group.scale.set(.58,.34,.58);
     const base=new T.Mesh(new T.CylinderGeometry(.8,1.05,.35,10),trim);base.position.y=.18;group.add(base);
     tapered(group,rectangle(0,0,1.25,1.05),rectangle(-.2,0,.8,.8),.35,1.25,weaponArmor);
@@ -54964,18 +55073,18 @@ function createShipModels(T) {
     box(group,.12,.33,.6,dark,3.12,1.75,0);
     const tip=new T.Object3D();tip.position.set(3.2,1.75,0);group.add(tip);
     g.userData.mbcs.push(group);
-    g.userData.weapons.mbc.push({x,y:3.3,z,tips:[{x:3.2*.58,y:1.75*.34,z:0}],view:group,anchors:[tip]});
+    g.userData.weapons.mbc.push({x,y,z,tips:[{x:3.2*.58,y:1.75*.34,z:0}],view:group,anchors:[tip]});
   }
   function engine(g, z, y, radius, length) {
     const group = new T.Group();
     group.name = 'Engine bell';
     group.position.set(-14.1, y, z);
     g.add(group);
-    const bell = new T.Mesh(new T.CylinderGeometry(radius*1.08, radius*.68, length, 10, 1, true), trim);
+    const bell = new T.Mesh(new T.CylinderGeometry(radius*1.08, radius*.68, length, 16, 1, true), trim);
     bell.rotation.z = Math.PI / 2;
     bell.position.x = -length / 2;
     group.add(bell);
-    const lip = new T.Mesh(new T.TorusGeometry(radius*1.08, radius*.1, 4, 10), armor);
+    const lip = new T.Mesh(new T.TorusGeometry(radius*1.08, radius*.1, 6, 16), armor);
     lip.rotation.y = -Math.PI / 2;
     lip.position.x = -length;
     group.add(lip);
@@ -55111,17 +55220,19 @@ function createShipModels(T) {
     for(const x of [-17,-15.5,-14])box(g,.45,.06,.42,glass,x,3.95,0);
     for (const z of [-4.7,-1.6,1.6,4.7]) engine(g, z, .9, 1.03, 2.1);
     for (const z of [-4.35,-1.45,1.45,4.35]) engine(g, z, 2.7, .45, 1.35);
+    for(const z of [-6.1,6.1])engine(g,z,.9,.32,1.1);
+    for(const sign of [-1,1]){box(g,7,.09,1.6,dark,-5,-.18,sign*2.5);for(let i=0;i<7;i++)box(g,.08,.12,1.6,trim,-8+i,-.24,sign*2.5);}
     capitalDetails(g,false);
     return finish(g);
   }
   function separatist() {
-    const g = newShip('Separatist');
-    plate(g, [[-11,-3],[-11,3],[5,4],[11,0],[5,-4]], 2.1, 2.5, armor);
-    plate(g, [[-9,3],[-5,7],[7,9],[12,6],[3,5]], 1.4, 2.3, armor);
-    plate(g, [[-9,-3],[3,-5],[12,-6],[7,-9],[-5,-7]], 1.4, 2.3, armor);
-    box(g, 5,1.2,3, trim, -2,4,0);
-    box(g, 2,1.2,2, upper, -2,5.2,0);
-    for (const sign of [-1,1]) turret(g, -2, 2.4, sign*5.7, .8);
+    const g=newShip('Separatist Lucrehulk · rounded carrier');
+    const ringGeometry=new T.TorusGeometry(10.6,2.1,12,48,Math.PI*1.72);ringGeometry.rotateZ(Math.PI*.14);ringGeometry.rotateX(Math.PI/2);const ring=new T.Mesh(ringGeometry,armor);ring.position.y=1;g.add(ring);
+    const bandGeometry=new T.TorusGeometry(10.65,2.14,6,48,Math.PI*1.72);bandGeometry.scale(1,1,.13);bandGeometry.rotateZ(Math.PI*.14);bandGeometry.rotateX(Math.PI/2);const band=new T.Mesh(bandGeometry,dark);band.position.y=1;g.add(band);
+    const sphere=new T.Mesh(new T.SphereGeometry(4.3,24,16),upper);sphere.position.set(-.8,1.2,0);g.add(sphere);box(g,8,.8,2.1,lower,-4.6,1.1,0);box(g,3.2,.35,2.5,trim,-1,5.5,0);box(g,2.5,.16,2.2,glass,-.8,5.75,0);
+    for(let i=0;i<26;i++){const angle=Math.PI*.14+i/25*Math.PI*1.72,x=Math.cos(angle)*10.6,z=Math.sin(angle)*10.6;const panel=box(g,1.4,.12,.9,trim,x,3,z);panel.rotation.y=-angle;const windows=box(g,.5,.12,.12,glass,Math.cos(angle)*12.72,1.1,Math.sin(angle)*12.72);windows.rotation.y=-angle;}
+    for(const sign of [-1,1]){box(g,3.6,.6,2.7,dark,9.2,1,sign*4.7);box(g,3.9,.15,2.9,trim,9.2,2,sign*4.7);turret(g,-4,2.9,sign*9.4,.45);}
+    for(const z of [-6,-3,0,3,6]){engine(g,z,1,.6,1.5);g.userData.engines.at(-1).position.x=-Math.sqrt(10.6*10.6-z*z)-1.3;}
     return finish(g);
   }
   function imperial(){
@@ -55138,20 +55249,24 @@ function createShipModels(T) {
         if(i<10)box(g,.28,.075,.19,glass,x,.9,sign*(edge+.03));
       }
       for(const [i,x] of [-13,-10,-7,-4].entries())turret(g,x,2.65,sign*(8.3-i*.6),.32);
-      missilePod(g,-1.2,sign*5.3);
-      mbc(g,3.8,sign*4);mbc(g,8,sign*3);
+      turret(g,-15.5,2.65,sign*9.2,.32);
+      missilePod(g,-1.2,sign*5.3,2.62);
+      missilePod(g,-5.2,sign*5.6,2.62);
+      mbc(g,3.8,sign*4,2.62);mbc(g,8,sign*3,2.62);
+      mbc(g,11.8,sign*2.1,2.62);
       box(g,4,.65,.12,dark,-7,1.1,sign*10.1);
     }
     for(const [i,y] of [2.7,3.5,4.3].entries())tapered(g,rectangle(-7-i,0,17-i*3,8.2-i*1.6),rectangle(-7-i,0,15-i*3,7-i*1.6),y,y+.8,i%2?upper:armor);
     tapered(g,rectangle(-12,0,4.3,5.8),rectangle(-12.6,0,2.4,3.4),5,8.1,upper);
     box(g,3,.35,10.7,trim,-12.5,8.25,0);box(g,2.8,.24,10.4,glass,-12.3,8.56,0);box(g,3.15,.35,10.9,armor,-12.5,8.82,0);
     for(const z of [-3.5,3.5]){
-      const ball=new T.Mesh(new T.IcosahedronGeometry(.8,1),upper);ball.position.set(-12.5,9.8,z);g.add(ball);
+      const ball=new T.Mesh(new T.SphereGeometry(.8,16,10),upper);ball.position.set(-12.5,9.8,z);g.add(ball);
       box(g,.3,.6,.3,trim,-12.5,9.2,z);
     }
     box(g,.18,1.3,.18,trim,-12,9.4,0);
     for(const z of [-5,0,5])engine(g,z,.4,z===0?1.7:1.4,3.8);
     for(const z of [-7.5,-2.7,2.7,7.5])engine(g,z,1.5,.56,2.6);
+    for(const z of [-9.1,9.1])engine(g,z,.8,.35,1.4);
     capitalDetails(g,true);
     return finish(g);
   }
@@ -55181,27 +55296,34 @@ function createShipModels(T) {
   return { venator, separatist, imperial };
 }
 
-// Exact own-hull raycasts, using only real model geometry (never glow/effects).
+// Exact triangles with a cached static-hull BVH; moving guns/engines stay separate.
+const staticHullTrees=new Map();
+function buildHullTree(T,triangles){
+ const box=new T.Box3();for(const t of triangles)box.expandByPoint(t.a).expandByPoint(t.b).expandByPoint(t.c);
+ if(triangles.length<=12)return {box,triangles};const size=box.getSize(new T.Vector3()),axis=size.x>=size.y&&size.x>=size.z?'x':size.y>=size.z?'y':'z';
+ triangles.sort((a,b)=>a.center[axis]-b.center[axis]);const mid=triangles.length>>1;return {box,left:buildHullTree(T,triangles.slice(0,mid)),right:buildHullTree(T,triangles.slice(mid))};
+}
 function createHullProbe(T,owner,muzzlePosition){
-  const material=new T.MeshBasicMaterial({side:T.DoubleSide});
-  const proxies=owner.model.userData.collisionMeshes.map(source=>({source,mesh:new T.Mesh(source.geometry,material)}));
-  const ray=new T.Raycaster(),direction=new T.Vector3();
-  const probe=(state,kind,tipIndex)=>{
-    const f=owner.flight;owner.model.position.set(f.x,0,f.z);owner.model.rotation.set(f.bank||0,f.yaw,0,'YXZ');
-    for(const kind of ['normal','missile','mbc'])for(const gun of owner.armament[kind])gun.mount.view.rotation.y=gun.yaw;
-    owner.model.updateMatrixWorld(true);
-    const p=muzzlePosition(f,state,tipIndex);direction.set(Math.cos(p.yaw),p.dy||0,-Math.sin(p.yaw)).normalize();
-    ray.set(new T.Vector3(p.x,p.y,p.z).addScaledVector(direction,.02),direction);ray.near=.015;ray.far=80;
-    const candidates=[];
-    for(const proxy of proxies){
-      let ancestor=proxy.source,ownGun=false;while(ancestor){if(ancestor===state.mount.view){ownGun=true;break;}ancestor=ancestor.parent;}
-      if(ownGun)continue;
-      proxy.mesh.matrixWorld.copy(proxy.source.matrixWorld);candidates.push(proxy.mesh);
-    }
-    const hit=ray.intersectObjects(candidates,false)[0];
-    return hit?{distance:hit.distance+.02,x:hit.point.x,y:hit.point.y,z:hit.point.z}:null;
-  };
-  probe.dispose=()=>material.dispose();return probe;
+ const material=new T.MeshBasicMaterial({side:T.DoubleSide}),staticSources=[],dynamic=[];
+ owner.model.updateMatrixWorld(true);const rootInverse=new T.Matrix4().copy(owner.model.matrixWorld).invert();
+ for(const source of owner.model.userData.collisionMeshes){
+  source.geometry.computeBoundingBox();let moving=null;for(let p=source;p&&p!==owner.model;p=p.parent)if(p.userData.movingPart)moving=p;
+  if(moving)dynamic.push({source,moving,mesh:new T.Mesh(source.geometry,material)});else staticSources.push(source);
+ }
+ const key=owner.model.name+'|'+staticSources.map(m=>m.geometry.attributes.position.count).join(',');let tree=staticHullTrees.get(key);
+ if(!tree){const triangles=[];for(const mesh of staticSources){const matrix=new T.Matrix4().multiplyMatrices(rootInverse,mesh.matrixWorld),geo=mesh.geometry,pos=geo.attributes.position,index=geo.index,count=index?index.count:pos.count;for(let i=0;i<count;i+=3){const vertex=j=>new T.Vector3().fromBufferAttribute(pos,index?index.getX(i+j):i+j).applyMatrix4(matrix),a=vertex(0),b=vertex(1),c=vertex(2);triangles.push({a,b,c,center:a.clone().add(b).add(c).multiplyScalar(1/3)});}}tree=buildHullTree(T,triangles);staticHullTrees.set(key,tree);}
+ const ray=new T.Raycaster(),direction=new T.Vector3(),localRay=new T.Ray(),point=new T.Vector3(),worldPoint=new T.Vector3(),stack=[],candidates=[];let poseKey='';
+ const probe=(state,kind,tipIndex)=>{
+  const f=owner.flight,key=`${owner.probeVersion}:${f.x}:${f.z}:${f.yaw}:${f.bank||0}`;
+  if(key!==poseKey){poseKey=key;owner.model.position.set(f.x,0,f.z);owner.model.rotation.set(f.bank||0,f.yaw,0,'YXZ');for(const bank of ['normal','missile','mbc'])for(const gun of owner.armament[bank])gun.mount.view.rotation.y=gun.yaw;owner.model.updateMatrixWorld(true);rootInverse.copy(owner.model.matrixWorld).invert();}
+  state.mount.view.rotation.y=state.yaw;state.mount.view.updateMatrixWorld(true);
+  const p=muzzlePosition(f,state,tipIndex);direction.set(Math.cos(p.yaw),p.dy||0,-Math.sin(p.yaw)).normalize();ray.set(new T.Vector3(p.x,p.y,p.z).addScaledVector(direction,.02),direction);ray.near=.015;ray.far=200;
+  localRay.copy(ray.ray).applyMatrix4(rootInverse);let best=null,bestDistance=200;stack.length=0;stack.push(tree);
+  while(stack.length){const node=stack.pop();if(!localRay.intersectsBox(node.box))continue;if(node.triangles){for(const t of node.triangles)if(localRay.intersectTriangle(t.a,t.b,t.c,false,point)){worldPoint.copy(point).applyMatrix4(owner.model.matrixWorld);const distance=worldPoint.distanceTo(ray.ray.origin);if(distance>=ray.near&&distance<bestDistance){bestDistance=distance;best=worldPoint.clone();}}}else stack.push(node.left,node.right);}
+  candidates.length=0;for(const proxy of dynamic){if(proxy.moving===state.mount.view||!proxy.moving.visible)continue;proxy.mesh.matrixWorld.copy(proxy.source.matrixWorld);candidates.push(proxy.mesh);}const hit=ray.intersectObjects(candidates,false)[0];if(hit&&hit.distance<bestDistance){bestDistance=hit.distance;best=hit.point;}
+  return best?{distance:bestDistance+.02,x:best.x,y:best.y,z:best.z}:null;
+ };
+ probe.dispose=()=>material.dispose();return probe;
 }
 
 function createHUDState(){return {mode:'full',lastPress:-Infinity};}
@@ -55276,9 +55398,9 @@ function stepDestruction(combat,ships,dt,random=Math.random){
     // Sweep fast fragments through hulls; each fragment can hit a given ship once.
     if(Math.abs(y)<13)for(const target of combat.targets){
       if(target===d.source||!targetAlive(target)||d.hits.has(target))continue;
-      const t=segmentCircleHit(d.x,d.z,x,z,target,d.radius);if(t===null)continue;
+      const t=target.faction?hullSegmentHit(d.x,d.y,d.z,x,y,z,target,d.radius):segmentCircleHit(d.x,d.z,x,z,target,d.radius);if(t===null)continue;
       const p=targetPose(target);d.hits.add(target);
-      applyDamage(combat,target,d.damage,'debris',d.x+(x-d.x)*t,y,d.z+(z-d.z)*t,events);
+      const speed=Math.hypot(d.vx,d.vz)||1;applyDamage(combat,target,d.damage,'debris',d.x+(x-d.x)*t,y,d.z+(z-d.z)*t,events,false,{dx:d.vx/speed,dz:d.vz/speed});
       const nx=x-p.x,nz=z-p.z,length=Math.hypot(nx,nz)||1,dot=(d.vx*nx+d.vz*nz)/length;
       d.vx=(d.vx-2*dot*nx/length)*.45;d.vz=(d.vz-2*dot*nz/length)*.45;d.damage=Math.max(1,Math.round(d.damage*.5));break;
     }
@@ -55288,24 +55410,27 @@ function stepDestruction(combat,ships,dt,random=Math.random){
 }
 
 // AI shares the player's acceleration, turning, weapon timing and hull obstruction.
-const PLAYER_RELOADS=Object.freeze({normal:1.5,missile:10,mbc:15});
-const SHIP_SCALE=1.4;
-function battleSpawn(index,count){const angle=(index-(count-1)/2)*.38;return {x:620+Math.cos(angle)*65,z:Math.sin(angle)*450,yaw:Math.PI};}
+const PLAYER_RELOADS=Object.freeze({normal:2.4,missile:30,mbc:60});
+const SHIP_SCALE=3;
+function battleSpawn(index,count){return {x:3300+(index%2)*160,z:(index-(count-1)/2)*210,yaw:Math.PI};}
 function battleOutcome(player,enemies){
   if(!targetAlive(player))return wreckFinished(player)?'defeat':null;
   return enemies.length&&enemies.every(wreckFinished)?'victory':null;
 }
+function bestAlly(player,ships){return ships.filter(s=>s!==player&&s.team===player.team&&targetAlive(s)).sort((a,b)=>b.health-a.health)[0]||null;}
+function fleetOutcome(team,ships){const allies=ships.filter(s=>s.team===team),enemies=ships.filter(s=>s.team!==team);if(!allies.some(targetAlive))return allies.every(wreckFinished)?'defeat':null;return enemies.length&&enemies.every(wreckFinished)?'victory':null;}
 function enemyInput(ship,target,time,others=[]){
   const f=ship.flight,t=targetPose(target),index=ship.aiIndex||0,dx=t.x-f.x,dz=t.z-f.z,range=Math.hypot(dx,dz);
   const phase=Math.floor(time/7+index*1.7)%5,side=index%2?1:-1;
   let tx=t.x+(t.vx||0)*1.8,tz=t.z+(t.vz||0)*1.8;
-  if(phase===1||phase===3){tx+=Math.sin(time*.13+index)*55;tz+=side*(phase===1?65:35);}
-  if(phase===2){tx+=Math.sin(f.yaw)*side*70;tz+=Math.cos(f.yaw)*side*70;}
-  for(const other of others){if(other===ship||!targetAlive(other))continue;const o=other.flight,d=Math.hypot(f.x-o.x,f.z-o.z);if(d<70&&d>.01){tx+=(f.x-o.x)/d*(70-d)*2;tz+=(f.z-o.z)/d*(70-d)*2;}}
+  if(phase===1||phase===3){tx+=Math.sin(time*.13+index)*250;tz+=side*(phase===1?300:180);}
+  if(phase===2){tx+=Math.sin(f.yaw)*side*260;tz+=Math.cos(f.yaw)*side*260;}
+  for(const other of others){if(other===ship||!targetAlive(other))continue;const o=other.flight,d=Math.hypot(f.x-o.x,f.z-o.z);if(d<180&&d>.01){tx+=(f.x-o.x)/d*(180-d)*3;tz+=(f.z-o.z)/d*(180-d)*3;}}
   const heading=Math.atan2(-(tz-f.z),tx-f.x),delta=angleDelta(heading,f.yaw);
-  const retreat=range<62||(phase===4&&range<125),go=range>115||phase===0||phase===2;
+  const retreat=range<210||(phase===4&&range<500),go=range>650||phase===0||phase===2;
   ship.manoeuvre=retreat?'BACKING AWAY':phase===1?'FLANKING':phase===2?'CROSSING':phase===3?'EVADING':'PURSUING';
-  return {forward:!retreat&&go,backward:retreat,rotateLeft:delta>.035,rotateRight:delta<-.035,boost:range>310&&Math.abs(delta)<.4&&f.boostCharge>.2};
+  const level=ship.difficulty||1,boostWindow=(time+index*3)%(level===1?32:level===2?23:16)<(level===1?2.5:level===2?4:6);
+  return {forward:!retreat&&go,backward:retreat,rotateLeft:delta>.035,rotateRight:delta<-.035,boost:range>1100&&Math.abs(delta)<.4&&f.boostCharge>.15&&boostWindow};
 }
 function fireEnemy(combat,ship){
   const events=[],arm=ship.armament;
@@ -55322,34 +55447,122 @@ function fireEnemy(combat,ship){
   }
   return events;
 }
-function separateFleet(ships){
+function separateFleet(ships,combat=null,dt=1/120){
+  const events=[];
   for(let i=0;i<ships.length;i++)for(let j=i+1;j<ships.length;j++){
     const a=ships[i],b=ships[j];if(!targetAlive(a)||!targetAlive(b))continue;
-    const dx=b.flight.x-a.flight.x,dz=b.flight.z-a.flight.z,d=Math.hypot(dx,dz),minimum=(a.radius+b.radius)*.83;
-    if(d>=minimum)continue;const nx=d>.001?dx/d:1,nz=d>.001?dz/d:0,push=(minimum-d)*.5;
-    a.flight.x-=nx*push;a.flight.z-=nz*push;b.flight.x+=nx*push;b.flight.z+=nz*push;
+    const dx=b.flight.x-a.flight.x,dz=b.flight.z-a.flight.z;if(Math.hypot(dx,dz)>a.radius+b.radius+30)continue;
+    const shapeA=hullOutline(a,a.shield>0?.06:0),shapeB=hullOutline(b,b.shield>0?.06:0);let penetration=Infinity,normal=null,separate=false;
+    for(const polygon of [shapeA,shapeB])for(let k=0;k<polygon.length;k++){
+      const p=polygon[k],q=polygon[(k+1)%polygon.length],length=Math.hypot(q.x-p.x,q.z-p.z),nx=-(q.z-p.z)/length,nz=(q.x-p.x)/length;
+      const aa=shapeA.map(p=>p.x*nx+p.z*nz),bb=shapeB.map(p=>p.x*nx+p.z*nz),overlap=Math.min(Math.max(...aa),Math.max(...bb))-Math.max(Math.min(...aa),Math.min(...bb));
+      if(overlap<=0){separate=true;break;}if(overlap<penetration){penetration=overlap;normal={x:nx,z:nz};}
+    }
+    if(separate||!normal)continue;let nx=normal.x,nz=normal.z;if(nx*dx+nz*dz<0){nx=-nx;nz=-nz;}
+    const ma=FACTIONS[a.faction]?.mass||1,mb=FACTIONS[b.faction]?.mass||1,total=ma+mb,push=penetration+.03;
+    a.flight.x-=nx*push*mb/total;a.flight.z-=nz*push*mb/total;b.flight.x+=nx*push*ma/total;b.flight.z+=nz*push*ma/total;
+    const closing=(a.flight.vx-b.flight.vx)*nx+(a.flight.vz-b.flight.vz)*nz;
+    if(closing>0){const impulse=closing*1.08;a.flight.vx-=nx*impulse*mb/total;a.flight.vz-=nz*impulse*mb/total;b.flight.vx+=nx*impulse*ma/total;b.flight.vz+=nz*impulse*ma/total;}
+    if(combat){combat.contacts ||= new Map();const key=[a.id,b.id].sort().join('|');if(combat.time>=(combat.contacts.get(key)||0)){combat.contacts.set(key,combat.time+.2);const damage=Math.min(350,8+Math.max(0,closing)*1.6),x=(a.flight.x+b.flight.x)/2,z=(a.flight.z+b.flight.z)/2;
+      applyDamage(combat,a,damage,'collision',x,3,z,events,false,{dx:-nx,dz:-nz});applyDamage(combat,b,damage,'collision',x,3,z,events,false,{dx:nx,dz:nz});}}
   }
+  return events;
+}
+
+// A bounded decorative battle simulation. It never joins gameplay targets/collision.
+function createExperimentalBackdrop(T,scene,factory,glowTexture){
+ const group=new T.Group();group.visible=false;scene.add(group);const capitals=[],fighters=[],shots=[],impacts=[],laserPool=createLaserPool(T,group,512);let initialized=false,enabled=false,time=0;
+ const localCamera={position:new T.Vector3()},zero=new T.Vector3(),matrix=new T.Object3D();let fighterBatches;
+ function merged(model){model.updateMatrixWorld(true);const positions=[],normals=[],colors=[],normalMatrix=new T.Matrix3();model.traverse(mesh=>{if(!mesh.isMesh)return;const geo=mesh.geometry.index?mesh.geometry.toNonIndexed():mesh.geometry,pa=geo.attributes.position,na=geo.attributes.normal;normalMatrix.getNormalMatrix(mesh.matrixWorld);for(let i=0;i<pa.count;i++){const p=new T.Vector3().fromBufferAttribute(pa,i).applyMatrix4(mesh.matrixWorld),n=new T.Vector3().fromBufferAttribute(na,i).applyMatrix3(normalMatrix).normalize(),color=mesh.material.color;positions.push(p.x,p.y,p.z);normals.push(n.x,n.y,n.z);colors.push(color.r,color.g,color.b);}if(geo!==mesh.geometry)geo.dispose();});const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(positions,3));geometry.setAttribute('normal',new T.Float32BufferAttribute(normals,3));geometry.setAttribute('color',new T.Float32BufferAttribute(colors,3));geometry.computeBoundingSphere();return geometry;}
+ function fighterGeometry(republic){const g=new T.Group(),armor=new T.MeshStandardMaterial({color:republic?0xcbd0d7:0x797f89}),glass=new T.MeshStandardMaterial({color:0x162331});const add=(geo,mat,x=0,y=0,z=0)=>{const m=new T.Mesh(geo,mat);m.position.set(x,y,z);g.add(m);return m;};if(republic){const body=add(new T.ConeGeometry(.8,8,6),armor,1);body.rotation.z=-Math.PI/2;add(new T.BoxGeometry(2,.7,1.1),glass,-.2,.5);for(const side of [-1,1])for(const up of [-1,1]){const wing=add(new T.BoxGeometry(3,.16,4.4),armor,-1,up*.7,side*2.8);wing.rotation.x=up*side*.27;const gun=add(new T.CylinderGeometry(.09,.09,4,5),glass,1,up*1.2,side*4.7);gun.rotation.z=Math.PI/2;}}else{add(new T.SphereGeometry(1.25,8,6),armor);for(const side of [-1,1]){const arm=add(new T.BoxGeometry(7,.5,1),armor,1,0,side*2.6);arm.rotation.y=side*.2;add(new T.BoxGeometry(2,2.6,.4),armor,-1,0,side*3.1);}add(new T.BoxGeometry(1,.4,1.2),glass,1,.7);}return merged(g);}
+ function flash(position,size=15,color=0xffa04a){const effect=impacts.find(e=>e.age>=e.life)||(size>80?impacts.reduce((a,b)=>a.age/a.life>b.age/b.life?a:b):null);if(!effect)return;effect.age=0;effect.life=size>80?2.2:.65;effect.size=size;effect.view.position.copy(position);effect.view.material.color.setHex(color);effect.view.visible=true;}
+ function launch(source,target,damage,speed=420){if(shots.length>=300||!target||target.mode==='absent'||target.mode==='dying')return;const start=source.p.clone(),aim=target.p.clone().addScaledVector(target.v||zero,Math.min(3,source.p.distanceTo(target.p)/speed)*.9),d=aim.sub(start),range=d.length();shots.push({kind:'normal',owner:{faction:source.republic?'republic':'imperial'},x:start.x,y:start.y,z:start.z,dx:d.x/range,dy:d.y/range,dz:d.z/range,age:0,duration:Math.max(.12,range/speed),start,end:start.clone().add(d),target,damage});}
+ function initialize(){
+  initialized=true;const canvas=document.createElement('canvas');canvas.width=1024;canvas.height=512;const c=canvas.getContext('2d');c.fillStyle='#0c192b';c.fillRect(0,0,1024,512);let seed=8201;const rnd=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};for(let i=0;i<7000;i++){c.fillStyle=i%5?'#3a5267':'#d1ae67';c.globalAlpha=.15+rnd()*.5;c.fillRect(rnd()*1024,rnd()*512,1+rnd()*4,.6+rnd()*2);}c.globalAlpha=.18;c.strokeStyle='#b6d2d8';for(let i=0;i<30;i++){c.beginPath();c.ellipse(rnd()*1024,rnd()*512,70+rnd()*160,15+rnd()*35,rnd()*3,0,Math.PI*2);c.stroke();}c.globalAlpha=1;const texture=new T.CanvasTexture(canvas),planet=new T.Mesh(new T.SphereGeometry(4700,48,32),new T.MeshStandardMaterial({map:texture,roughness:1,emissive:0x13263e,emissiveMap:texture,emissiveIntensity:.35}));planet.position.set(1800,-6500,-2100);planet.rotation.z=.35;group.add(planet);const atmosphere=new T.Mesh(new T.SphereGeometry(4740,40,24),new T.MeshBasicMaterial({color:0x4c88cb,transparent:true,opacity:.055,side:T.BackSide,depthWrite:false}));atmosphere.position.copy(planet.position);group.add(atmosphere);
+  const templates=[merged(factory.venator()),merged(factory.separatist())];
+  for(let i=0;i<12;i++){const republic=i<6,k=i%6,p=new T.Vector3(900+(k%3)*650,-80-Math.floor(k/3)*170,(republic?-1:1)*(460+Math.floor(k/3)*350)),material=new T.MeshStandardMaterial({vertexColors:true,roughness:.75,metalness:.2}),model=new T.Mesh(templates[republic?0:1],material);model.scale.setScalar(republic?3.5:4.3);group.add(model);const flames=[];for(let j=0;j<3;j++){const f=new T.Sprite(new T.SpriteMaterial({map:glowTexture,color:0xff8a25,transparent:true,depthWrite:false,blending:T.AdditiveBlending}));f.visible=false;group.add(f);flames.push(f);}const streak=new T.Mesh(new T.BoxGeometry(1,3,3),new T.MeshBasicMaterial({color:0xa7deff,transparent:true,depthWrite:false,blending:T.AdditiveBlending}));streak.visible=false;group.add(streak);capitals.push({index:i,republic,p,v:new T.Vector3(),home:p.clone(),model,flames,streak,hp:320+(i%4)*100,maxHP:650,yaw:republic?-Math.PI/2:Math.PI/2,mode:'fighting',timer:0,fireAt:1+(i%6)*.3,phase:i*.9,target:null});}
+  fighterBatches=[true,false].map(republic=>{const mesh=new T.InstancedMesh(fighterGeometry(republic),new T.MeshStandardMaterial({vertexColors:true,roughness:.7}),18);mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);mesh.frustumCulled=false;group.add(mesh);return mesh;});
+  for(let i=0;i<36;i++){const republic=i<18,carrier=capitals[(republic?0:6)+i%6],p=carrier.p.clone().add(new T.Vector3(-100,-20,(i%6-3)*25));fighters.push({index:i,republic,p,v:new T.Vector3(),yaw:(i%4)*1.5,hp:18,mode:'fighting',timer:0,fireAt:(i%9)*.2,carrier,bomber:i%3===0});}
+  for(let i=0;i<24;i++){const view=new T.Sprite(new T.SpriteMaterial({map:glowTexture,transparent:true,depthWrite:false,blending:T.AdditiveBlending}));view.visible=false;group.add(view);impacts.push({view,age:1,life:.65,size:10});}
+ }
+ function capitalStep(s,dt){
+  if(s.mode==='dying'){s.timer+=dt;s.p.addScaledVector(s.v,dt*.3);s.yaw+=dt*.025;s.model.material.color.setScalar(Math.max(.2,1-s.timer*.11));if(s.timer>6){flash(s.p,190);s.mode='absent';s.timer=0;s.model.visible=false;}return;}
+  if(s.mode==='absent'){s.timer+=dt;if(s.timer>5){s.mode='arrival';s.timer=0;s.destination=s.home.clone().add(new T.Vector3(150*Math.sin(time+s.index),-20,100*Math.cos(time+s.index)));s.arrival=s.destination.clone().add(new T.Vector3(-7000,350,0));s.model.visible=true;s.model.material.color.setScalar(1);s.hp=s.maxHP;}return;}
+  if(s.mode==='arrival'){s.timer+=dt;const t=Math.min(1,s.timer/1.1);s.p.lerpVectors(s.arrival,s.destination,1-Math.pow(1-t,3));s.streak.visible=t<1;s.streak.position.copy(s.p);s.streak.scale.set((1-t)*1600+1,1,1);s.streak.material.opacity=1-t;if(t===1){s.mode='fighting';s.target=null;s.fireAt=time+.8;}return;}
+  if(!s.target||s.target.hp<=0||s.target.mode!=='fighting'){const enemies=capitals.filter(t=>t.republic!==s.republic&&t.mode==='fighting');enemies.sort((a,b)=>s.p.distanceToSquared(a.p)-s.p.distanceToSquared(b.p));s.target=enemies[0];}if(!s.target)return;const direction=s.target.p.clone().sub(s.p),range=direction.length();direction.y=0;direction.normalize();const tangent=new T.Vector3(-direction.z,0,direction.x),side=Math.sin(time*.06+s.phase)>0?1:-1,radial=range>1200?42:range<560?-48:(range-820)*.055,desired=direction.multiplyScalar(radial).addScaledVector(tangent,side*32);for(const o of capitals)if(o!==s&&o.mode==='fighting'&&s.p.distanceTo(o.p)<260)desired.add(s.p.clone().sub(o.p).setLength(35));s.v.lerp(desired,Math.min(1,dt*.5));s.p.addScaledVector(s.v,dt);s.p.y+=((s.home.y+Math.sin(time*.08+s.phase)*45)-s.p.y)*dt*.3;const wanted=Math.atan2(-s.v.z,s.v.x),delta=Math.atan2(Math.sin(wanted-s.yaw),Math.cos(wanted-s.yaw));s.yaw+=Math.max(-.12*dt,Math.min(.12*dt,delta));if(time>s.fireAt&&range<2000){launch(s,s.target,22);s.fireAt=time+1.05+(s.index%3)*.12;}
+ }
+ function fighterStep(f,dt){
+  if(f.mode==='absent'){f.timer+=dt;if(f.timer>4&&f.carrier.mode==='fighting'){f.mode='fighting';f.hp=18;f.p.copy(f.carrier.p).add(new T.Vector3(-40,-16,0));}return;}
+  if(f.hp<=0){flash(f.p,18);f.mode='absent';f.timer=0;return;}
+  let target=f.bomber?capitals[(f.republic?6:0)+(f.index+Math.floor(time/18))%6]:fighters[(f.republic?18:0)+(f.index*7+Math.floor(time/12))%18];if(target.mode!=='fighting')target=capitals.find(s=>s.republic!==f.republic&&s.mode==='fighting');if(!target)return;
+  const desired=target.p.clone().addScaledVector(target.v,.4),distance=f.p.distanceTo(target.p);desired.y+=f.bomber?18:Math.sin(time*1.2+f.index)*70;const phase=(time+f.index*.5)%10;if(distance<150||phase>7.5){desired.x+=Math.cos(f.index+time*.2)*450;desired.z+=Math.sin(f.index+time*.2)*450;desired.y+=80;}
+  const dir=desired.sub(f.p).normalize(),speed=f.bomber?145:200;f.v.lerp(dir.multiplyScalar(speed),Math.min(1,dt*2));f.p.addScaledVector(f.v,dt);const wanted=Math.atan2(-f.v.z,f.v.x),delta=Math.atan2(Math.sin(wanted-f.yaw),Math.cos(wanted-f.yaw));f.yaw+=Math.max(-2*dt,Math.min(2*dt,delta));if(time>f.fireAt&&distance<650){launch(f,target,f.bomber?5:3,520);f.fireAt=time+.7+(f.index%4)*.08;}
+ }
+ return {setEnabled(value){enabled=value;group.visible=value;if(value&&!initialized)initialize();},snapshot(){return {capitals:capitals.length,fighters:fighters.length,activeShots:shots.length,capitalStates:capitals.map(s=>({x:s.p.x,y:s.p.y,z:s.p.z,hp:s.hp,mode:s.mode})),fighterStates:fighters.map(s=>({x:s.p.x,y:s.p.y,z:s.p.z,hp:s.hp,mode:s.mode}))};},update(dt,flight,camera){if(!enabled)return;time+=dt;group.position.set(flight.x,0,flight.z);
+  for(const s of capitals){capitalStep(s,dt);s.model.position.copy(s.p);s.model.rotation.set(Math.sin(time*.3+s.index)*.025,s.yaw,0,'YXZ');for(let j=0;j<3;j++){const flame=s.flames[j],burning=s.mode==='dying'||s.hp<s.maxHP*.45;flame.visible=burning&&s.mode!=='absent'&&s.mode!=='arrival';flame.position.copy(s.p).add(new T.Vector3((j-1)*30,12,Math.sin(s.index+j)*12));flame.scale.setScalar((s.mode==='dying'?35+s.timer*9:20)+Math.sin(time*17+j)*5);flame.material.opacity=.65;}if(s.mode!=='arrival')s.streak.visible=false;}
+  for(const f of fighters){fighterStep(f,dt);matrix.position.copy(f.p);matrix.rotation.set(Math.sin(time+f.index)*.2,f.yaw,Math.sin(time*.7+f.index)*.25,'YXZ');matrix.scale.setScalar(f.mode==='fighting'?.85:0);matrix.updateMatrix();fighterBatches[f.republic?0:1].setMatrixAt(f.index%18,matrix.matrix);}for(const batch of fighterBatches)batch.instanceMatrix.needsUpdate=true;
+  for(let i=shots.length-1;i>=0;i--){const b=shots[i];b.age+=dt;const t=Math.min(1,b.age/b.duration);b.x=b.start.x+(b.end.x-b.start.x)*t;b.y=b.start.y+(b.end.y-b.start.y)*t;b.z=b.start.z+(b.end.z-b.start.z)*t;if(t===1){if(b.target.mode==='fighting'&&b.target.p.distanceTo(b.end)<(b.target.maxHP?85:16)){b.target.hp-=b.damage;flash(b.end,b.target.maxHP?12:6,b.owner.faction==='republic'?0xff7864:0x72ff9b);if(b.target.hp<=0&&b.target.maxHP){b.target.mode='dying';b.target.timer=0;}}shots.splice(i,1);}}
+  for(const e of impacts){e.age+=dt;if(e.age>=e.life){e.view.visible=false;continue;}e.view.scale.setScalar(e.size*(.4+e.age/e.life));e.view.material.opacity=1-e.age/e.life;}
+  localCamera.position.copy(camera.position).sub(group.position);laserPool.update(shots,localCamera);
+ }};
+}
+
+// Two reusable instanced batches: hundreds of lasers cost two draw calls.
+function createLaserPool(T,scene,capacity=4096){
+ const core=new T.InstancedMesh(new T.BoxGeometry(1,1,1),new T.MeshBasicMaterial({color:0xffffff}),capacity);
+ const canvas=document.createElement('canvas');canvas.width=128;canvas.height=32;const ctx=canvas.getContext('2d'),pixels=ctx.createImageData(128,32);for(let y=0;y<32;y++)for(let x=0;x<128;x++){const k=(y*128+x)*4,nx=(x-63.5)/64,ny=(y-15.5)/16;pixels.data[k]=pixels.data[k+1]=pixels.data[k+2]=255;pixels.data[k+3]=255*Math.pow(Math.max(0,1-nx*nx),.6)*Math.exp(-ny*ny*5);}ctx.putImageData(pixels,0,0);
+ const texture=new T.CanvasTexture(canvas),glow=new T.InstancedMesh(new T.PlaneGeometry(1,1),new T.MeshBasicMaterial({map:texture,color:0xffffff,transparent:true,opacity:.65,depthWrite:false,blending:T.AdditiveBlending,side:T.DoubleSide}),capacity);
+ for(const mesh of [core,glow]){mesh.count=0;mesh.frustumCulled=false;mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);scene.add(mesh);}
+ const unitX=new T.Vector3(1,0,0),dummy=new T.Object3D(),direction=new T.Vector3(),view=new T.Vector3(),side=new T.Vector3(),normal=new T.Vector3(),basis=new T.Matrix4(),color=new T.Color();
+ return {core,glow,clear(){core.count=glow.count=0;},update(projectiles,camera){let count=0;
+  for(const p of projectiles){if(p.kind!=='normal'||count===capacity)continue;dummy.position.set(p.x,p.y,p.z);const imperial=p.owner?.faction==='imperial',scale=Math.min(3,Math.max(1,camera.position.distanceTo(dummy.position)/850));direction.set(p.dx,p.dy||0,p.dz).normalize();dummy.position.set(p.x,p.y,p.z);dummy.quaternion.setFromUnitVectors(unitX,direction);dummy.scale.set(13*scale,.58*scale,.58*scale);dummy.updateMatrix();core.setMatrixAt(count,dummy.matrix);core.setColorAt(count,color.setHex(imperial?0xd6ffe0:0xffded7));
+   view.copy(camera.position).sub(dummy.position).normalize();side.crossVectors(view,direction).normalize();if(side.lengthSq()<.01)side.set(0,1,0);normal.crossVectors(direction,side).normalize();basis.makeBasis(direction,side,normal);dummy.quaternion.setFromRotationMatrix(basis);dummy.scale.set(24*scale,3.5*scale,1);dummy.updateMatrix();glow.setMatrixAt(count,dummy.matrix);glow.setColorAt(count,color.setHex(imperial?0x39ff76:0xff3b2e));count++;
+  }
+  core.count=glow.count=count;if(count)for(const mesh of [core,glow]){mesh.instanceMatrix.clearUpdateRanges();mesh.instanceMatrix.addUpdateRange(0,count*16);mesh.instanceMatrix.needsUpdate=true;mesh.instanceColor.clearUpdateRanges();mesh.instanceColor.addUpdateRange(0,count*3);mesh.instanceColor.needsUpdate=true;}
+ }};
+}
+// Smooth compressed envelope, with a localized, camera-facing impact glow.
+function createShieldVisual(T,model,faction,glowTexture,localBounds){
+ const bounds=localBounds||new T.Box3().setFromObject(model),size=bounds.getSize(new T.Vector3()),center=bounds.getCenter(new T.Vector3()),geometry=new T.SphereGeometry(1,28,16),position=geometry.attributes.position;
+ // The forward half narrows toward the bow; the envelope is rounded vertically.
+ const halfX=size.x*.51;for(let i=0;i<position.count;i++){const u=position.getX(i),angle=Math.atan2(position.getZ(i),position.getY(i)),x=center.x+u*halfX,cap=Math.abs(u)>.98?Math.sqrt(Math.max(0,1-u*u))/.2:1;
+  const width=faction==='imperial'?Math.max(.3,(27-x)/44*12.8):x< -7?7.4:x<4?5.8:Math.max(.3,(24-x)/20*5.5),top=(faction==='imperial'?2.8:1.9)+(bounds.max.y-(faction==='imperial'?2.8:1.9))/(1+Math.exp((x+6.5)*1.1)),bottom=bounds.min.y-.25;
+  position.setXYZ(i,x,(top+bottom)/2+Math.cos(angle)*((top-bottom)/2+.35)*cap,Math.sin(angle)*(width+.65)*cap);
+ }
+ geometry.computeVertexNormals();geometry.computeBoundingSphere();
+ const material=new T.MeshBasicMaterial({color:faction==='imperial'?0x72eda6:0x6cbcff,transparent:true,opacity:0,depthWrite:false,side:T.FrontSide,blending:T.AdditiveBlending}),shell=new T.Mesh(geometry,material);shell.userData.privateMaterial=true;model.add(shell);
+ const flash=new T.Sprite(new T.SpriteMaterial({map:glowTexture,color:material.color,transparent:true,opacity:0,depthWrite:false,blending:T.AdditiveBlending}));flash.userData.privateMaterial=true;flash.visible=false;model.add(flash);
+ return {shell,flash};
+}
+function createDebrisPool(T,scene,capacity=420){
+ function combine(parts){const positions=[],normals=[];for(const [geometry,matrix] of parts){const geo=geometry.index?geometry.toNonIndexed():geometry;geo.applyMatrix4(matrix);positions.push(...geo.attributes.position.array);normals.push(...geo.attributes.normal.array);if(geo!==geometry)geo.dispose();geometry.dispose();}const result=new T.BufferGeometry();result.setAttribute('position',new T.Float32BufferAttribute(positions,3));result.setAttribute('normal',new T.Float32BufferAttribute(normals,3));return result;}
+ const translate=(x,y,z)=>new T.Matrix4().makeTranslation(x,y,z),identity=new T.Matrix4(),templates=[combine([[new T.BoxGeometry(2.8,.25,1.5),identity],[new T.BoxGeometry(.15,.4,1.5),translate(.6,0,0)]]),combine([[new T.BoxGeometry(.65,2,.65),identity],[new T.BoxGeometry(1,.45,2.8),translate(0,.8,0)]]),new T.CylinderGeometry(.7,.9,2.5,10,1,true).rotateZ(Math.PI/2)];
+ const meshes=templates.map(geometry=>{const mesh=new T.InstancedMesh(geometry,new T.MeshStandardMaterial({color:0xffffff,roughness:.8,metalness:.3,emissive:0x281005,emissiveIntensity:.3}),capacity);mesh.count=0;mesh.frustumCulled=false;mesh.instanceMatrix.setUsage(T.DynamicDrawUsage);scene.add(mesh);return mesh;}),dummy=new T.Object3D(),color=new T.Color(),hot=new T.Color(0xe87835);
+ return {clear(){for(const m of meshes)m.count=0;},update(debris){const counts=[0,0,0];for(const d of debris){const kind=d.shape===1?1:d.shape===2?2:0,index=counts[kind]++;if(index>=capacity)continue;dummy.position.set(d.x,d.y,d.z);dummy.rotation.set(d.id*.71+d.age*.35,d.id+d.age*.47,d.age*.24);dummy.scale.setScalar(d.size*Math.min(1,(d.life-d.age)/2));dummy.updateMatrix();meshes[kind].setMatrixAt(index,dummy.matrix);color.setHex(d.source.faction==='republic'?0xa0a8b2:0x92989e).lerp(hot,Math.max(0,.45-d.age*.07));meshes[kind].setColorAt(index,color);}for(let i=0;i<3;i++){const m=meshes[i];m.count=Math.min(capacity,counts[i]);if(!m.count)continue;m.instanceMatrix.clearUpdateRanges();m.instanceMatrix.addUpdateRange(0,m.count*16);m.instanceMatrix.needsUpdate=true;m.instanceColor.clearUpdateRanges();m.instanceColor.addUpdateRange(0,m.count*3);m.instanceColor.needsUpdate=true;}}};
 }
 
 const websiteBackdrop=new URLSearchParams(location.search).has('background');
 if(websiteBackdrop)document.body.classList.add('cinematic-backdrop');
 const scene=new T.Scene();scene.background=new T.Color(0x03060d);
-const cam=new T.PerspectiveCamera(43,innerWidth/innerHeight,.1,2500);
+const cam=new T.PerspectiveCamera(43,innerWidth/innerHeight,.1,18000);
 let renderer;
 try{renderer=new T.WebGLRenderer({antialias:true,powerPreference:'high-performance'});}catch(error){const e=document.querySelector('#error');e.style.display='block';e.textContent='WebGL could not start. Open this file with hardware acceleration enabled.';throw error;}
 renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.domElement.tabIndex=0;renderer.domElement.setAttribute('aria-label','Capital ship battle view. Click ships to toggle targets; drag to orbit; scroll or pinch to zoom.');document.body.appendChild(renderer.domElement);
 scene.add(new T.HemisphereLight(0xc7ddff,0x242638,2));const light=new T.DirectionalLight(0xfff3dc,2.7);light.position.set(15,75,40);scene.add(light);const rimLight=new T.DirectionalLight(0x588bce,.8);rimLight.position.set(-40,10,-80);scene.add(rimLight);
-const controls=new OrbitControls(cam,renderer.domElement);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=30;controls.maxDistance=1100;controls.minPolarAngle=.12;controls.maxPolarAngle=1.48;
-const factory=createShipModels(T),combat=createCombat(),ships=[];let selected=null,phase='intro',session='demo',difficulty=1,demoAI=false,demoInvincible=false,previousPhase='demo',introTime=0,attractTime=0,inspecting=false,nextAutoFire=0,noticeUntil=0,spawnSerial=0;
+const controls=new OrbitControls(cam,renderer.domElement);controls.enableDamping=true;controls.enablePan=false;controls.minDistance=30;controls.maxDistance=6500;controls.minPolarAngle=.12;controls.maxPolarAngle=1.48;
+controls.mouseButtons.RIGHT=T.MOUSE.ROTATE;controls.enableRotate=true;
+const factory=createShipModels(T),combat=createCombat(),ships=[];let selected=null,phase='intro',session='demo',difficulty=1,demoAI=false,demoInvincible=false,previousPhase='demo',introTime=0,attractTime=0,inspecting=false,nextAutoFire=0,noticeUntil=0,spawnSerial=0,friendlySelection=null,autoLockPoll=0;
+let customSettings={faction:'republic',enemyFaction:'imperial',allies:5,enemies:5,experimental:false,difficulty:2};
 const keys=new Set(),keyboardKeys=new Set(),hud=createHUDState();let touchController=null,touchMode=false;const clearKeys=()=>{keys.clear();keyboardKeys.clear();touchController?.releaseAll();};
 let backgroundPaused=false;
 window.addEventListener('message',event=>{if(websiteBackdrop&&event.origin===location.origin&&event.source===parent&&event.data?.type==='starfighters-background')backgroundPaused=event.data.paused===true;});
-const q=id=>document.getElementById(id),playing=()=>phase==='demo'||phase==='battle',attracting=()=>!backgroundPaused&&['intro','menu','difficulty'].includes(phase);
+const q=id=>document.getElementById(id),playing=()=>phase==='demo'||phase==='battle'||phase==='custom',attracting=()=>!backgroundPaused&&['intro','menu','difficulty'].includes(phase);
 const glowCanvas=document.createElement('canvas');glowCanvas.width=glowCanvas.height=64;const gc=glowCanvas.getContext('2d'),gradient=gc.createRadialGradient(32,32,0,32,32,32);gradient.addColorStop(0,'rgba(245,255,255,1)');gradient.addColorStop(.2,'rgba(175,225,255,.95)');gradient.addColorStop(.55,'rgba(100,170,255,.25)');gradient.addColorStop(1,'rgba(100,170,255,0)');gc.fillStyle=gradient;gc.fillRect(0,0,64,64);const glowTexture=new T.CanvasTexture(glowCanvas);
 const flashGeometry=new T.SphereGeometry(.3,8,6),flashMaterial=new T.MeshBasicMaterial({color:0xe8fcff});
 const flameGeometry=new T.ConeGeometry(1,1,8),flameMaterial=new T.MeshBasicMaterial({color:0x328dff,transparent:true,opacity:.55,depthWrite:false,blending:T.AdditiveBlending}),coreFlameMaterial=new T.MeshBasicMaterial({color:0xd5f9ff,transparent:true,opacity:.9,depthWrite:false,blending:T.AdditiveBlending});
 const boltGeometry=new T.BoxGeometry(3,.18,.18),boltMaterial=new T.MeshBasicMaterial({color:0xff7563}),enemyBoltMaterial=new T.MeshBasicMaterial({color:0x7dff9e});
 const missileBodyGeometry=new T.CylinderGeometry(.13,.13,.95,6),missileNoseGeometry=new T.ConeGeometry(.14,.4,6),missileFinGeometry=new T.BoxGeometry(.35,.035,.5),missileMaterial=new T.MeshStandardMaterial({color:0xd6dce0,flatShading:true}),noseMaterial=new T.MeshBasicMaterial({color:0xd58154});
+const laserPool=createLaserPool(T,scene),debrisPool=createDebrisPool(T,scene);
 const projectileViews=new Map(),beamViews=new Map(),bursts=[],fadingTrails=[],debrisViews=new Map();const burstGeometry=new T.IcosahedronGeometry(1,1);
 const sight=new T.Object3D();
 const targetGroup=new T.Group(),targetMaterial=new T.MeshStandardMaterial({color:0x755343,emissive:0x9c491c,emissiveIntensity:.45,flatShading:true});targetGroup.add(new T.Mesh(new T.IcosahedronGeometry(PRACTICE.radius,1),targetMaterial));targetGroup.add(new T.Mesh(new T.IcosahedronGeometry(PRACTICE.radius+.15,1),new T.MeshBasicMaterial({color:0xf1ae68,wireframe:true})));const targetRing=new T.Mesh(new T.TorusGeometry(PRACTICE.radius+2.2,.2,4,40),new T.MeshBasicMaterial({color:0xffd09a}));targetRing.rotation.x=Math.PI/2;targetGroup.add(targetRing);scene.add(targetGroup);targetGroup.visible=false;
@@ -55358,12 +55571,15 @@ const markerElements=new Map(),lockColors=['#91ddeb','#edca82','#c8a8ff','#91dfb
 function lockColor(index){return lockColors[index]||`hsl(${(index*137.508)%360} 75% 76%)`;}
 function feedback(text){q('hit-feedback').textContent=text;}
 function notice(text){q('notice').textContent=text;noticeUntil=performance.now()+5000;}
-function makeShip(faction,x,z,yaw,index,isPlayer=false){
+function makeShip(faction,x,z,yaw,index,isPlayer=false,team=faction){
  spawnSerial++;const worldScale=SHIP_SCALE;
- const model=faction==='republic'?factory.venator():factory.imperial(),localBounds=new T.Box3().setFromObject(model);const ship={id:`ship-${spawnSerial}`,name:isPlayer?'Venator':`${faction==='republic'?'Venator':'Imperial'} ${spawnSerial}`,faction,model,localBounds,flight:createFlight(x,z,yaw),health:1000,maxHealth:1000,radius:faction==='republic'?20:22,isPlayer,mortal:true,invulnerable:false,totalDamage:0,selfDamage:0,recentHits:[],aiIndex:index,nextFire:{normal:index*.3,missile:4+index,mbc:8+index},damageMarks:[]};
+ const model=faction==='republic'?factory.venator():factory.imperial(),localBounds=new T.Box3().setFromObject(model);const ship={id:`ship-${spawnSerial}`,name:isPlayer?(faction==='republic'?'Venator command':'Imperial command'):`${faction==='republic'?'Venator':'Imperial'} ${spawnSerial}`,faction,team,model,localBounds,flight:createFlight(x,z,yaw),health:1000,maxHealth:1000,radius:faction==='republic'?27:29,isPlayer,mortal:true,invulnerable:false,totalDamage:0,selfDamage:0,recentHits:[],aiIndex:index,nextFire:{normal:index*.3,missile:4+index,mbc:8+index},damageMarks:[]};
  model.scale.setScalar(worldScale);ship.flight.modelScale=worldScale;ship.radius*=worldScale;
  const hullMaterials=new Map();model.traverse(o=>{if(o.isMesh&&o.material.isMeshStandardMaterial){const source=o.material;if(!hullMaterials.has(source)){const material=source.clone();material.userData={privateMaterial:true};hullMaterials.set(source,{material,base:source.color.clone()});}o.material=hullMaterials.get(source).material;}});ship.hullMaterials=[...hullMaterials.values()];
- if(isPlayer)ship.reloads=PLAYER_RELOADS;ship.armament=createArmament(model.userData.weapons);ship.armament.owner=ship;
+ ship.detailMeshes=[];for(const bank of Object.values(model.userData.weapons))for(const mount of bank)ship.detailMeshes.push(...mount.view.children.filter(o=>o.isMesh).slice(2));for(const engine of model.userData.engines)ship.detailMeshes.push(...engine.children.filter(o=>o.isMesh&&o.material.isMeshStandardMaterial));
+ if(isPlayer)ship.reloads=PLAYER_RELOADS;ship.armament=createArmament(model.userData.weapons);ship.armament.owner=ship;ship.navigation=createNavigation();ship.manualLocks=[];ship.autoTarget=false;ship.difficulty=difficulty;
+ initializeSystems(ship,model.userData.engineNozzles.map(n=>({x:n.group.position.x+n.endX*n.group.scale.x,y:n.group.position.y,z:n.group.position.z})));
+ const shieldVisual=createShieldVisual(T,model,faction,glowTexture,localBounds);ship.shieldView=shieldVisual.shell;ship.shieldImpactView=shieldVisual.flash;
  for(const kind of ['normal','missile','mbc'])for(const state of ship.armament[kind]){
   state.flashes=state.mount.anchors.map(anchor=>{const mesh=new T.Mesh(flashGeometry,flashMaterial);mesh.visible=false;anchor.add(mesh);return mesh;});
   if(kind==='mbc'){const mesh=new T.Mesh(new T.SphereGeometry(.4,8,6),new T.MeshBasicMaterial({color:0x7ce9ff,transparent:true,opacity:.8,depthWrite:false}));mesh.userData.privateMaterial=true;mesh.visible=false;state.mount.anchors[0].add(mesh);state.chargeMesh=mesh;}
@@ -55373,7 +55589,8 @@ function makeShip(faction,x,z,yaw,index,isPlayer=false){
  ship.probe=createHullProbe(T,ship,worldMuzzle);ship.damageGroup=new T.Group();model.add(ship.damageGroup);model.position.set(x,0,z);model.rotation.y=yaw;scene.add(model);return ship;
 }
 function clearWorld(){
- const geometries=new Set();for(const ship of ships){scene.remove(ship.model);ship.probe.dispose?.();ship.model.traverse(o=>{if(o.geometry&&!([flashGeometry,flameGeometry].includes(o.geometry)))geometries.add(o.geometry);if(o.userData.privateMaterial||o.material?.userData.privateMaterial)o.material?.dispose();});}
+ laserPool.clear();debrisPool.clear();
+ const geometries=new Set();for(const ship of ships){scene.remove(ship.model);ship.probe.dispose?.();ship.model.traverse(o=>{if(o.isMesh&&o.geometry&&!([flashGeometry,flameGeometry].includes(o.geometry)))geometries.add(o.geometry);if(o.userData.privateMaterial||o.material?.userData.privateMaterial)o.material?.dispose();});}
  for(const geometry of geometries)geometry.dispose();ships.length=0;
  for(const view of projectileViews.values()){scene.remove(view);view.traverse(o=>{if(o.material&&![boltMaterial,enemyBoltMaterial,missileMaterial,noseMaterial].includes(o.material))o.material.dispose();});if(view.userData.trail){scene.remove(view.userData.trail.line);view.userData.trail.line.geometry.dispose();view.userData.trail.line.material.dispose();}}projectileViews.clear();
  for(const view of beamViews.values()){scene.remove(view);view.traverse(o=>{if(o.isMesh){o.geometry.dispose();o.material.dispose();}});}beamViews.clear();
@@ -55382,16 +55599,16 @@ function clearWorld(){
  for(const trail of fadingTrails){scene.remove(trail.line);trail.line.geometry.dispose();trail.line.material.dispose();}fadingTrails.length=0;
  Object.assign(combat,createCombat());combat.obstruction=(owner,state,kind,tip)=>owner?.probe?.(state,kind,tip)||null;targetGroup.visible=false;q('target-markers').replaceChildren();markerElements.clear();contactsKey='';clearKeys();
 }
-function resetCamera(close=false){inspecting=close;const f=selected.flight;controls.target.set(f.x,2,f.z);cam.position.copy(controls.target).add(close?new T.Vector3(0,29,38):new T.Vector3(0,87,112));controls.update();}
+function resetCamera(close=false){inspecting=close;const f=selected.flight;controls.target.set(f.x,2,f.z);const offset=(close?new T.Vector3(-55,25,30):new T.Vector3(-520,150,0)).applyAxisAngle(new T.Vector3(0,1,0),f.yaw);cam.up.set(0,1,0);cam.position.copy(controls.target).add(offset);controls.update();}
 function buildWorld(mode,count=1){
- clearWorld();session=mode;nextAutoFire=0;hud.mode='full';hud.lastPress=-Infinity;document.body.dataset.hud='full';
- if(mode==='attract'){
-  for(let i=0;i<5;i++){const angle=i/5*Math.PI*2;ships.push(makeShip(i%2?'imperial':'republic',Math.cos(angle)*90,Math.sin(angle)*75,angle+Math.PI,i,false));}
- }else{
-  ships.push(makeShip('republic',-20,0,0,0,true));
-  for(let i=0;i<count;i++){const p=mode==='battle'?battleSpawn(i,count):{x:155,z:0,yaw:Math.PI};ships.push(makeShip('imperial',p.x,p.z,p.yaw,i+1));}
- }
- selected=ships[0];selected.invulnerable=mode==='demo'&&demoInvincible;combat.targets.push(...ships);feedback('');buildBanks();resetCamera();updateHUD();
+ clearWorld();session=mode;friendlySelection=null;autoLockPoll=0;nextAutoFire=0;hud.mode='full';hud.lastPress=-Infinity;document.body.dataset.hud='full';
+ if(mode==='attract')for(let i=0;i<5;i++){const angle=i/5*Math.PI*2;ships.push(makeShip(i%2?'imperial':'republic',Math.cos(angle)*450,Math.sin(angle)*400,angle+Math.PI,i,false,`ffa-${i}`));}
+ else if(mode==='custom'){
+  const faction=customSettings.faction,enemy=customSettings.enemyFaction;
+  for(let i=0;i<customSettings.allies;i++)ships.push(makeShip(faction,-200-(i%2)*170,(i-(customSettings.allies-1)/2)*220,0,i,i===0,'allied'));
+  for(let i=0;i<customSettings.enemies;i++){const p=battleSpawn(i,customSettings.enemies);ships.push(makeShip(enemy,p.x,p.z,p.yaw,i+customSettings.allies,false,'enemy'));}
+ }else{ships.push(makeShip('republic',-20,0,0,0,true));for(let i=0;i<count;i++){const p=mode==='battle'?battleSpawn(i,count):{x:420,z:0,yaw:Math.PI};ships.push(makeShip('imperial',p.x,p.z,p.yaw,i+1,false,mode==='demo'?'demo-hostile':'imperial'));}}
+ selected=ships[0];selected.invulnerable=mode==='demo'&&demoInvincible;combat.targets.push(...ships);feedback('');buildBanks();resetCamera();updateHUD();decor.setEnabled(mode==='custom'&&customSettings.experimental);
 }
 function showScreen(name){for(const screen of document.querySelectorAll('.screen'))screen.hidden=screen.id!==`${name}-screen`;}
 function setPhase(next,screen=null){phase=next;document.body.dataset.phase=next;document.body.classList.toggle('playing',playing());controls.enabled=playing();clearKeys();showScreen(screen||'nothing');q('demo-settings').hidden=session!=='demo';q('pause-mode').textContent=session==='demo'?'DEMO PAUSED':'BATTLE PAUSED';}
@@ -55401,45 +55618,64 @@ function pauseGame(){if(!playing())return;previousPhase=phase;setPhase('paused',
 function resumeGame(){setPhase(previousPhase);renderer.domElement.focus({preventScroll:true});}
 function restartGame(){startGame(session==='attract'?'demo':session,difficulty);}
 function endBattle(result){
- const enemies=ships.filter(s=>!s.isPlayer),alive=enemies.filter(targetAlive).length;q('result-title').textContent=result==='victory'?'VICTORY':'SHIP LOST';q('result-detail').textContent=result==='victory'?`All ${enemies.length} Imperial destroyer${enemies.length>1?'s':''} eliminated.\nHull remaining: ${selected.health} / ${selected.maxHealth}`:`Your Venator was destroyed.\n${enemies.length-alive} of ${enemies.length} enemy ships eliminated.`;setPhase('result','result');
+ const allies=ships.filter(s=>s.team===selected.team),enemies=ships.filter(s=>s.team!==selected.team),alive=enemies.filter(targetAlive).length;
+ q('result-title').textContent=result==='victory'?'VICTORY':'FLEET LOST';q('result-detail').textContent=result==='victory'?`Enemy fleet eliminated. ${allies.filter(targetAlive).length} allied ship(s) remain.`:`Your fleet was destroyed. ${enemies.length-alive} enemies eliminated.`;setPhase('result','result');
+}
+function takeControl(ship){
+ if(!ship||ship===selected||ship.team!==selected.team||!targetAlive(ship))return;
+ const previous=selected;previous.isPlayer=false;previous.navigation.autoForward=false;previous.invulnerable=false;selected=ship;selected.isPlayer=true;selected.navigation.autoForward=false;friendlySelection=null;contactsKey='';clearKeys();buildBanks();resetCamera();feedback(`Command transferred to ${ship.name}`);updateHUD();notice(`COMMAND TRANSFERRED · ${ship.name}`);
 }
 function lockTarget(target){
- if(!playing())return;const targets=selected.armament.targets.filter(targetAlive),index=targets.indexOf(target);
- if(!target){setTargets(selected.armament,[]);feedback('Targets cleared · guns hold their last aim');}
- else if(index>=0){targets.splice(index,1);setTargets(selected.armament,targets);feedback(`Released ${target.name}`);}
- else if(targets.length>=targetCapacity(selected.armament)){notice(`All ${targetCapacity(selected.armament)} weapon slots selected · release a target first`);return;}
- else{targets.push(target);setTargets(selected.armament,targets);feedback(`Selected ${target.name} · ${targets.length} / ${targetCapacity(selected.armament)}`);}
+ if(!playing())return;
+ if(!target){selected.manualLocks=[];selected.autoTarget=false;setTargets(selected.armament,[]);friendlySelection=null;feedback('Targets cleared · auto lock off');}
+ else{
+  friendlySelection=target.team===selected.team&&target!==selected?target:null;
+  const manual=selected.manualLocks,index=manual.indexOf(target),currently=selected.armament.targets.includes(target);
+  if(index>=0){manual.splice(index,1);selected.navigation.suppressedAuto.set(target.id,combat.time+8);}
+  else if(currently){selected.navigation.suppressedAuto.set(target.id,combat.time+8);}
+  else if(manual.length>=targetCapacity(selected.armament)){notice('Weapon target capacity reached');return;}
+  else manual.push(target);
+  setTargets(selected.armament,automaticLocks(selected,ships,combat.time,targetCapacity(selected.armament)));feedback(`${friendlySelection?'FRIENDLY FIRE TARGET · ':''}${target.name}${friendlySelection?' · Take Control is available':''}`);
+ }
  assignWeaponTargets(combat,selected);updateHUD();renderer.domElement.focus({preventScroll:true});
 }
-function freshTarget(){if(session!=='demo')return;const target=resetPractice(combat,selected.flight);target.model=targetGroup;setTargets(selected.armament,[...selected.armament.targets.filter(targetAlive),target].slice(-targetCapacity(selected.armament)));assignWeaponTargets(combat,selected);feedback('Immortal dummy spawned · reloads continue');updateHUD();}
-function clearDamage(ship){ship.damageGroup.traverse(o=>{o.geometry?.dispose();if(o.userData.privateMaterial)o.material?.dispose();});ship.damageGroup.clear();ship.damageMarks=[];}
-function spawnEnemies(){
+function toggleAuto(){selected.autoTarget=!selected.autoTarget;setTargets(selected.armament,automaticLocks(selected,ships,combat.time,targetCapacity(selected.armament)));assignWeaponTargets(combat,selected);updateHUD();}
+
+function freshTarget(){if(session!=='demo')return;const target=resetPractice(combat,selected.flight);target.model=targetGroup;selected.manualLocks=[...selected.manualLocks.filter(targetAlive),target].slice(-targetCapacity(selected.armament));setTargets(selected.armament,selected.manualLocks);assignWeaponTargets(combat,selected);feedback('Immortal dummy spawned · reloads continue');updateHUD();}
+function clearDamage(ship){ship.damageGroup.traverse(o=>{if(o.isMesh)o.geometry?.dispose();if(o.userData.privateMaterial)o.material?.dispose();});ship.damageGroup.clear();ship.damageMarks=[];}
+function spawnEnemies(allied=false){
  if(session!=='demo')return;const count=Math.max(1,Math.floor(Number(q('spawn-count').value)||1)),f=selected.flight,faction=q('spawn-faction').value;
- for(let i=0;i<count;i++){const angle=(spawnSerial*.61803398875+i*.07)*Math.PI*2,range=230+(i%5)*65;const ship=makeShip(faction,f.x+Math.cos(angle)*range,f.z+Math.sin(angle)*range,angle+Math.PI,spawnSerial+1);ships.push(ship);combat.targets.push(ship);}
- contactsKey='';updateHUD();feedback(`${count} enemy ship${count===1?'':'s'} spawned · AI ${demoAI?'active':'off'}`);
+ for(let i=0;i<count;i++){const angle=(spawnSerial*.61803398875+i*.07)*Math.PI*2,range=230+(i%5)*65;const ship=makeShip(faction,f.x+Math.cos(angle)*range,f.z+Math.sin(angle)*range,allied?f.yaw:Math.PI-angle,spawnSerial+1,false,allied?selected.team:'demo-hostile');ships.push(ship);combat.targets.push(ship);}
+ contactsKey='';updateHUD();feedback(`${count} ${allied?'allied':'enemy'} ship${count===1?'':'s'} spawned · AI ${demoAI?'active':'off'}`);
 }
-function restoreEnemies(){for(const s of ships.filter(s=>!s.isPlayer)){s.health=s.maxHealth;s.totalDamage=0;s.recentHits=[];resetWreck(s);clearDamage(s);for(const kind of ['normal','missile','mbc'])for(const gun of s.armament[kind]){gun.chargeUntil=gun.salvoAt=null;gun.readyAt=combat.time+1;}}combat.debris.length=0;feedback('Enemy hull restored');}
-function buildBanks(){for(const kind of ['normal','missile','mbc']){const host=q(`${kind}-bank`);host.replaceChildren();bankElements[kind]=selected.armament[kind].map(()=>{const span=document.createElement('span');span.className='unit';host.appendChild(span);return span;});}}
+function restoreEnemies(){for(const s of ships.filter(s=>!s.isPlayer)){initializeSystems(s,s.engines.map(e=>e.mount));s.totalDamage=0;s.recentHits=[];resetWreck(s);clearDamage(s);for(const kind of ['normal','missile','mbc'])for(const gun of s.armament[kind]){gun.chargeUntil=gun.salvoAt=null;gun.readyAt=combat.time+1;}}combat.debris.length=0;feedback('Enemy hull restored');}
+function buildBanks(){for(const kind of ['normal','missile','mbc']){const host=q(`${kind}-bank`);host.replaceChildren();bankElements[kind]=selected.armament[kind].map((state,index)=>{const b=document.createElement('button');b.className='unit';b.setAttribute('aria-label',`Fire ${kind} ${index+1}`);b.onclick=()=>{if(!playing()||state.health===0)return;handleEvents(triggerWeapon(combat,selected.armament,selected.flight,kind,g=>g===state));renderer.domElement.focus({preventScroll:true});};host.appendChild(b);return b;});}}
 function updateHUD(){
  if(!selected)return;const f=selected.flight,targets=selected.armament.targets.filter(targetAlive);
- q('speed').textContent=Math.hypot(f.vx,f.vz).toFixed(1);q('flight-status').textContent=f.boostActive?'Turbo thrust':Math.abs(f.speed)>.15?'Under way':'Standing by';q('turbo-bar').value=f.boostCharge*100;q('turbo-status').textContent=f.boostActive?`BOOST ${Math.round(f.boostCharge*100)}%`:f.boostCharge<.999?`Recharging · ${((1-f.boostCharge)*10).toFixed(1)}s`:'Turbo ready · T';
- q('player-hp').textContent=`${selected.health} / ${selected.maxHealth}${selected.invulnerable?' · ∞':''}`;q('player-health').value=selected.health;q('damage-report').textContent=selected.selfDamage?`Self-damage ${selected.selfDamage}`:selected.health<1000?'Hull integrity compromised':'Hull integrity nominal';
- let blocked=0;for(const kind of ['normal','missile','mbc'])selected.armament[kind].forEach((state,index)=>{const element=bankElements[kind][index],label=(kind==='normal'?'T':kind==='missile'?'MB':'MBC')+(index+1),remaining=Math.max(0,state.readyAt-combat.time),charging=state.chargeUntil!==null,salvo=state.salvoAt!==null;const status=charging?`${Math.max(0,state.chargeUntil-combat.time).toFixed(1)}s ⚡`:salvo?'2nd':remaining>.02?`${kind==='normal'?remaining.toFixed(1):Math.ceil(remaining)}s`:'ready';element.textContent=`${label} ${state.blocked?'× ':''}${status}`;element.dataset.state=state.blocked?'blocked':charging?'charging':salvo||remaining>.02?'reload':'ready';element.title=`${label}: ${state.blocked?'blocked by own hull, ':''}${status}${state.target?' → '+state.target.name:''}`;if(state.blocked)blocked++;});
- q('block-warning').textContent=blocked?`${blocked} blocked · yellow guns skipped. Charged MBCs still fire.`:'Firing paths clear';q('target-summary').textContent=`${targets.length?'TARGETS':'NO LOCK'} · ${targets.length} / ${targetCapacity(selected.armament)}${session==='battle'?` · ENEMIES ${ships.slice(1).filter(targetAlive).length}`:''}`;
- const contacts=combat.targets.filter(t=>t!==selected&&targetAlive(t)),key=contacts.map(t=>`${t.id}:${t.health}:${targets.indexOf(t)}:${t.totalDamage||0}`).join('|');
- if(key!==contactsKey){contactsKey=key;q('contacts').replaceChildren();for(const t of contacts){const b=document.createElement('button'),idx=targets.indexOf(t);b.textContent=`${idx>=0?'◆ ':'＋ '}${t.immortal?'Dummy ∞':t.name+' · '+t.health}`;b.setAttribute('aria-label',`${idx>=0?'Deselect':'Target'} ${t.name}`);b.setAttribute('aria-pressed',String(idx>=0));if(idx>=0)b.style.borderColor=lockColor(idx);b.onclick=()=>lockTarget(t);q('contacts').appendChild(b);}}
- if(performance.now()>noticeUntil)q('notice').textContent='';q('ai-toggle').textContent=`Enemy AI: ${demoAI?'ON':'OFF'}`;q('ai-toggle').setAttribute('aria-pressed',String(demoAI));q('invincible-toggle').textContent=`Invincible: ${demoInvincible?'ON':'OFF'}`;q('invincible-toggle').setAttribute('aria-pressed',String(demoInvincible));
+ q('selected-name').textContent=selected.faction==='imperial'?'IMPERIAL':'VENATOR';q('speed').textContent=Math.hypot(f.vx,f.vz).toFixed(1);q('flight-status').textContent=selected.navigation.autoForward?'AUTO FORWARD':f.boostActive?'Turbo thrust':Math.abs(f.speed)>.15?'Under way':'Standing by';q('turbo-bar').value=f.boostCharge*100;q('turbo-status').textContent=f.boostActive?`BOOST ${Math.round(f.boostCharge*100)}%`:f.boostCharge<.999?`Recharge ${((1-f.boostCharge)*f.stats.boostRecharge).toFixed(1)}s`:touchMode?'Boost ready':'Boost ready · Left Shift';
+ q('player-hp').textContent=`${Math.ceil(selected.health)} / ${selected.maxHealth}${selected.invulnerable?' ∞':''}`;q('player-health').max=selected.maxHealth;q('player-health').value=selected.health;q('shield-hp').textContent=`${Math.ceil(selected.shield)} / ${selected.maxShield}`;q('player-shield').max=selected.maxShield;q('player-shield').value=selected.shield;
+ const enginePercent=Math.round((f.engineFactor??1)*100);q('damage-report').textContent=`ENGINES ${enginePercent}%${combat.time-selected.lastHullHit>=20&&selected.health<selected.maxHealth?' · REPAIRING':''}`;
+ let blocked=0;for(const kind of ['normal','missile','mbc'])selected.armament[kind].forEach((state,index)=>{const b=bankElements[kind][index],label=(kind==='normal'?'T':kind==='missile'?'MB':'MBC')+(index+1),remaining=Math.max(0,state.readyAt-combat.time),charging=state.chargeUntil!==null,salvo=state.salvoAt!==null,broken=state.health===0,damaged=state.health<state.maxHealth;
+ const status=broken?'LOST':charging?`${Math.max(0,state.chargeUntil-combat.time).toFixed(1)} ⚡`:salvo?`${state.salvoRemaining} burst`:remaining>.02?`${Math.ceil(remaining)}s`:'ready';b.textContent=`${label} ${state.blocked&&!broken?'× ':''}${status}`;b.disabled=broken;b.dataset.state=broken?'destroyed':damaged?(state.severity>=2?'severe':'damaged'):state.blocked?'blocked':charging?'charging':salvo||remaining>.02?'reload':'ready';b.title=`${label} · HP ${Math.ceil(state.health)}/${state.maxHealth}${state.target?' → '+state.target.name:''}`;if(state.blocked&&!broken)blocked++;});
+ q('block-warning').textContent=blocked?`${blocked} own-hull firing paths blocked`:'Firing paths clear';q('target-summary').textContent=`LOCK ${targets.length}/${targetCapacity(selected.armament)} · ${ships.filter(s=>s.team!==selected.team&&targetAlive(s)).length} ENEMIES`;
+ q('auto-target').textContent=`AUTO TARGET ${selected.autoTarget?'ON · MAX 3':'OFF'}`;q('auto-target').setAttribute('aria-pressed',String(selected.autoTarget));q('take-control').hidden=!friendlySelection||!targetAlive(friendlySelection)||friendlySelection.team!==selected.team;
+ const contacts=combat.targets.filter(t=>t!==selected&&targetAlive(t)),key=contacts.map(t=>`${t.id}:${Math.ceil(t.health)}:${Math.ceil(t.shield||0)}:${targets.indexOf(t)}`).join('|');
+ if(key!==contactsKey){contactsKey=key;const host=q('contacts'),existing=new Map([...host.children].map(b=>[b.dataset.targetId,b])),live=new Set();for(const t of contacts){live.add(t.id);let b=existing.get(t.id);if(!b){b=document.createElement('button');b.dataset.targetId=t.id;b.onclick=()=>lockTarget(t);host.appendChild(b);}const idx=targets.indexOf(t),ally=t.team===selected.team;b.textContent=`${idx>=0?'◆ ':ally?'◇ ':'＋ '}${t.immortal?'Dummy ∞':t.name+' · H '+Math.ceil(t.health)+' / S '+Math.ceil(t.shield||0)}`;b.setAttribute('aria-label',`${idx>=0?'Deselect':'Target'} ${t.name}`);b.setAttribute('aria-pressed',String(idx>=0));b.style.borderColor=idx>=0?lockColor(idx):ally?'#6599e4':'';}for(const [id,b] of existing)if(!live.has(id))b.remove();}
+ if(performance.now()>noticeUntil)q('notice').textContent='';q('ai-toggle').textContent=`Fleet AI: ${demoAI?'ON':'OFF'}`;q('ai-toggle').setAttribute('aria-pressed',String(demoAI));q('invincible-toggle').textContent=`Invincible: ${demoInvincible?'ON':'OFF'}`;q('invincible-toggle').setAttribute('aria-pressed',String(demoInvincible));
+ q('auto-forward').textContent=selected.navigation.autoForward?'CRUISE ON':'CRUISE OFF';
 }
 const surfaceRay=new T.Raycaster();
-function impactPoint(ship,x,z){
- ship.model.updateMatrixWorld(true);const local=ship.model.worldToLocal(new T.Vector3(x,0,z));local.x=T.MathUtils.clamp(local.x,-14,23);local.z=T.MathUtils.clamp(local.z,-7,7);const origin=ship.model.localToWorld(new T.Vector3(local.x,30,local.z));surfaceRay.set(origin,new T.Vector3(0,-1,0));const hit=surfaceRay.intersectObjects(ship.model.userData.collisionMeshes,false)[0];return hit?ship.model.worldToLocal(hit.point.clone()):new T.Vector3(-2,2.8,0);
+function surfaceImpact(ship,x,z){
+ ship.model.updateMatrixWorld(true);surfaceRay.set(new T.Vector3(x,100,z),new T.Vector3(0,-1,0));const hit=surfaceRay.intersectObjects(ship.model.userData.collisionMeshes.filter(m=>m.visible),false)[0];if(!hit)return null;
+ const point=ship.model.worldToLocal(hit.point.clone()),normal=hit.face.normal.clone().transformDirection(hit.object.matrixWorld).transformDirection(new T.Matrix4().copy(ship.model.matrixWorld).invert());return {point,normal};
 }
+function impactPoint(ship,x,z){return surfaceImpact(ship,x,z)?.point||ship.model.worldToLocal(new T.Vector3(x,0,z));}
 function addHullDamage(ship,x,z){
- if(!ship.model||ship.immortal||ship.damageMarks.length>=(ship.destruction?32:12))return;const position=impactPoint(ship,x,z),group=new T.Group();group.position.copy(position).add(new T.Vector3(0,.05,0));
- const scar=new T.Mesh(new T.CircleGeometry(.7+Math.random()*.55,7),new T.MeshBasicMaterial({color:0x151319,side:T.DoubleSide,transparent:true,opacity:.9,depthWrite:false}));scar.rotation.x=-Math.PI/2;scar.userData.privateMaterial=true;group.add(scar);
- const flare=new T.Sprite(new T.SpriteMaterial({map:glowTexture,color:0xff6b20,transparent:true,opacity:.7,depthWrite:false,blending:T.AdditiveBlending}));flare.position.y=.22;flare.scale.setScalar(2.1);flare.userData.privateMaterial=true;group.add(flare);
- const vent=new T.Group();group.add(vent);for(let i=0;i<4;i++){const puff=new T.Mesh(new T.IcosahedronGeometry(.14,0),new T.MeshBasicMaterial({color:i%2?0x9c8b7b:0xffa44b,transparent:true,opacity:.35,depthWrite:false}));puff.userData.privateMaterial=true;vent.add(puff);}
- ship.damageGroup.add(group);ship.damageMarks.push({group,flare,vent,seed:Math.random()*10});
+ if(!ship.model||ship.immortal||ship.damageMarks.length>=(ship.destruction?32:12))return;const surface=surfaceImpact(ship,x,z);if(!surface)return;const group=new T.Group();group.position.copy(surface.point).addScaledVector(surface.normal,.015);group.quaternion.setFromUnitVectors(new T.Vector3(0,0,1),surface.normal);
+ const scar=new T.Mesh(new T.CircleGeometry(.3+Math.random()*.35,9),new T.MeshBasicMaterial({color:0x161117,side:T.DoubleSide,transparent:true,opacity:.95,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-1}));scar.userData.privateMaterial=true;group.add(scar);
+ const flare=new T.Sprite(new T.SpriteMaterial({map:glowTexture,color:0xff6b20,transparent:true,opacity:.7,depthWrite:false,blending:T.AdditiveBlending}));flare.position.z=.08;flare.scale.setScalar(2.1);flare.userData.privateMaterial=true;group.add(flare);
+ const vent=new T.Group();group.add(vent);for(let i=0;i<3;i++){const puff=new T.Mesh(new T.IcosahedronGeometry(.14,0),new T.MeshBasicMaterial({color:i%2?0x9c8b7b:0xffa44b,transparent:true,opacity:.35,depthWrite:false}));puff.userData.privateMaterial=true;vent.add(puff);}
+ ship.damageGroup.add(group);ship.damageMarks.push({group,flare,vent,scar,seed:Math.random()*10});
 }
 function cinematicEvent(event){
  const ship=event.target,f=ship.flight;
@@ -55457,76 +55693,65 @@ function cinematicEvent(event){
  }
 }
 function disposeDebrisView(view){const materials=new Set();scene.remove(view);view.traverse(o=>{if(o.isMesh){o.geometry.dispose();materials.add(o.material);}});for(const material of materials)material.dispose();}
-function updateDebrisViews(){
- const alive=new Set();
- for(const d of combat.debris){
-  alive.add(d.id);let view=debrisViews.get(d.id);
-  if(!view){
-   view=new T.Group();const material=new T.MeshStandardMaterial({color:d.source.faction==='republic'?0x8a939e:0xa5a8aa,emissive:0xbd390b,emissiveIntensity:.65,roughness:.9,metalness:.3,transparent:true});
-   const add=(geometry,x=0,y=0,z=0)=>{const m=new T.Mesh(geometry,material);m.position.set(x,y,z);view.add(m);return m;};
-   if(d.shape===1){add(new T.BoxGeometry(d.size*.65,d.size*2,d.size*.65));add(new T.BoxGeometry(d.size,d.size*.45,d.size*2.8),0,d.size*.8);}
-   else if(d.shape===2){const engine=add(new T.CylinderGeometry(d.size*.7,d.size*.9,d.size*2.5,8,1,true));engine.rotation.z=Math.PI/2;}
-   else{add(new T.BoxGeometry(d.size*2.8,d.size*.25,d.size*1.5));add(new T.BoxGeometry(d.size*.15,d.size*.4,d.size*1.5),d.size*.6);}
-   scene.add(view);debrisViews.set(d.id,view);
-  }
-  view.position.set(d.x,d.y,d.z);view.rotation.set(d.id*.71+d.age*.35,d.id+d.age*.47,d.age*.24);
-  view.traverse(o=>{if(o.isMesh){o.material.opacity=Math.min(1,(d.life-d.age)/2);o.material.emissiveIntensity=Math.max(0,.75-d.age*.06);}});
- }
- for(const [id,view] of debrisViews)if(!alive.has(id)){disposeDebrisView(view);debrisViews.delete(id);}
-}
+function updateDebrisViews(){debrisPool.update(combat.debris);}
+
 function handleEvents(events){for(const event of events){
  const own=!event.owner||event.owner===selected,label=event.kind==='normal'?'Turret':event.kind==='missile'?'MB':event.kind==='debris'?'Debris':'MBC';
  if(event.type==='blocked'){if(own&&playing())feedback(`${label} ${event.index+1} blocked · skipped`);continue;}
  if(event.type==='unavailable'){if(own&&playing())feedback(`No clear, ready ${label}`);continue;}
  if(event.type==='charging'){if(own&&playing())feedback(`MBC ${event.index+1} charging · 3 seconds`);continue;}
  if(event.type==='fired'){if(own&&playing()&&event.kind!=='normal')feedback(`${label} ${event.index+1} fired`);continue;}
- const target=event.target;if(['wreck-start','rupture','explosion'].includes(event.type)){cinematicEvent(event);continue;}
+ const target=event.target;if(['wreck-start','rupture','explosion'].includes(event.type)){cinematicEvent(event);continue;}if(event.shieldDamage>0&&target.shieldImpactView){target.shieldImpactView.position.copy(target.model.worldToLocal(new T.Vector3(event.x,event.y,event.z)));}if(event.type==='shield-hit'){if(playing())feedback(`${target.name} · SHIELD −${Math.ceil(event.shieldDamage)}`);continue;}
  const destroyed=event.type==='destroyed';
- if(!target.immortal)addHullDamage(target,event.x,event.z);
+ if(!target.immortal&&(event.hullDamage??event.damage)>0)addHullDamage(target,event.x,event.z);
  const p=target.model&&!target.immortal?target.model.localToWorld(impactPoint(target,event.x,event.z)):new T.Vector3(event.x,event.y,event.z);
  const mesh=new T.Mesh(burstGeometry,new T.MeshBasicMaterial({color:destroyed?0xffd9a0:0xffb66c,wireframe:!destroyed,transparent:true,opacity:1,depthWrite:false}));mesh.position.copy(p);scene.add(mesh);bursts.push({mesh,age:0,life:.4,radius:3});
 
  if(playing())feedback(event.type==='self-hit'?`SELF HIT · ${event.damage} hull damage`:destroyed?`${target.name} · REACTOR CRITICAL`:target===selected?`INCOMING HIT · −${event.damage} hull`:`${label} hit · ${event.damage}${target.immortal?' · dummy total '+target.totalDamage:''}`);
 }}
-function makeMissile(){
+function makeMissile(owner){
   const group=new T.Group(),body=new T.Mesh(missileBodyGeometry,missileMaterial);body.rotation.z=-Math.PI/2;group.add(body);
   const nose=new T.Mesh(missileNoseGeometry,noseMaterial);nose.rotation.z=-Math.PI/2;nose.position.x=.66;group.add(nose);
   for(const angle of [0,Math.PI/2]){const fin=new T.Mesh(missileFinGeometry,missileMaterial);fin.position.x=-.3;fin.rotation.x=angle;group.add(fin);}
-  const flame=new T.Mesh(flameGeometry,new T.MeshBasicMaterial({color:0x8fd9ff,transparent:true,opacity:.9,depthWrite:false,blending:T.AdditiveBlending}));flame.rotation.z=Math.PI/2;flame.position.x=-.75;flame.scale.set(.1,.6,.1);group.add(flame);
+  const flame=new T.Mesh(flameGeometry,new T.MeshBasicMaterial({color:owner?.faction==='imperial'?0x70ff93:0x70bdff,transparent:true,opacity:.9,depthWrite:false,blending:T.AdditiveBlending}));flame.rotation.z=Math.PI/2;flame.position.x=-.75;flame.scale.set(.1,.6,.1);group.add(flame);
   const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.BufferAttribute(new Float32Array(96),3));geometry.setAttribute('color',new T.BufferAttribute(new Float32Array(96),3));geometry.setDrawRange(0,0);
-  const line=new T.Line(geometry,new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.8,depthWrite:false,blending:T.AdditiveBlending}));line.frustumCulled=false;scene.add(line);group.userData.trail={line,points:[],last:-1};
+  const line=new T.Line(geometry,new T.LineBasicMaterial({vertexColors:true,transparent:true,opacity:.8,depthWrite:false,blending:T.AdditiveBlending}));line.frustumCulled=false;scene.add(line);group.userData.trail={line,points:[],last:-1,imperial:owner?.faction==='imperial'};
   return group;
 }
 function removeView(map,id,disposeMaterials=false){const object=map.get(id);scene.remove(object);if(disposeMaterials)object.traverse(o=>{if(o.isMesh)o.material.dispose();});map.delete(id);}
 function updateVisuals(dt){
+  laserPool.update(combat.projectiles,cam);
   const target=combat.target;targetGroup.visible=!!target&&!target.removed;
   if(target){targetGroup.position.set(target.x,2.5,target.z);targetMaterial.emissive.setHex(target.flash>0?0xffe3b0:0x9c491c);targetMaterial.emissiveIntensity=target.flash>0?2:.45;}
   for(const ship of ships){
     ship.model.visible=targetAlive(ship)||!!ship.destruction&&!ship.destruction.exploded;
+    const detailed=cam.position.distanceTo(ship.model.position)<650;for(const mesh of ship.detailMeshes)mesh.visible=detailed;
     for(const kind of ['normal','missile','mbc'])for(const state of ship.armament[kind]){
-      state.mount.view.rotation.y=state.yaw;
+      state.mount.view.rotation.y=state.yaw;state.mount.view.visible=state.health!==0;
       state.flashes.forEach((mesh,index)=>{mesh.visible=state.flashUntil>combat.time&&index===state.lastTip;});
       if(state.chargeMesh){state.chargeMesh.visible=targetAlive(ship)&&state.chargeUntil!==null;const p=state.chargeUntil===null?0:1-(state.chargeUntil-combat.time)/3;state.chargeMesh.scale.setScalar(.35+p*1.7+Math.sin(combat.time*24)*.08);}
     }
+    ship.shieldView.visible=targetAlive(ship)&&ship.shieldFlash>0;ship.shieldView.material.opacity=Math.min(.045,ship.shieldFlash*.1);ship.shieldView.material.color.setHex(ship.shield>0?(ship.faction==='imperial'?0x72eda6:0x6cbcff):0xff9a52);
+    ship.shieldImpactView.visible=ship.shieldView.visible;ship.shieldImpactView.material.opacity=Math.min(.8,ship.shieldFlash*2);ship.shieldImpactView.material.color.copy(ship.shieldView.material.color);ship.shieldImpactView.scale.setScalar(4+(1-Math.min(1,ship.shieldFlash/.45))*5);
     const level=targetAlive(ship)?ship.flight.boostLevel:0;ship.engineLight.intensity=level*80;
     for(const material of ship.model.userData.engineGlows){material.opacity=.7+level*.3;material.color.setHex(level>.1?0xe5ffff:0x65cbed);}
-    for(const {mesh,core,flare,nozzle} of ship.plumes){const length=.4+Math.max(0,ship.flight.speed)/18+level*12;
-      mesh.visible=core.visible=targetAlive(ship)&&(ship.flight.speed>.2||level>.01);mesh.scale.set(nozzle.radius*(.6+level*.4),length,nozzle.radius*(.6+level*.4));mesh.position.set(nozzle.endX-length/2,0,0);
+    for(const [engineIndex,{mesh,core,flare,nozzle}] of ship.plumes.entries()){const engineAlive=ship.engines[engineIndex]?.health>0;const length=.4+Math.max(0,ship.flight.speed)/18+level*12;
+      mesh.visible=core.visible=engineAlive&&targetAlive(ship)&&(ship.flight.speed>.2||level>.01);mesh.scale.set(nozzle.radius*(.6+level*.4),length,nozzle.radius*(.6+level*.4));mesh.position.set(nozzle.endX-length/2,0,0);
       core.scale.set(nozzle.radius*.35,length*.8,nozzle.radius*.35);core.position.set(nozzle.endX-length*.4,0,0);
-      flare.material.opacity=targetAlive(ship)?.25+level*.75:0;flare.scale.setScalar(nozzle.radius*(2+level*6));
+      flare.material.opacity=engineAlive&&targetAlive(ship)?.25+level*.75:0;flare.scale.setScalar(nozzle.radius*(2+level*6));
     }
   }
   sight.position.set(selected.flight.x,0,selected.flight.z);sight.rotation.y=selected.flight.yaw;
   const alive=new Set();
-  for(const p of combat.projectiles){alive.add(p.id);let view=projectileViews.get(p.id);if(!view){view=p.kind==='normal'?new T.Mesh(boltGeometry,p.owner?.faction==='imperial'?enemyBoltMaterial:boltMaterial):makeMissile();scene.add(view);projectileViews.set(p.id,view);}view.position.set(p.x,p.y,p.z);view.rotation.y=Math.atan2(-p.dz,p.dx);
-    const trail=view.userData.trail;if(trail&&combat.time-trail.last>.025){trail.last=combat.time;trail.points.push({x:p.x,y:p.y,z:p.z,time:combat.time});trail.points=trail.points.filter(point=>combat.time-point.time<.65).slice(-32);const a=trail.line.geometry.attributes.position,c=trail.line.geometry.attributes.color;trail.points.forEach((q,i)=>{a.setXYZ(i,q.x,q.y,q.z);const fade=(i+1)/trail.points.length;c.setXYZ(i,.2*fade,.65*fade,fade);});a.needsUpdate=c.needsUpdate=true;trail.line.geometry.setDrawRange(0,trail.points.length);}
+  for(const p of combat.projectiles){if(p.kind==='normal')continue;alive.add(p.id);let view=projectileViews.get(p.id);if(!view){view=p.kind==='normal'?new T.Mesh(boltGeometry,p.owner?.faction==='imperial'?enemyBoltMaterial:boltMaterial):makeMissile(p.owner);scene.add(view);projectileViews.set(p.id,view);}view.position.set(p.x,p.y,p.z);view.rotation.y=Math.atan2(-p.dz,p.dx);
+    const trail=view.userData.trail;if(trail&&combat.time-trail.last>.025){trail.last=combat.time;trail.points.push({x:p.x,y:p.y,z:p.z,time:combat.time});trail.points=trail.points.filter(point=>combat.time-point.time<.65).slice(-32);const a=trail.line.geometry.attributes.position,c=trail.line.geometry.attributes.color;trail.points.forEach((q,i)=>{a.setXYZ(i,q.x,q.y,q.z);const fade=(i+1)/trail.points.length;c.setXYZ(i,.2*fade,trail.imperial?fade:.65*fade,trail.imperial?.35*fade:fade);});a.needsUpdate=c.needsUpdate=true;trail.line.geometry.setDrawRange(0,trail.points.length);}
   }
   for(const id of projectileViews.keys())if(!alive.has(id)){const view=projectileViews.get(id);if(view.userData.trail)fadingTrails.push({line:view.userData.trail.line,age:0});view.traverse(o=>{if(o.isMesh&&o.material!==missileMaterial&&o.material!==noseMaterial&&o.material!==boltMaterial&&o.material!==enemyBoltMaterial)o.material.dispose();});removeView(projectileViews,id);}
   for(let i=fadingTrails.length-1;i>=0;i--){const t=fadingTrails[i];t.age+=dt;t.line.material.opacity=.8*(1-t.age/.6);if(t.age>=.6){scene.remove(t.line);t.line.geometry.dispose();t.line.material.dispose();fadingTrails.splice(i,1);}}
   const liveBeams=new Set();
   for(const beam of combat.beams){
     liveBeams.add(beam.id);let group=beamViews.get(beam.id);
-    if(!group){group=new T.Group();for(const [width,color,opacity] of [[.8,0x42bde9,.45],[.18,0xf1ffff,1]])group.add(new T.Mesh(new T.BoxGeometry(1,width,width),new T.MeshBasicMaterial({color,transparent:true,opacity,depthWrite:false})));scene.add(group);beamViews.set(beam.id,group);}
+    if(!group){group=new T.Group();for(const [width,color,opacity] of [[.8,beam.owner?.faction==='imperial'?0x53ff7d:0xff4d48,.45],[.18,beam.owner?.faction==='imperial'?0xb6ffd0:0xffb6a8,1]])group.add(new T.Mesh(new T.BoxGeometry(1,width,width),new T.MeshBasicMaterial({color,transparent:true,opacity,depthWrite:false})));scene.add(group);beamViews.set(beam.id,group);}
     group.position.set((beam.x+beam.endX)/2,(beam.y+(beam.endY??beam.y))/2,(beam.z+beam.endZ)/2);const direction=new T.Vector3(beam.endX-beam.x,(beam.endY??beam.y)-beam.y,beam.endZ-beam.z);group.quaternion.setFromUnitVectors(new T.Vector3(1,0,0),direction.clone().normalize());group.scale.x=direction.length();
     group.children.forEach((mesh,index)=>{mesh.material.opacity=beam.remaining/beam.life*(index?1:.45);});
   }
@@ -55539,17 +55764,17 @@ function updateMarkers(){
  for(const [target,element] of markerElements)if(!alive.has(target)){element.remove();markerElements.delete(target);}
  targets.forEach((target,index)=>{
   let element=markerElements.get(target);if(!element){element=document.createElement('div');element.className='target-marker';element.appendChild(document.createElement('span'));q('target-markers').appendChild(element);markerElements.set(target,element);}
-  element.style.setProperty('--lock-color',lockColor(index));element.firstChild.textContent=`${index+1} · ${target.name} · ${target.immortal?'∞':target.health}`;
+  element.style.setProperty('--lock-color',lockColor(index));element.firstChild.textContent=`${index+1} · ${target.name} · ${target.immortal?'∞':`H ${Math.ceil(target.health)} / S ${Math.ceil(target.shield||0)}`}`;
   const box=target.localBounds?target.localBounds.clone().applyMatrix4(target.model.matrixWorld):new T.Box3().setFromObject(target.model),min={x:Infinity,y:Infinity},max={x:-Infinity,y:-Infinity};let inFront=true;
   for(const x of [box.min.x,box.max.x])for(const y of [box.min.y,box.max.y])for(const z of [box.min.z,box.max.z]){const p=new T.Vector3(x,y,z).project(cam);if(p.z>1||p.z< -1)inFront=false;const sx=(p.x*.5+.5)*innerWidth,sy=(-p.y*.5+.5)*innerHeight;min.x=Math.min(min.x,sx);min.y=Math.min(min.y,sy);max.x=Math.max(max.x,sx);max.y=Math.max(max.y,sy);}
   element.style.display=!inFront||max.x<0||min.x>innerWidth||max.y<0||min.y>innerHeight?'none':'block';element.style.left=`${min.x-5}px`;element.style.top=`${min.y-5}px`;element.style.width=`${Math.max(18,max.x-min.x+10)}px`;element.style.height=`${Math.max(14,max.y-min.y+10)}px`;
  });
 }
 function updateDamage(dt){
- for(const ship of ships){const scorch=ship.destruction?Math.min(.8,.25+ship.destruction.age*.085):Math.max(0,1-ship.health/ship.maxHealth)*.18;for(const {material,base} of ship.hullMaterials)material.color.copy(base).multiplyScalar(1-scorch);}
+ for(const ship of ships){if(!ship.destruction&&ship.health>=ship.maxHealth&&ship.damageMarks.length)clearDamage(ship);const scorch=ship.destruction?Math.min(.8,.25+ship.destruction.age*.085):Math.max(0,1-ship.health/ship.maxHealth)*.18;for(const {material,base} of ship.hullMaterials)material.color.copy(base).multiplyScalar(1-scorch);}
  for(const ship of ships)for(const mark of ship.damageMarks){
   const burning=ship.health/ship.maxHealth<.72,clock=combat.time+mark.seed,critical=ship.destruction&&!ship.destruction.exploded?1+ship.destruction.age/DESTRUCTION.burnTime*3:1;mark.flare.material.opacity=burning?.65+Math.sin(clock*18)*.2:.12;mark.flare.scale.set(critical*(2.4+Math.sin(clock*11)*.45),critical*(4+Math.sin(clock*14)*.8),1);
-  mark.vent.children.forEach((p,i)=>{const t=(clock*.65+i*.25)%1;p.visible=burning;p.position.set(Math.cos(mark.seed+i)*t*2,t*2.5,Math.sin(mark.seed+i)*t*2);p.scale.setScalar(.7+t*2);p.material.opacity=(1-t)*.3;});
+  mark.vent.children.forEach((p,i)=>{const t=(clock*.65+i*.25)%1;p.visible=burning&&cam.position.distanceTo(ship.model.position)<650;p.position.set(Math.cos(mark.seed+i)*t*2,t*2.5,Math.sin(mark.seed+i)*t*2);p.scale.setScalar(.7+t*2);p.material.opacity=(1-t)*.3;});
  }
  updateDebrisViews();
 }
@@ -55560,15 +55785,17 @@ renderer.domElement.addEventListener('pointercancel',event=>{pointerStarts.delet
 function activateControl(code){
  if(code==='KeyP'||code==='menu'){if(playing())pauseGame();else if(phase==='paused')resumeGame();return;}
  if(!playing())return;
+ if(code==='KeyW'||code==='KeyS'){const toggle=tapNavigation(selected.navigation,code,performance.now()/1000);if(toggle)notice(toggle==='on'?'AUTO FORWARD ON':'AUTO FORWARD OFF · coasting');}
+ if(code==='auto-target'){toggleAuto();return;}
  if(code==='KeyH'){document.body.dataset.hud=pressHUD(hud,performance.now()/1000);if(hud.mode==='none')clearKeys();return;}
  if(code==='Escape'){lockTarget(null);return;}if(code==='KeyR'){freshTarget();return;}
  if(code==='camera'||code==='KeyC'){resetCamera();return;}if(code==='inspect'||code==='KeyI'){resetCamera(!inspecting);return;}
  if(code==='fullscreen'){try{document.documentElement.requestFullscreen?.().then(()=>screen.orientation?.lock?.('landscape')).catch(()=>{});}catch{}return;}
  const kind={Space:'normal',KeyM:'missile',KeyN:'mbc'}[code];if(kind&&targetAlive(selected)){handleEvents(triggerWeapon(combat,selected.armament,selected.flight,kind));if(kind==='normal')nextAutoFire=combat.time+.3;updateHUD();}
 }
-const gameKeys=new Set(['KeyW','KeyS','KeyA','KeyD','KeyQ','KeyE','KeyT','Space','KeyM','KeyN','KeyR','KeyH','KeyP','KeyC','KeyI','Escape']);
+const gameKeys=new Set(['KeyW','KeyS','KeyA','KeyD','KeyQ','KeyE','ShiftLeft','Space','KeyM','KeyN','KeyR','KeyH','KeyP','KeyC','KeyI','Escape']);
 window.addEventListener('keydown',event=>{
- if(event.ctrlKey||event.altKey||event.metaKey||event.target?.matches('button,input,select,textarea'))return;
+ if(event.ctrlKey||event.altKey||event.metaKey||event.target?.matches('input,select,textarea')||(!playing()&&event.target?.matches('button')))return;
  if(phase==='intro'&&(event.code==='Space'||event.code==='Enter'||event.code==='Escape')){event.preventDefault();mainMenu();return;}
  if(event.code==='Escape'&&phase==='paused'){event.preventDefault();resumeGame();return;}
  if(!gameKeys.has(event.code))return;event.preventDefault();const first=!event.repeat&&!keys.has(event.code);keyboardKeys.add(event.code);keys.add(event.code);if(first)activateControl(event.code);
@@ -55579,33 +55806,40 @@ function enableTouch(enabled){touchMode=enabled;touchController.releaseAll();doc
 q('touch-restore').onclick=()=>{hud.mode='full';hud.lastPress=-Infinity;document.body.dataset.hud='full';clearKeys();};
 enableTouch(matchMedia('(pointer:coarse)').matches||navigator.maxTouchPoints>0||/Android/i.test(navigator.userAgent));
 function action(name){
+ if(name==='auto-target'){toggleAuto();return;}if(name==='transfer'){takeControl(friendlySelection);return;}if(name==='custom'){setPhase('custom-setup','custom');return;}if(name==='play-again'){setPhase('difficulty','difficulty');return;}if(name==='launch-custom'){customSettings={faction:q('custom-faction').value,enemyFaction:q('custom-enemy-faction').value,allies:Math.min(20,Math.max(1,Math.floor(Number(q('custom-allies').value)||5))),enemies:Math.min(20,Math.max(1,Math.floor(Number(q('custom-enemies').value)||5))),experimental:q('custom-experimental').checked,difficulty:Number(q('custom-difficulty').value)};startGame('custom',customSettings.difficulty);return;}
  if(name==='skip'){mainMenu();return;}if(name==='start'){setPhase('difficulty','difficulty');return;}if(name==='demo'){startGame('demo');return;}
  if(['easy','medium','hard'].includes(name)){startGame('battle',{easy:1,medium:2,hard:3}[name]);return;}
  if(name==='menu'){mainMenu();return;}if(name==='pause'){pauseGame();return;}if(name==='resume'){resumeGame();return;}if(name==='restart'){restartGame();return;}
- if(name==='quit'){setPhase('exit','quit');return;}if(name==='ai'){demoAI=!demoAI;updateHUD();return;}if(name==='invincible'){demoInvincible=!demoInvincible;selected.invulnerable=demoInvincible;updateHUD();return;}
- if(name==='spawn-enemy'){spawnEnemies();return;}if(name==='dummy'){freshTarget();return;}if(name==='restore-enemy'){restoreEnemies();updateHUD();return;}
+ if(name==='quit'){if(/StarfightersAndroid\//.test(navigator.userAgent))location.href='starfighters://quit';setPhase('exit','quit');return;}if(name==='ai'){demoAI=!demoAI;updateHUD();return;}if(name==='invincible'){demoInvincible=!demoInvincible;selected.invulnerable=demoInvincible;updateHUD();return;}
+ if(name==='spawn-ally'){spawnEnemies(true);return;}if(name==='spawn-enemy'){spawnEnemies();return;}if(name==='dummy'){freshTarget();return;}if(name==='restore-enemy'){restoreEnemies();updateHUD();return;}
  if(name==='camera'){resetCamera();return;}if(name==='inspect'){resetCamera(!inspecting);return;}if(name==='touch'){enableTouch(!touchMode);return;}
 }
-document.addEventListener('click',event=>{const button=event.target.closest('[data-action]');if(button)action(button.dataset.action);});q('intro-screen').addEventListener('click',()=>{if(phase==='intro')mainMenu();});
+document.addEventListener('click',event=>{const button=event.target.closest('[data-action]');if(button){action(button.dataset.action);if(playing()&&!event.target.matches('input,select,textarea'))renderer.domElement.focus({preventScroll:true});}});q('intro-screen').addEventListener('click',()=>{if(phase==='intro')mainMenu();});
 function simulationStep(dt){
  const menu=attracting();
+ if(!menu&&targetAlive(selected)&&combat.time>=autoLockPoll){autoLockPoll=combat.time+.4;setTargets(selected.armament,automaticLocks(selected,ships,combat.time,targetCapacity(selected.armament)));}
  for(const ship of ships){
   if(!targetAlive(ship)){
-   if(menu&&ship.destruction?.age>12){ship.health=ship.maxHealth;ship.totalDamage=0;resetWreck(ship);clearDamage(ship);const others=ships.filter(s=>s!==ship&&targetAlive(s)),cx=others.reduce((n,s)=>n+s.flight.x,0)/Math.max(1,others.length),cz=others.reduce((n,s)=>n+s.flight.z,0)/Math.max(1,others.length);ship.flight=createFlight(cx+(Math.random()-.5)*160,cz+(Math.random()-.5)*160,Math.random()*6.28);ship.flight.modelScale=SHIP_SCALE;for(const kind of ['normal','missile','mbc'])for(const gun of ship.armament[kind]){gun.chargeUntil=gun.salvoAt=null;gun.readyAt=combat.time+1;}}
+   if(menu&&ship.destruction?.age>12){initializeSystems(ship,ship.engines.map(e=>e.mount));resetWreck(ship);clearDamage(ship);const angle=Math.random()*6.28;ship.flight.x=Math.cos(angle)*650;ship.flight.z=Math.sin(angle)*650;ship.flight.speed=ship.flight.vx=ship.flight.vz=0;}
    continue;
   }
-  if(menu){const candidates=ships.filter(s=>s!==ship&&targetAlive(s));if(combat.time>=(ship.nextTarget||0)||!targetAlive(ship.armament.target)){const target=candidates[(ship.aiIndex+Math.floor(combat.time/8))%Math.max(1,candidates.length)];setTarget(ship.armament,target);ship.nextTarget=combat.time+6;}const target=ship.armament.target;if(target)stepFlight(ship.flight,enemyInput(ship,target,combat.time,ships),dt);}
-  else if(ship===selected){stepFlight(ship.flight,{forward:keys.has('KeyW'),backward:keys.has('KeyS'),left:keys.has('KeyA'),right:keys.has('KeyD'),rotateLeft:keys.has('KeyQ'),rotateRight:keys.has('KeyE'),boost:keys.has('KeyT')},dt);}
-  else{const enabled=(phase==='battle'||demoAI)&&targetAlive(selected);if(enabled){if(ship.armament.target!==selected)setTarget(ship.armament,selected);stepFlight(ship.flight,enemyInput(ship,selected,combat.time,ships),dt);}else stepFlight(ship.flight,{},dt);}
+  if(!menu&&ship===selected){stepFlight(ship.flight,{forward:keys.has('KeyW')||ship.navigation.autoForward,backward:keys.has('KeyS'),left:keys.has('KeyA'),right:keys.has('KeyD'),rotateLeft:keys.has('KeyQ'),rotateRight:keys.has('KeyE'),boost:keys.has('ShiftLeft')},dt);continue;}
+  const enabled=menu||phase==='battle'||phase==='custom'||demoAI;
+  if(enabled){
+   if(combat.time>=(ship.nextTarget||0)||!targetAlive(ship.armament.target)||ship.armament.target.team===ship.team){const candidates=ships.filter(s=>s!==ship&&s.team!==ship.team&&targetAlive(s));candidates.sort((a,b)=>Math.hypot(a.flight.x-ship.flight.x,a.flight.z-ship.flight.z)-Math.hypot(b.flight.x-ship.flight.x,b.flight.z-ship.flight.z));setTarget(ship.armament,candidates[0]);ship.nextTarget=combat.time+2;}
+   if(ship.armament.target)stepFlight(ship.flight,enemyInput(ship,ship.armament.target,combat.time,ships),dt);else stepFlight(ship.flight,{},dt);
+  }else stepFlight(ship.flight,{},dt);
  }
- separateFleet(ships);handleEvents(stepCombat(combat,ships,dt));handleEvents(stepDestruction(combat,ships,dt));
- for(const ship of ships)if(targetAlive(ship)&&(menu||ship!==selected&&(phase==='battle'||demoAI)))handleEvents(fireEnemy(combat,ship));
- if(playing()&&keys.has('Space')&&combat.time>=nextAutoFire&&targetAlive(selected)){handleEvents(triggerWeapon(combat,selected.armament,selected.flight,'normal'));nextAutoFire=combat.time+.3;}
- if(phase==='battle'){const result=battleOutcome(selected,ships.slice(1));if(result)endBattle(result);}else if(phase==='demo'&&wreckFinished(selected))endBattle('defeat');
+ handleEvents(separateFleet(ships,combat,dt));handleEvents(stepCombat(combat,ships,dt));handleEvents(stepDestruction(combat,ships,dt));
+ for(const ship of ships)if(targetAlive(ship)&&(menu||ship!==selected&&(phase==='battle'||phase==='custom'||demoAI)))handleEvents(fireEnemy(combat,ship));
+ if(playing()&&keys.has('Space')&&combat.time>=nextAutoFire&&targetAlive(selected)){handleEvents(triggerWeapon(combat,selected.armament,selected.flight,'normal'));nextAutoFire=combat.time+.24;}
+ if(phase==='custom'&&!targetAlive(selected)){const ally=bestAlly(selected,ships);if(ally)takeControl(ally);}
+ if(phase==='battle'||phase==='custom'){const result=fleetOutcome(selected.team,ships);if(result)endBattle(result);}else if(phase==='demo'&&wreckFinished(selected))endBattle('defeat');
 }
-const clock=new T.Clock(),oldPosition=new T.Vector3();let accumulator=0,hudTime=0;const fixedStep=1/120;
+const clock=new T.Clock(),oldPosition=new T.Vector3();let accumulator=0,hudTime=0,fpsStart=performance.now(),fpsFrames=0;const fixedStep=1/60;
 function animate(){
  requestAnimationFrame(animate);const dt=Math.min(clock.getDelta(),.075);if(document.hidden){clearKeys();accumulator=0;return;}
+ fpsFrames++;if(performance.now()-fpsStart>1500){q('fps-readout').textContent=`${Math.round(fpsFrames*1000/(performance.now()-fpsStart))} FPS`;q('fps-readout').title=`${renderer.info.render.calls} draws · ${renderer.info.render.triangles} triangles`;fpsFrames=0;fpsStart=performance.now();}
  if(phase==='intro'){introTime+=dt;if(introTime>=3.25)mainMenu();}
  const f=selected.flight;oldPosition.set(f.x,0,f.z);const active=playing()||attracting();
  if(active){accumulator+=dt;let steps=0;while(accumulator>=fixedStep&&steps++<10){simulationStep(fixedStep);accumulator-=fixedStep;if(!playing()&&!attracting()){accumulator=0;break;}}}else accumulator=0;
@@ -55614,8 +55848,9 @@ function animate(){
  for(const ship of ships){const f=ship.flight;f.bank=(f.bank||0)+(-f.yawRate*.2-(f.bank||0))*Math.min(1,dt*2);ship.model.position.set(f.x,0,f.z);ship.model.rotation.set((f.bank||0)+(ship.destruction&&!ship.destruction.exploded?Math.sin(ship.destruction.age*.5)*.12:0),f.yaw,0,'YXZ');}
  if(attracting()){attractTime+=dt;const fleet=ships.filter(s=>targetAlive(s)||s.destruction&&!s.destruction.exploded),center=new T.Vector3();for(const ship of fleet)center.add(new T.Vector3(ship.flight.x,0,ship.flight.z));center.divideScalar(Math.max(1,fleet.length));const angle=attractTime*.035,spread=Math.max(150,...fleet.map(s=>Math.hypot(s.flight.x-center.x,s.flight.z-center.z)+65)),distance=spread*1.25;cam.position.copy(center).add(new T.Vector3(Math.sin(angle)*distance+15,distance*.72,Math.cos(angle)*distance));controls.target.copy(center);cam.lookAt(controls.target);}
  for(let i=0;i<starPositions.length;i+=3){starPositions[i]=f.x+T.MathUtils.euclideanModulo(starPositions[i]-f.x+750,1500)-750;starPositions[i+2]=f.z+T.MathUtils.euclideanModulo(starPositions[i+2]-f.z+750,1500)-750;}starGeometry.attributes.position.needsUpdate=true;starGeometry.computeBoundingSphere();
- if(playing())controls.update();const effectDt=active||phase==='result'?dt:0;updateVisuals(effectDt);updateDamage(effectDt);renderer.render(scene,cam);if(playing())updateMarkers();hudTime+=dt;if(hudTime>.1){hudTime=0;updateHUD();}
+ if(playing())controls.update();decor.update(active?dt:0,selected.flight,cam);const effectDt=active||phase==='result'?dt:0;updateVisuals(effectDt);updateDamage(effectDt);renderer.render(scene,cam);if(playing())updateMarkers();hudTime+=dt;if(hudTime>.1){hudTime=0;updateHUD();}
 }
+const decor=createExperimentalBackdrop(T,scene,factory,glowTexture);
 buildWorld('attract');setPhase(websiteBackdrop?'menu':'intro',websiteBackdrop?'menu':'intro');animate();window.addEventListener('resize',()=>{cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,touchMode?1.5:2));});
 
 
