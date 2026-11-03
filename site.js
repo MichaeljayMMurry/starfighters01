@@ -1,3 +1,6 @@
+import {createAudioResourceManager,musicPackForLocation,loadLocalMusicPack} from './resources.mjs';
+import {createBattleAudio} from './audio.mjs';
+import resourceManifest from './resources-config.mjs';
 import {detectPlatform} from './platform.mjs';
 const platform=detectPlatform(navigator),q=id=>document.getElementById(id),intro=q('intro'),backdrop=q('battle');
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -6,12 +9,13 @@ function finishIntro(){if(introDone)return;introDone=true;intro.classList.add('o
 q('skip-intro').addEventListener('click',finishIntro);
 document.addEventListener('keydown',e=>{if(!introDone&&['Enter','Escape',' '].includes(e.key)){e.preventDefault();finishIntro();}});
 setTimeout(finishIntro,reducedMotion?700:3100);
-q('play-now').addEventListener('click',e=>{
+function enforcePlatform(e){
  if(platform==='windows')return;e.preventDefault();
  q('platform-title').textContent=platform==='android'?'You’re on Android. Install to play.':platform==='ios'?'Android and Windows only.':'Windows is required for browser play.';
  q('platform-message').textContent=platform==='android'?'The browser edition uses Windows keyboard controls. Download the Android edition for touch controls and offline play.':platform==='ios'?'The Android APK cannot be installed on iPhone or iPad. Open this website on Windows to play in your browser.':'Open this website on a Windows PC to play immediately, or install the APK on an Android phone or tablet.';
- q('platform-dialog').querySelector('[data-android]').hidden=platform==='ios';q('platform-dialog').showModal();
-});
+ q('platform-dialog').querySelector('[data-android]').hidden=platform==='ios';q('platform-dialog').showModal();return false;
+}
+q('play-now').addEventListener('click',enforcePlatform);
 for(const link of document.querySelectorAll('#android-download,[data-android]'))link.addEventListener('click',e=>{
  if(platform==='ios'){e.preventDefault();q('platform-title').textContent='This download is for Android.';q('platform-message').textContent='iPhone and iPad cannot install this APK. You can play in a browser on a Windows PC.';q('platform-dialog').querySelector('[data-android]').hidden=true;if(!q('platform-dialog').open)q('platform-dialog').showModal();return;}
  q('platform-dialog').close();if(!q('install-dialog').open)q('install-dialog').showModal();
@@ -26,3 +30,16 @@ for(const b of tabs){b.addEventListener('click',()=>selectMode(b));b.addEventLis
 let backgroundPaused=reducedMotion;
 function syncBackground(){backdrop.contentWindow?.postMessage({type:'starfighters-background',paused:backgroundPaused||document.hidden},location.origin);q('toggle-battle').setAttribute('aria-pressed',String(backgroundPaused));q('toggle-battle').setAttribute('aria-label',backgroundPaused?'Resume background battle':'Pause background battle');q('toggle-battle').textContent=backgroundPaused?'▶':'Ⅱ';}
 q('toggle-battle').addEventListener('click',()=>{backgroundPaused=!backgroundPaused;syncBackground();});backdrop.addEventListener('load',syncBackground);document.addEventListener('visibilitychange',syncBackground);
+
+const websiteAudio=createBattleAudio({}),pack=musicPackForLocation(resourceManifest,location.href),musicResources=createAudioResourceManager({manifest:pack,baseUrl:location.href,packLoader:location.protocol==='file:'?()=>loadLocalMusicPack(location.href):null,consumer:(id,bytes)=>websiteAudio.stageMusic(id,bytes)});let websiteMusic=true;
+function resourceStatus(text){q('resource-download-status').textContent=text;}
+function tickWebsiteMusic(){websiteAudio.update({dt:.25,active:websiteMusic&&!document.hidden,session:'website'});q('website-music').setAttribute('aria-pressed',String(websiteMusic&&websiteAudio.has('across-stars')));}
+musicResources.restore().then(()=>{if(websiteAudio.has('across-stars'))resourceStatus('Music resources saved for offline play.');});
+document.addEventListener('pointerdown',()=>{websiteAudio.unlock();tickWebsiteMusic();});
+q('website-music').addEventListener('click',()=>{websiteAudio.unlock();if(!websiteAudio.has('across-stars')){resourceStatus('Download the music pack, then choose Load music pack.');return;}websiteMusic=!websiteMusic;tickWebsiteMusic();});
+q('play-with-resources').setAttribute('aria-disabled',String(!musicResources.ready));
+q('website-music-pack').addEventListener('change',async event=>{const file=event.target.files?.[0];if(!file)return;await websiteAudio.unlock();try{await musicResources.importPack(file,p=>resourceStatus('Loading soundtracks: '+Math.floor(p.loaded/p.total*100)+'%'));resourceStatus(musicResources.message);tickWebsiteMusic();}catch(error){resourceStatus(error.message);}});
+q('play-with-resources').addEventListener('click',e=>{if(platform!=='windows'){enforcePlatform(e);return;}e.preventDefault();if(!musicResources.tracks.every(t=>musicResources.has(t.id))){resourceStatus('Download the music pack, then choose Load music pack. Play Now also works without music.');return;}if(!musicResources.persistent){resourceStatus('Music storage is unavailable here. Use Play Now, then load the pack inside the game Music menu.');return;}location.href='battle.html?resources=1';});
+
+setInterval(tickWebsiteMusic,250);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)websiteAudio.suspend();else websiteAudio.unlock();});
