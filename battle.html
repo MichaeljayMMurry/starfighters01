@@ -54813,7 +54813,7 @@ function automaticLocks(ship,ships,time,capacity){
 }
 
 const WEAPONS = Object.freeze({
-  normal:{damage:6,speed:2400,range:3000,reload:2.4,gap:.18,volley:4},
+  normal:{damage:6,speed:2400,range:4000,reload:2.4,gap:.18,volley:4},
   missile:{damage:49,speed:900,initialSpeed:240,acceleration:200,range:4500,reload:30,gap:.32,turnRate:1.5,volley:4},
   mbc:{damage:46,range:8000,charge:3,reload:60,beamLife:10},
   broadside:{damage:150,speed:1900,range:4750,reload:20,gap:.3,volley:5}
@@ -54961,10 +54961,10 @@ function launch(combat,arm,ship,state,kind,index,events,tipIndex,lockedTarget=st
   if(targetAlive(lockedTarget)){
     const t=targetPose(lockedTarget),range=Math.hypot(t.x-p.x,t.z-p.z);
     if(!ship.pitch){p.dy=lockedTarget.faction&&!lockedTarget.isFighter?(t.y||0)-(ship.y||0):((lockedTarget.isFighter?t.y:2.5)-p.y);p.dy/=Math.max(1,range);}
-    if(kind==='normal'&&range>2000){
-      const random=combat.random||Math.random,spread=Math.min(1,(range-2000)/1000);
-      const yaw=p.yaw+(random()-.5)*.16*spread,horizontal=Math.hypot(p.dx,p.dz);
-      p.dx=Math.cos(yaw)*horizontal;p.dz=-Math.sin(yaw)*horizontal;p.dy+=(random()-.5)*.09*spread;
+    if(kind==='normal'){
+      const random=combat.random||Math.random,rangeFraction=Math.min(1,range/settings.range),spread=rangeFraction**1.7;
+      const yaw=p.yaw+(random()-.5)*.18*spread,horizontal=Math.hypot(p.dx,p.dz);
+      p.dx=Math.cos(yaw)*horizontal;p.dz=-Math.sin(yaw)*horizontal;p.dy+=(random()-.5)*.12*spread;
     }
   }
   const {dx,dz}=p;
@@ -55032,7 +55032,7 @@ function compactProjectiles(projectiles){
 function stepCombat(combat,ships,dt,activeFor=null){
   combat.time+=dt;const events=[];
   for(const target of combat.targets){target.flash=Math.max(0,(target.flash||0)-dt);repairSystems(target,combat.time,dt,combat.random||Math.random);const hits=target.recentHits;let expired=0;while(expired<(hits?.length||0)&&combat.time-hits[expired].time>5)expired++;if(expired)hits.splice(0,expired);}
-  for(const entry of ships){if(!targetAlive(entry))continue;entry.probeVersion=combat.time;const arm=entry.armament;arm.owner ||= entry;const f=entry.flight;assignWeaponTargets(combat,entry);
+  for(const entry of ships){if(!targetAlive(entry))continue;const arm=entry.armament;arm.owner ||= entry;const f=entry.flight;assignWeaponTargets(combat,entry);
     const co=Math.cos(f.yaw),si=Math.sin(f.yaw),scale=f.modelScale||1;
     for(const kind of ['normal','missile','mbc'])arm[kind].forEach((state,index)=>{
       if(state.health===0){state.mbcCommitted=false;state.committedTarget=null;state.chargeUntil=state.salvoAt=null;state.salvoRemaining=0;return;}
@@ -55091,6 +55091,43 @@ function practiceAim(ship,target){const p=targetPose(target),dx=p.x-ship.x,dz=p.
 
 // Lightweight, texture-free meshes based on the user's weapon layout sketches.
 // The bow is local +X; Y is up. All muzzle positions share this coordinate frame.
+const CAPITAL_SCALE=Object.freeze({republic:20.4,imperial:24});
+// Port and starboard share staggered, stepped hardpoints. Coordinates are x, |z|, deck mount y.
+const CAPITAL_WEAPON_LANES={
+ republic:{
+  normal:[
+   [-13.98,5.4,3.703],[-12.56,4.2,3.58],[-11.14,4.86,3.519],[-8.3,6.48,3.397],
+   [-6.88,6.9,3.336],[-5.46,5.4,3.275],[-4.04,5.82,3.214],[-2.62,4.32,3.153],
+   [1.64,3.12,2.969],[5.9,4.32,2.786],[10.16,3.12,2.603],[15.84,1.5,2.359],
+  ],
+  missile:[
+   [-13.98,3.78,3.641],[-12.56,5.82,3.58],[-5.46,3.24,3.275],[-1.2,3.66,3.092],
+   [7.32,3.66,2.725],
+  ],
+  mbc:[
+   [-11.14,2.7,3.519],[-4.04,2.58,3.214],[5.9,2.16,2.786],[13,2.04,2.481],
+  ],
+ },
+ imperial:{
+  normal:[
+   [-15.4,4.14,4.457],[-15.4,9,4.457],[-13.98,10.74,4.396],[-12.56,5.22,4.335],
+   [-9.72,6.84,4.213],[-8.3,8.58,4.152],[-6.88,4.14,4.091],[-5.46,5.88,4.03],
+   [-1.2,7.38,3.847],[1.64,2.52,3.724],[3.06,4.26,3.731],[5.9,5.34,3.541],
+   [7.32,3.6,3.548],[8.74,1.56,3.419],[10.16,4.14,3.358],[11.58,3.72,3.297],
+   [15.84,1.44,3.114],[21.52,0.9,2.87],
+  ],
+  missile:[
+   [-15.4,7.92,4.457],[-13.98,9.66,4.396],[-12.56,10.08,4.335],[-6.88,2.52,4.931],
+   [-5.46,4.8,4.03],[1.64,1.44,3.724],[3.06,5.88,3.663],[7.32,0.9,3.48],
+   [8.74,2.64,3.419],[13,3.06,3.236],[15.84,2.52,3.121],
+  ],
+  mbc:[
+   [-15.4,5.76,4.457],[-13.98,4.8,4.396],[-12.56,6.3,4.335],[-8.3,7.5,4.152],
+   [-6.88,9,4.091],[-4.04,5.22,3.969],[3.06,2.1,3.663],[5.9,3.18,3.541],
+   [7.32,4.68,3.48],[10.16,1.98,3.358],[14.42,1.02,3.175],[17.26,2.1,3.053],
+  ],
+ },
+};
 function createShipModels(T) {
   const material = (color, extra = {}) => new T.MeshStandardMaterial({ color, flatShading: false, roughness: .72, metalness: .22, ...extra });
   const armor = material(0xc5cbd0);
@@ -55111,6 +55148,7 @@ function createShipModels(T) {
   const beamGlow = new T.MeshBasicMaterial({ color: 0x74c9e3 });
   const missileTip = material(0xc7b49a);
   const gunGeometry = new Map();
+  const batteryDeckHeights = new Map();
   function box(g, w, h, d, m, x, y, z) {
     const key = `${w},${h},${d}`;
     if (!gunGeometry.has(key)) gunGeometry.set(key, new T.BoxGeometry(w, h, d));
@@ -55321,7 +55359,7 @@ function createShipModels(T) {
       for(const [m,b] of buckets){const geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.Float32BufferAttribute(b.positions,3));geometry.setAttribute('normal',new T.Float32BufferAttribute(b.normals,3));target.add(new T.Mesh(geometry,m));}
     };
     const weaponPaint=m=>m===dark||m===gunmetal?gunmetal:m===accent?accent:weaponArmor;
-    for(const bank of Object.values(g.userData.weapons))for(const mount of bank){mount.view.userData.movingPart=true;mount.view.userData.weaponMount=true;pack(mount.view,weaponPaint);}
+    for(const bank of Object.values(g.userData.weapons))for(const mount of bank){mount.view.userData.movingPart=true;pack(mount.view,weaponPaint);}
     for(const engine of g.userData.engines){engine.userData.movingPart=true;pack(engine);}
     pack(g);
     if(g.userData.slim){
@@ -55334,14 +55372,6 @@ function createShipModels(T) {
       }
       for(const bank of Object.values(g.userData.weapons))for(const mount of bank){mount.x=stretch(mount.x);mount.y=flatten(mount.y);mount.z*=.94;mount.view.position.set(mount.x,mount.y,mount.z);}
       for(const engine of g.userData.engines){engine.position.set(stretch(engine.position.x),engine.position.y*.55+.25,engine.position.z*.94);engine.scale.setScalar(.85);}
-    }
-    // Stagger the main guns along widening lanes: a forward battery no longer
-    // sits directly in the firing ray of the gun behind it.
-    if(g.name.startsWith('Venator')||g.name.startsWith('Imperial')){
-      const xs=imperial?[-14,-10,-6,-2,2,7,12,17,21]:[-12,-9,-6,-2,4,10,15,20],zs=imperial?[10.3,9.2,8.1,6.9,5.8,4.7,3.5,2.3,1.1]:[6.4,7,7.2,5.08,4.25,2.2,1.5,.7];
-      const rows={left:0,right:0};for(const mount of g.userData.weapons.normal){const side=mount.z<0?-1:1,key=side<0?'left':'right',row=rows[key]++;mount.x=xs[row];mount.z=side*zs[row];mount.y=imperial?2.65:1.925;mount.view.position.set(mount.x,mount.y,mount.z);}
-      for(const mount of g.userData.weapons.mbc){mount.z-=Math.sign(mount.z)*.4;mount.y+=.5;mount.view.position.set(mount.x,mount.y,mount.z);}
-      if(!imperial)for(const mount of g.userData.weapons.missile){mount.y=1.925;mount.view.position.y=mount.y;}
     }
     if(capital)for(const side of [-1,1]){
       const y=imperial?2.64:1.94;
@@ -55357,11 +55387,30 @@ function createShipModels(T) {
         for(const [x,z] of [[-14,4.8],[-10,4.3],[-4.5,3.75],[1.1,3.15],[9.5,1.75]])mbc(g,x,side*z,y,.52,true);
       }
     }
-    if(capital)for(const bank of Object.values(g.userData.weapons))for(const mount of bank)if(!mount.view.userData.movingPart){mount.view.userData.movingPart=true;mount.view.userData.weaponMount=true;pack(mount.view,weaponPaint);}
-    // Seat each battery on the real static deck, rather than a nominal deck height.
-    if(g.name.startsWith('Venator')||g.name.startsWith('Imperial')){
-      g.updateMatrixWorld(true);const surfaces=g.children.filter(o=>o.isMesh),ray=new T.Raycaster();
-      for(const bank of Object.values(g.userData.weapons))for(const mount of bank){if(mount.y<1)continue;ray.set(new T.Vector3(mount.x,mount.y+3,mount.z),new T.Vector3(0,-1,0));const hit=ray.intersectObjects(surfaces,false).find(h=>h.face.normal.y>.25&&Math.abs(h.point.y-mount.y)<3);if(hit){const deck=hit.point.y,target=Math.max(mount.y,deck-.006),height=target-deck;if(height>.012){const pedestal=new T.Mesh(new T.CylinderGeometry(.72*mount.view.scale.x,.87*mount.view.scale.x,height+.025,12),trim);pedestal.position.set(mount.x,deck+height/2,mount.z);g.add(pedestal);surfaces.push(pedestal);}mount.y=target;mount.view.position.y=mount.y;}}
+    if(capital)for(const bank of Object.values(g.userData.weapons))for(const mount of bank)if(!mount.view.userData.movingPart){mount.view.userData.movingPart=true;pack(mount.view,weaponPaint);}
+    if(capital){
+      const faction=imperial?'imperial':'republic',weaponScale=12/CAPITAL_SCALE[faction];
+      const lanes=CAPITAL_WEAPON_LANES[faction],surfaces=g.children.filter(o=>o.isMesh);
+      const ray=new T.Raycaster(),up=new T.Vector3(0,-1,0);
+      g.updateMatrixWorld(true);
+      for(const [kind,bank] of Object.entries(g.userData.weapons))for(const side of [-1,1]){
+        let slot=0;
+        for(const mount of bank){
+          if(Math.sign(mount.z)!==side)continue;
+          const [x,width,y]=lanes[kind][slot++],z=side*width;
+          mount.view.position.set(x,y,z);mount.view.scale.multiplyScalar(weaponScale);
+          Object.assign(mount,{x,y,z});
+          for(const tip of mount.tips){tip.x*=weaponScale;tip.y*=weaponScale;tip.z*=weaponScale;}
+          const key=faction+'|'+x+'|'+z;
+          if(!batteryDeckHeights.has(key)){
+            ray.set(new T.Vector3(x,y+.05,z),up);
+            const hit=ray.intersectObjects(surfaces,false).find(h=>h.face.normal.y>.25);
+            batteryDeckHeights.set(key,hit?.point.y??y);
+          }
+          const deck=batteryDeckHeights.get(key);
+          if(y-deck>.015)tapered(g,rectangle(x,z,.70,.60),rectangle(x,z,.43,.40),deck-.018,y,trim);
+        }
+      }
     }
     if(g.userData.dorsal)for(const door of g.userData.dorsal){
       pack(door);
@@ -55437,7 +55486,7 @@ function createShipModels(T) {
       for(const x of gunPorts){
         const edge=edgeAt(x);
         const z=sign*edge*.94,gun=new T.Group(),yaw=-sign*Math.PI/2;
-        gun.name='Recessed broadside cannon';gun.userData.movingPart=true;gun.userData.weaponMount=true;g.add(gun);
+        gun.name='Recessed broadside cannon';gun.userData.movingPart=true;g.add(gun);
         gun.position.set(stretch(x),.79,z-sign*.41);gun.rotation.y=yaw;
         box(gun,.52,.29,.45,weaponArmor,0,0,0);
         tube(gun,[.15,0,0],[.85,0,0],.12,gunmetal,.08,6);
@@ -55578,30 +55627,40 @@ function buildHullTree(T,triangles){
 }
 function createHullProbe(T,owner,muzzlePosition){
  const material=new T.MeshBasicMaterial({side:T.DoubleSide}),staticSources=[],dynamic=new Map();
+ const bankStates=[...owner.armament.normal,...owner.armament.missile,...owner.armament.mbc,...(owner.armament.broadside||[]).flatMap(battery=>battery.guns)];
+ const statesByPivot=new Map(bankStates.map(state=>[state.mount.view,state]));
  owner.model.updateMatrixWorld(true);const rootInverse=new T.Matrix4().copy(owner.model.matrixWorld).invert();
  for(const source of owner.model.userData.collisionMeshes){
-  source.geometry.computeBoundingBox();let moving=null;for(let p=source;p&&p!==owner.model;p=p.parent)if(p.userData.movingPart)moving=p;
+  if(!source.geometry.boundingBox)source.geometry.computeBoundingBox();
+  let moving=null;for(let p=source;p&&p!==owner.model;p=p.parent)if(p.userData.movingPart)moving=p;
   if(moving){
-   if(owner.faction==='republic'&&moving.userData.weaponMount)continue;
    let group=dynamic.get(moving);
-   if(!group){group={radius:0,meshes:[]};dynamic.set(moving,group);}
-   source.geometry.computeBoundingSphere();const sphere=source.geometry.boundingSphere;
+   if(!group){group={radius:0,meshes:[],state:statesByPivot.get(moving)};dynamic.set(moving,group);}
+   if(!source.geometry.boundingSphere)source.geometry.computeBoundingSphere();
+   const sphere=source.geometry.boundingSphere;
    group.radius=Math.max(group.radius,(sphere.center.length()+sphere.radius)*Math.max(moving.scale.x,moving.scale.y,moving.scale.z));
    group.meshes.push({source,mesh:new T.Mesh(source.geometry,material)});
   }else staticSources.push(source);
  }
  const key=owner.model.name+'|'+staticSources.map(m=>m.geometry.attributes.position.count).join(',');let tree=staticHullTrees.get(key);
  if(!tree){const triangles=[];for(const mesh of staticSources){const matrix=new T.Matrix4().multiplyMatrices(rootInverse,mesh.matrixWorld),geo=mesh.geometry,pos=geo.attributes.position,index=geo.index,count=index?index.count:pos.count;for(let i=0;i<count;i+=3){const vertex=j=>new T.Vector3().fromBufferAttribute(pos,index?index.getX(i+j):i+j).applyMatrix4(matrix),a=vertex(0),b=vertex(1),c=vertex(2);triangles.push({a,b,c,center:a.clone().add(b).add(c).multiplyScalar(1/3)});}}tree=buildHullTree(T,triangles);staticHullTrees.set(key,tree);}
- const ray=new T.Raycaster(),direction=new T.Vector3(),localRay=new T.Ray(),point=new T.Vector3(),worldPoint=new T.Vector3(),stack=[],candidates=[];let poseKey='';
+ const ray=new T.Raycaster(),direction=new T.Vector3(),localRay=new T.Ray(),point=new T.Vector3(),worldPoint=new T.Vector3(),stack=[],candidates=[];
+ const pose={x:NaN,y:NaN,z:NaN,bank:NaN,yaw:NaN,pitch:NaN,scale:NaN};
  const probe=(state,kind,tipIndex)=>{
-  const f=owner.flight,key=`${owner.probeVersion}:${f.x}:${f.z}:${f.y||0}:${f.pitch||0}:${f.yaw}:${f.bank||0}`;
-  if(key!==poseKey){poseKey=key;owner.model.position.set(f.x,f.y||0,f.z);owner.model.rotation.set(f.bank||0,f.yaw,f.pitch||0,'YXZ');for(const bank of ['normal','missile','mbc'])for(const gun of owner.armament[bank]){gun.mount.view.rotation.y=gun.yaw;gun.mount.view.rotation.z=gun.pitch||0;}owner.model.updateMatrixWorld(true);rootInverse.copy(owner.model.matrixWorld).invert();}
-  state.mount.view.rotation.y=state.yaw;state.mount.view.rotation.z=state.pitch||0;state.mount.view.updateMatrixWorld(true);
+  const f=owner.flight,y=f.y||0,bank=f.bank||0,pitch=f.pitch||0,scale=f.modelScale||1;
+  const position=owner.model.position,rotation=owner.model.rotation;
+  if(pose.x!==f.x||pose.y!==y||pose.z!==f.z||pose.bank!==bank||pose.yaw!==f.yaw||pose.pitch!==pitch||pose.scale!==scale||position.x!==f.x||position.y!==y||position.z!==f.z||rotation.x!==bank||rotation.y!==f.yaw||rotation.z!==pitch){
+   Object.assign(pose,{x:f.x,y,z:f.z,bank,yaw:f.yaw,pitch,scale});
+   owner.model.position.set(f.x,y,f.z);owner.model.rotation.set(bank,f.yaw,pitch,'YXZ');
+   owner.model.updateWorldMatrix(true,false);rootInverse.copy(owner.model.matrixWorld).invert();
+  }
   const p=muzzlePosition(f,state,tipIndex);direction.set(p.dx??Math.cos(p.yaw),p.dy||0,p.dz??-Math.sin(p.yaw)).normalize();ray.set(new T.Vector3(p.x,p.y,p.z).addScaledVector(direction,.02),direction);ray.near=.015;ray.far=200*Math.max(1,(f.modelScale||1)/3);
   localRay.copy(ray.ray).applyMatrix4(rootInverse);let best=null,bestDistance=ray.far;stack.length=0;stack.push(tree);
   while(stack.length){const node=stack.pop();if(!localRay.intersectsBox(node.box))continue;if(node.triangles){for(const t of node.triangles)if(localRay.intersectTriangle(t.a,t.b,t.c,false,point)){worldPoint.copy(point).applyMatrix4(owner.model.matrixWorld);const distance=worldPoint.distanceTo(ray.ray.origin);if(distance>=ray.near&&distance<bestDistance){bestDistance=distance;best=worldPoint.clone();}}}else stack.push(node.left,node.right);}
   candidates.length=0;for(const [moving,group] of dynamic){
-   if(moving===state.mount.view||!moving.visible||localRay.distanceSqToPoint(moving.position)>group.radius*group.radius)continue;
+   if(moving===state.mount.view||group.state?.health===0||!moving.visible||localRay.distanceSqToPoint(moving.position)>group.radius*group.radius)continue;
+   if(group.state){moving.rotation.y=group.state.yaw;moving.rotation.z=group.state.pitch||0;}
+   moving.updateWorldMatrix(false,true);
    for(const proxy of group.meshes){proxy.mesh.matrixWorld.copy(proxy.source.matrixWorld);if(proxy.source.morphTargetInfluences)proxy.mesh.morphTargetInfluences=proxy.source.morphTargetInfluences;candidates.push(proxy.mesh);}
   }const hit=ray.intersectObjects(candidates,false)[0];if(hit&&hit.distance<bestDistance){bestDistance=hit.distance;best=hit.point;}
   return best?{distance:bestDistance+.02,x:best.x,y:best.y,z:best.z}:null;
@@ -55870,7 +55929,7 @@ function fleetOutcome(team,ships){const allies=ships.filter(s=>s.team===team),en
 const CAPITAL_TACTICS=Object.freeze({1:{orbit:2100,pass:1400,retreatHull:.58,boostCycle:34,boostWindow:2.5},2:{orbit:1650,pass:1800,retreatHull:.43,boostCycle:24,boostWindow:4},3:{orbit:1250,pass:2100,retreatHull:.32,boostCycle:16,boostWindow:6}});
 function rebaseFleetTactics(ships,x,z){for(const ship of ships)if(ship.tactics?.goal){ship.tactics.goal.x-=x;ship.tactics.goal.z-=z;}}
 function enemyInput(ship,target,time,others=[]){
- const f=ship.flight,t=targetPose(target),index=ship.aiIndex||0,level=Math.max(1,Math.min(3,ship.difficulty||1)),profile=CAPITAL_TACTICS[level],dx=t.x-f.x,dz=t.z-f.z,range=Math.hypot(dx,dz)||1,ux=dx/range,uz=dz/range,side=index%2?1:-1,size=Math.max(.45,(f.modelScale||3)/12),radius=profile.orbit*size;
+ const f=ship.flight,t=targetPose(target),index=ship.aiIndex||0,level=Math.max(1,Math.min(3,ship.difficulty||1)),profile=CAPITAL_TACTICS[level],dx=t.x-f.x,dz=t.z-f.z,range=Math.hypot(dx,dz)||1,ux=dx/range,uz=dz/range,side=index%2?1:-1,size=Math.max(.45,Math.min(1.3,(f.modelScale||3)/SHIP_SCALE)),radius=profile.orbit*size;
  let tactics=ship.tactics;if(!tactics){tactics=ship.tactics={target,mode:'PURSUING',until:time+14,sequence:index%3,side,nextRetreat:0,goal:null};}else if(tactics.target!==target)tactics.target=target;
  const hull=ship.health/Math.max(1,ship.maxHealth),shield=ship.maxShield?ship.shield/ship.maxShield:1;
  if(time>=(tactics.nextThreatCheck||0)){
@@ -56061,7 +56120,7 @@ function stepYwingTurret(world,f,time,dt,active,random=Math.random){
 }
 const AIR_DEFENSE=Object.freeze({damage:10,interval:.4,range:4900,accuracy:.8});
 const BOMB_INTERCEPTOR=Object.freeze({range:680,accuracy:.5,interval:.55,size:.105});
-function defenseMuzzle(ship,gun,barrel){const p=carrierPoint(ship,gun.mount),m=gun.mount,normal=carrierPoint(ship,{x:m.x+m.normal.x,y:m.y+m.normal.y,z:m.z+m.normal.z}),k=(ship.flight.modelScale||1)*(ship.faction==='republic'?.27:.42),up={x:(normal.x-p.x)/(ship.flight.modelScale||1),y:(normal.y-p.y)/(ship.flight.modelScale||1),z:(normal.z-p.z)/(ship.flight.modelScale||1)},target=gun.target?.flight,aim=gun.aim||{x:target?target.x-p.x:up.x,y:target?target.y-p.y:up.y,z:target?target.z-p.z:up.z},n=Math.hypot(aim.x,aim.y,aim.z)||1,dx=aim.x/n,dy=aim.y/n,dz=aim.z/n;let sx=dy*up.z-dz*up.y,sy=dz*up.x-dx*up.z,sz=dx*up.y-dy*up.x,sn=Math.hypot(sx,sy,sz);if(sn<.01){sx=-dz;sy=0;sz=dx;sn=Math.hypot(sx,sz)||1;}const side=barrel?1:-1;return {x:p.x+(up.x*.28+dx*1.5+sx/sn*side*.35)*k,y:p.y+(up.y*.28+dy*1.5+sy/sn*side*.35)*k,z:p.z+(up.z*.28+dz*1.5+sz/sn*side*.35)*k};}
+function defenseMuzzle(ship,gun,barrel){const p=carrierPoint(ship,gun.mount),m=gun.mount,normal=carrierPoint(ship,{x:m.x+m.normal.x,y:m.y+m.normal.y,z:m.z+m.normal.z}),k=Math.min(12,ship.flight.modelScale||1)*(ship.faction==='republic'?.27:.42),up={x:(normal.x-p.x)/(ship.flight.modelScale||1),y:(normal.y-p.y)/(ship.flight.modelScale||1),z:(normal.z-p.z)/(ship.flight.modelScale||1)},target=gun.target?.flight,aim=gun.aim||{x:target?target.x-p.x:up.x,y:target?target.y-p.y:up.y,z:target?target.z-p.z:up.z},n=Math.hypot(aim.x,aim.y,aim.z)||1,dx=aim.x/n,dy=aim.y/n,dz=aim.z/n;let sx=dy*up.z-dz*up.y,sy=dz*up.x-dx*up.z,sz=dx*up.y-dy*up.x,sn=Math.hypot(sx,sy,sz);if(sn<.01){sx=-dz;sy=0;sz=dx;sn=Math.hypot(sx,sz)||1;}const side=barrel?1:-1;return {x:p.x+(up.x*.28+dx*1.5+sx/sn*side*.35)*k,y:p.y+(up.y*.28+dy*1.5+sy/sn*side*.35)*k,z:p.z+(up.z*.28+dz*1.5+sz/sn*side*.35)*k};}
 function createCarrierBattle(){return {fighters:[],bullets:[],audioShots:[],serial:0};}
 function buildSpatial(entities,cellSize=600){
  const grid=new Map();
@@ -56084,7 +56143,12 @@ function nearby(index,x,z,radius){
  }
  return result;
 }
-function rebuildCarrierSpatial(world,combat,ships){world.fighterSpatial=buildSpatial(world.fighters);world.shipSpatial=buildSpatial(ships,900);combat.queryFighters=(x,z,radius)=>nearby(world.fighterSpatial,x,z,radius);}
+function rebuildCarrierSpatial(world,combat,ships){
+ world.fighterSpatial=buildSpatial(world.fighters);world.shipSpatial=buildSpatial(ships,900);
+ let capitalReach=0;for(const ship of ships)if(targetAlive(ship))capitalReach=Math.max(capitalReach,30*(ship.flight.modelScale||1),ship.radius||0);
+ world.capitalReach=capitalReach+45;
+ combat.queryFighters=(x,z,radius)=>nearby(world.fighterSpatial,x,z,radius);
+}
 function carrierPoint(ship,p){return flightPoint(ship.flight,p);}
 function initializeCarrier(ship){
  ship.carrier={order:'defend',readyAt:0,queue:[],nextFlight:0,doorOpen:0,holdDoorUntil:0};
@@ -56098,7 +56162,7 @@ function initializeCarrier(ship){
   for(const sign of [-1,1]){
    for(const x of [-13,-10,-7,-4,-1,3,7,12])add(x,-.14,sign*Math.min(3.2,width(x)*.54),0,-1,0,'bottom');
    for(const x of [-12,-8,-3,2,9])add(x,-.14,sign*width(x)*.79,0,-1,0,'bottom');
-   for(const x of [3,8,13,18])add(x,1.97,sign*Math.max(.5,width(x)*.61),0,1,0,'deck');
+   for(const x of [3,8,12.2,18])add(x,1.97,sign*Math.max(.5,width(x)*.61),0,1,0,'deck');
    for(const x of [15.5,17.2,19,20.6,22])add(x,1.97,sign*width(x)*.68,0,1,0,'nose');
   }
   ship.hangars=[{x:-4,y:1.12,z:0,protected:true}];
@@ -56115,9 +56179,10 @@ function initializeCarrier(ship){
  for(const sign of [-1,1]){
   for(let i=0;i<20;i++){const x=-14+i*1.72;add(x,imperial?.85:.9,sign*width(x),0,0,sign,sign<0?'port':'starboard',size);}
   for(let i=0;i<10;i++){
-   const x=-13.5+i*3.61,w=width(x);
-   add(x,top,sign*w*.84,0,1,0,'deck',size);
-   add(x,bottom,sign*w*.30,0,-1,0,'bottom',size);
+   const x=-13.5+i*3.61;
+   const topX=imperial&&i===7?x+.7:x;
+   add(topX,top,sign*width(topX)*.84,0,1,0,'deck',size);
+   add(x,bottom,sign*width(x)*.30,0,-1,0,'bottom',size);
   }
  }
  ship.interceptors=interceptors;
@@ -56196,7 +56261,7 @@ function advanceDeparture(f,dt){
  const travel=f.departure.travel+=185*dt/scale,x=start.x+travel;
  const smooth=value=>{const t=Math.max(0,Math.min(1,value));return t*t*(3-2*t);};
  const clearance=start.y+(republic?6:-7)*smooth(travel/(republic?8:4));
- const climb=smooth((x-(republic?25:28))/10),cruise=(f.upperLane!==false?220:-140)/scale;
+ const climb=smooth((x-(republic?25:28))/10),cruise=(f.upperLane!==false?Math.max(220,11*scale+26):-140)/scale;
  const point=carrierPoint(carrier,{x,y:clearance+(cruise-clearance)*climb,z:start.z});
  const dx=point.x-p.x,dy=point.y-p.y,dz=point.z-p.z,length=Math.hypot(dx,dy,dz)||1;
  Object.assign(p,point,{dx:dx/length,dy:dy/length,dz:dz/length,vx:dx/dt,vy:dy/dt,vz:dz/dt,yaw:Math.atan2(-dz,dx)});
@@ -56222,7 +56287,11 @@ function fireBomberMissile(world,f,target,time,random=Math.random){
  f.ammo=(f.ammo??BOMBER_MAGAZINE.capacity)-1;f.nextMissile=time+BOMBER_MAGAZINE.interval;if(f.ammo===0){f.missileReloadUntil=time+BOMBER_MAGAZINE.reload;f.nextTarget=0;}return true;
 }
 function beginSmallCraftWreck(f,time,terrainHeight=null){if(f.wreck||f.health>0)return false;const serial=Number(f.id.split('-').at(-1))||0,mode=['dive','breakup','spin'][serial%3];f.wreck={mode,age:0,vy:mode==='dive'?-24:-12,spaceDirection:serial%2?1:-1,planet:!!terrainHeight,finished:false};f.target=null;if(f.rear){f.rear.target=null;f.rear.secondAt=null;}return true;}
-function craftCapitalHit(f,a,b,ship){const padding=f.radius*.5+(ship.shield>0?.65*(ship.flight.modelScale||1):0);return hullSegmentHit(a.x,a.y,a.z,b.x,b.y,b.z,ship,padding,true);}
+function craftCapitalHit(f,a,b,ship){
+ const p=ship.flight,scale=p.modelScale||1,padding=f.radius*.5+(ship.shield>0?.65*scale:0),reach=(ship.radius||30*scale)+padding;
+ if(p.x<Math.min(a.x,b.x)-reach||p.x>Math.max(a.x,b.x)+reach||p.z<Math.min(a.z,b.z)-reach||p.z>Math.max(a.z,b.z)+reach)return null;
+ return hullSegmentHit(a.x,a.y,a.z,b.x,b.y,b.z,ship,padding,true);
+}
 function craftImpact(combat,f,ship,p,events){const speed=Math.hypot(f.flight.vx||0,f.flight.vy||0,f.flight.vz||0),damage=Math.min(900,40+speed*(f.isBomber?1.4:.9));applyDamage(combat,ship,damage,'collision',p.x,p.y,p.z,events,false,{dx:f.flight.dx,dz:f.flight.dz});f.health=0;f.wreck ||= {age:0,mode:'breakup'};f.wreck.finished=true;events.push({type:'fighter-explosion',target:f,x:p.x,y:p.y,z:p.z});}
 function fireFighterLasers(world,fighter,target,time,random=Math.random){
  const stats=craftStats(fighter),p=fighter.flight;if(fighter.overheated||world.bullets.length+stats.bolts>CARRIER.maxProjectiles)return 0;
@@ -56291,7 +56360,7 @@ function stepCarriers(world,combat,ships,dt,random=Math.random,options={}){
   const active=isActive(f.carrier);
   const members=flights.get(f.flightId||f.id),leader=members[0],slot=members.indexOf(f),flightNumber=f.flightNumber??(Number((f.flightId||f.id).split('-').at(-1))||0);
   const p=f.flight,oldYaw=p.yaw,stats=craftStats(f),mainRange=combat.ranges?.fighterLaser||5000;
-  const homeShip=f.carrier?.health>0?f.carrier:null;const homeVX=homeShip&&dt>0?(homeShip.flight.x-(f.home?.x??homeShip.flight.x))/dt:0,homeVZ=homeShip&&dt>0?(homeShip.flight.z-(f.home?.z??homeShip.flight.z))/dt:0;if(homeShip)f.home={x:homeShip.flight.x,y:(homeShip.flight.y||0)+18,z:homeShip.flight.z};const home=f.home||{x:p.x,y:18,z:p.z},homeDistance=distance(p,home),attack=f.carrier?.carrier?.order==='attack';
+  const homeShip=f.carrier?.health>0?f.carrier:null;const homeVX=homeShip&&dt>0?(homeShip.flight.x-(f.home?.x??homeShip.flight.x))/dt:0,homeVZ=homeShip&&dt>0?(homeShip.flight.z-(f.home?.z??homeShip.flight.z))/dt:0;if(homeShip)f.home={x:homeShip.flight.x,y:(homeShip.flight.y||0)+18,z:homeShip.flight.z};const home=f.home||{x:p.x,y:18,z:p.z},homeDistance=distance(p,home),attack=f.carrier?.carrier?.order==='attack',upperHeight=Math.max(230,11*(homeShip?.flight.modelScale||1)+32);
   f.renderPrevious ||= {};f.renderPrevious.x=p.x;f.renderPrevious.y=p.y;f.renderPrevious.z=p.z;
   if(advanceDeparture(f,dt)){f.behavior='launch';continue;}
   if(!attack&&f.previousOrder==='attack'&&homeDistance>CARRIER.leash)f.recalling=true;f.previousOrder=attack?'attack':'defend';if(homeDistance<CARRIER.returnRadius)f.recalling=false;if(attack)f.returning=false;else if(homeDistance>CARRIER.returnRadius)f.returning=true;else if(homeDistance<CARRIER.patrolRadius*.7)f.returning=false;
@@ -56317,8 +56386,8 @@ function stepCarriers(world,combat,ships,dt,random=Math.random,options={}){
    let best=null,nearest=Infinity;for(const candidate of candidates){const d=distance(f,candidate)+(independent&&candidate.isFighter?(targetClaims.get(candidate)||0)*120:0);if(d<nearest){nearest=d;best=candidate;}}if(f.target)targetClaims.set(f.target,Math.max(0,(targetClaims.get(f.target)||0)-1));f.target=best||enemies[0]||null;if(f.target)targetClaims.set(f.target,(targetClaims.get(f.target)||0)+1);
   }
   let goal;
-  if(f.returning)goal={x:home.x,y:home.y+(f.upperLane!==false?230:-130),z:home.z};
-  else if(assembling){const yaw=f.carrier?.flight.yaw||0,phase=time*.25+flightNumber;goal={x:home.x+Math.cos(yaw)*430+Math.cos(phase)*170,y:home.y+(f.upperLane!==false?230:-130),z:home.z-Math.sin(yaw)*430+Math.sin(phase)*170};}
+  if(f.returning)goal={x:home.x,y:home.y+(f.upperLane!==false?upperHeight:-130),z:home.z};
+  else if(assembling){const yaw=f.carrier?.flight.yaw||0,phase=time*.25+flightNumber;goal={x:home.x+Math.cos(yaw)*430+Math.cos(phase)*170,y:home.y+(f.upperLane!==false?upperHeight:-130),z:home.z-Math.sin(yaw)*430+Math.sin(phase)*170};}
   else if(targetAlive(f.target)){
    const t=f.target.flight,range=distance(f,f.target),phase=(flightNumber%10)/10*Math.PI*2+time*.18+(independent?slot*1.25:0);
    if(f.target.isFighter){
@@ -56335,20 +56404,20 @@ function stepCarriers(world,combat,ships,dt,random=Math.random,options={}){
     goal=f.capitalPass||{x:t.x+Math.sin(yaw)*side,y:(t.y||0)+(f.upperLane!==false?105+slot*9:-100),z:t.z+Math.cos(yaw)*side};
     if(f.upperLane===false&&world.terrainHeight&&f.isBomber&&range>400&&range<1000&&Math.sin(phase)<-.2)goal.y=world.terrainHeight(goal.x,goal.z)+160;
    }
-  }else{const phase=time*.3+flightNumber*1.9;goal={x:home.x+Math.cos(phase)*550,y:home.y+(f.upperLane!==false?230+Math.sin(phase*.8)*45:-130+Math.sin(phase*.8)*35),z:home.z+Math.sin(phase)*550};}
+  }else{const phase=time*.3+flightNumber*1.9;goal={x:home.x+Math.cos(phase)*550,y:home.y+(f.upperLane!==false?upperHeight+Math.sin(phase*.8)*45:-130+Math.sin(phase*.8)*35),z:home.z+Math.sin(phase)*550};}
   if(f!==leader&&(f.isBomber||!f.returning)&&!independent){const q=leader.flight,side=slot%2?1:-1,row=Math.ceil(slot/2),back=30*row,lateral=18*row*side,n=Math.hypot(q.dx,q.dz)||1;goal={x:q.x+(q.vx||0)*.2-q.dx*back-q.dz/n*lateral,y:q.y+(q.vy||0)*.2+side*8,z:q.z+(q.vz||0)*.2-q.dz*back+q.dx/n*lateral};}
-  if(!attack&&f.upperLane!==false)goal.y=Math.max(goal.y,home.y+185);
+  if(!attack&&f.upperLane!==false)goal.y=Math.max(goal.y,home.y+upperHeight-45);
   if(!attack){const dx=goal.x-home.x,dy=goal.y-home.y,dz=goal.z-home.z,n=Math.hypot(dx,dy,dz);if(n>CARRIER.patrolRadius){const k=CARRIER.patrolRadius/n;goal={x:home.x+dx*k,y:home.y+dy*k,z:home.z+dz*k};}}
   let dx=goal.x-p.x,dy=goal.y-p.y,dz=goal.z-p.z;
   // Steer around the real hull volume rather than flying through capital ships.
-  for(const ship of nearby(world.shipSpatial,p.x,p.z,400)){const q=ship.flight,k=q.modelScale||1,d=Math.hypot(p.x-q.x,p.z-q.z);if(d<k*30&&Math.abs(p.y-(q.y||0))<k*12){const escape=f.upperLane!==false?1:-1;dy+=escape*k*45;if(d<k*10){dx+=(p.x-q.x)*2;dz+=(p.z-q.z)*2;}}}
+  for(const ship of nearby(world.shipSpatial,p.x,p.z,world.capitalReach)){const q=ship.flight,k=q.modelScale||1,d=Math.hypot(p.x-q.x,p.z-q.z);if(d<k*30&&Math.abs(p.y-(q.y||0))<k*12){const escape=f.upperLane!==false?1:-1;dy+=escape*k*45;if(d<k*10){dx+=(p.x-q.x)*2;dz+=(p.z-q.z)*2;}}}
   if(world.terrainHeight){const floor=world.terrainHeight(p.x+p.dx*120,p.z+p.dz*120);if(p.y<floor+95)dy+=Math.max(0,floor+140-p.y)*4;}
   const n=Math.hypot(dx,dy,dz)||1,blend=Math.min(1,dt*(f.target?CRAFT_TACTICS.turnRate:2.5));p.dx+=(dx/n-p.dx)*blend;p.dy+=(dy/n-p.dy)*blend;p.dz+=(dz/n-p.dz)*blend;const norm=Math.hypot(p.dx,p.dy,p.dz)||1;p.dx/=norm;p.dy/=norm;p.dz/=norm;
   if(f!==leader&&(f.isBomber||!f.returning)&&!independent){const q=leader.flight;let vx=(q.vx||0)+(goal.x-p.x)*2.5+(dx-(goal.x-p.x))*.4,vy=(q.vy||0)+(goal.y-p.y)*2.5+(dy-(goal.y-p.y))*.4,vz=(q.vz||0)+(goal.z-p.z)*2.5+(dz-(goal.z-p.z))*.4;const speed=Math.hypot(vx,vy,vz),k=Math.min(1,stats.speed*1.6/Math.max(1,speed)),blend=Math.min(1,dt*6);p.vx+=(vx*k-p.vx)*blend;p.vy+=(vy*k-p.vy)*blend;p.vz+=(vz*k-p.vz)*blend;const v=Math.hypot(p.vx,p.vy,p.vz)||1;p.dx=p.vx/v;p.dy=p.vy/v;p.dz=p.vz/v;}
   else{const speed=!f.target&&!f.returning?stats.speed*.7:stats.speed;p.vx=p.dx*speed+(!independent?homeVX:0);p.vy=p.dy*speed;p.vz=p.dz*speed+(!independent?homeVZ:0);const velocity=Math.hypot(p.vx,p.vy,p.vz),limit=stats.speed*1.4;if(velocity>limit){p.vx*=limit/velocity;p.vy*=limit/velocity;p.vz*=limit/velocity;}}p.x+=p.vx*dt;p.y+=p.vy*dt;p.z+=p.vz*dt;p.yaw=Math.atan2(-p.dz,p.dx);
   const hx=p.x-home.x,hy=p.y-home.y,hz=p.z-home.z,homeRange=Math.hypot(hx,hy,hz);if(!attack&&!f.recalling&&homeRange>CARRIER.leash){const k=CARRIER.leash/homeRange;p.x=home.x+hx*k;p.y=home.y+hy*k;p.z=home.z+hz*k;f.returning=true;f.target=null;}
   if(f.rollEnd&&time<f.rollEnd){const t=(time-f.rollStart)/1.5;p.roll=f.rollFrom+t*t*(3-2*t)*Math.PI*2;}else{const targetRoll=Math.max(-.65,Math.min(.65,-angleDelta(p.yaw,oldYaw)/Math.max(dt,1/60)*.3));p.roll=(p.roll||0)+angleDelta(targetRoll,p.roll||0)*Math.min(1,dt*3);}
-  if(dt>0&&time>=(f.nextCollisionCheck||0)){const a=f.collisionFrom||f.renderPrevious;let impacted=null,first=Infinity;for(const ship of nearby(world.shipSpatial,p.x,p.z,450)){if(!targetAlive(ship))continue;const hit=craftCapitalHit(f,a,p,ship);if(hit!==null&&hit<first){first=hit;impacted=ship;}}if(impacted)craftImpact(combat,f,impacted,{x:a.x+(p.x-a.x)*first,y:a.y+(p.y-a.y)*first,z:a.z+(p.z-a.z)*first},events);f.collisionFrom={x:p.x,y:p.y,z:p.z};f.nextCollisionCheck=time+.05;}
+  if(dt>0&&time>=(f.nextCollisionCheck||0)){const a=f.collisionFrom||f.renderPrevious;let impacted=null,first=Infinity;for(const ship of nearby(world.shipSpatial,p.x,p.z,world.capitalReach)){if(!targetAlive(ship))continue;const hit=craftCapitalHit(f,a,p,ship);if(hit!==null&&hit<first){first=hit;impacted=ship;}}if(impacted)craftImpact(combat,f,impacted,{x:a.x+(p.x-a.x)*first,y:a.y+(p.y-a.y)*first,z:a.z+(p.z-a.z)*first},events);f.collisionFrom={x:p.x,y:p.y,z:p.z};f.nextCollisionCheck=time+.05;}
   if(f.health<=0)continue;
   if(world.terrainHeight){const ground=world.terrainHeight(p.x,p.z);if(p.y-f.radius<=ground){f.health=0;f.wreck={finished:true,age:0,mode:'dive'};events.push({type:'fighter-explosion',target:f,x:p.x,y:ground,z:p.z});continue;}}
   stepYwingTurret(world,f,time,dt,active,random);
@@ -56367,7 +56436,7 @@ function stepCarriers(world,combat,ships,dt,random=Math.random,options={}){
   if(b.kind==='missile'){b.speed=Math.min(900,b.speed+200*dt);if(targetAlive(b.target)){const q=b.target.flight,dx=q.x-b.x,dy=(b.target.isFighter?q.y:(q.y||0)+1.1*(q.modelScale||1))-b.y,dz=q.z-b.z,n=Math.hypot(dx,dy,dz)||1,k=Math.min(1,dt*1.8);b.dx+=(dx/n-b.dx)*k;b.dy+=(dy/n-b.dy)*k;b.dz+=(dz/n-b.dz)*k;const norm=Math.hypot(b.dx,b.dy,b.dz);b.dx/=norm;b.dy/=norm;b.dz/=norm;}}
   const travel=Math.min(b.speed*dt,b.remaining),x=b.x+b.dx*travel,y=b.y+b.dy*travel,z=b.z+b.dz*travel;let hit=null;
   if(!isActive(b.owner.isFighter?b.owner.carrier:b.owner)){world.bullets[i]=null;expired=true;continue;}
-  if(b.owner.isFighter)for(const target of nearby(world.shipSpatial,b.x,b.z,400+travel)){
+  if(b.owner.isFighter)for(const target of nearby(world.shipSpatial,b.x,b.z,world.capitalReach+travel)){
    if(!targetAlive(target))continue;
    const reach=(target.radius||30*(target.flight.modelScale||1))+travel+5,dx=target.flight.x-b.x,dz=target.flight.z-b.z;
    if(dx*dx+dz*dz>reach*reach)continue;
@@ -56388,7 +56457,7 @@ function stepCarriers(world,combat,ships,dt,random=Math.random,options={}){
   const p=f.flight,old={x:p.x,y:p.y,z:p.z};f.renderPrevious={...old};p.vx=(p.vx||p.dx*80)*Math.exp(-dt*.12);p.vz=(p.vz||p.dz*80)*Math.exp(-dt*.12);p.x+=p.vx*dt;p.z+=p.vz*dt;
   if(wreck.planet){wreck.vy-=dt*18;p.y+=wreck.vy*dt;}else{p.vy=(p.vy||0)*Math.exp(-dt*1.4)+(wreck.spaceDirection||1)*dt*(wreck.mode==='spin'?28:18);p.y+=p.vy*dt;}
   p.roll=(p.roll||0)+dt*(wreck.mode==='spin'?4.2:.8);if(wreck.mode==='spin'){const a=dt*1.8,c=Math.cos(a),s=Math.sin(a),dx=p.dx;p.dx=dx*c-p.dz*s;p.dz=dx*s+p.dz*c;}p.dy=wreck.planet?Math.max(-.95,(p.dy||0)-dt*.2):(p.dy||0)+(Math.max(-.9,Math.min(.9,p.vy/60))-(p.dy||0))*Math.min(1,dt*.8);if(!wreck.planet&&wreck.mode==='spin'){const a=dt*.9*(wreck.spaceDirection||1),c=Math.cos(a),s=Math.sin(a),vx=p.vx;p.vx=vx*c-p.vz*s;p.vz=vx*s+p.vz*c;}
-  for(const ship of nearby(world.shipSpatial,p.x,p.z,450))if(dt>0&&targetAlive(ship)&&craftCapitalHit(f,old,p,ship)!==null){craftImpact(combat,f,ship,p,events);break;}
+  for(const ship of nearby(world.shipSpatial,p.x,p.z,world.capitalReach))if(dt>0&&targetAlive(ship)&&craftCapitalHit(f,old,p,ship)!==null){craftImpact(combat,f,ship,p,events);break;}
   const ground=world.terrainHeight?.(p.x,p.z)??-Infinity;if(!wreck.finished&&(p.y<=ground+f.radius||wreck.mode==='breakup'&&wreck.age>.8||!wreck.planet&&wreck.age>3+(Number(f.id.split('-').at(-1))%3)||wreck.age>20)){wreck.finished=true;events.push({type:'fighter-explosion',target:f,x:p.x,y:Math.max(ground,p.y),z:p.z});}
  }
  for(let i=world.fighters.length-1;i>=0;i--)if(world.fighters[i].wreck?.finished)world.fighters.splice(i,1);
@@ -56475,8 +56544,9 @@ function fitDefenseMounts(T,ship){
   fitted=mounts.map(m=>{
    const local=new T.Vector3(m.x,m.y,m.z),normal=new T.Vector3(m.normal.x,m.normal.y,m.normal.z),center=local.clone().applyMatrix4(world);
    ray.set(local.addScaledVector(normal,12).applyMatrix4(world),normal.clone().negate().transformDirection(world));
-   let hit=null,nearest=Infinity;
-   for(const candidate of ray.intersectObjects(surfaces,false)){const distance=candidate.point.distanceToSquared(center);if(distance<nearest){hit=candidate;nearest=distance;}}
+   const hits=ray.intersectObjects(surfaces,false);
+   let hit=hits[0],nearest=Infinity;
+   if(m.zone!=='bottom')for(const candidate of hits){const distance=candidate.point.distanceToSquared(center);if(distance<nearest){hit=candidate;nearest=distance;}}
    if(!hit)return null;
    normalMatrix.getNormalMatrix(hit.object.matrixWorld);
    const n=hit.face.normal.clone().applyNormalMatrix(normalMatrix).transformDirection(inverse);
@@ -56507,10 +56577,10 @@ function createDefenseViews(T,scene,capacity=1360,geometryFactory=null,softTextu
  return {base,heads,barrels,flashes,micro,clear(){for(const m of batches)m.count=0;},update(ships,point,time=0,fighters=[],craftPoint=null,camera=null,frustum=null){for(const m of batches)m.count=0;
   for(const ship of ships){
    if(ship.health<=0&&!ship.destruction?.controllable||ship.arriving)continue;
-   const distanceSquared=camera?.position.distanceToSquared(ship.model.position)??0;
+   const distanceSquared=camera?.position.distanceToSquared(ship.model.position)??0,visualScale=Math.min(12,ship.flight.modelScale||1);
    if(distanceSquared>5500**2)continue;
    if(frustum){visibility.center.copy(ship.model.position);visibility.radius=(ship.radius||350)+45;if(!frustum.intersectsSphere(visibility))continue;}
-   for(const gun of ship.defenses){if(gun.health<=0)continue;const p0=point(ship,gun.mount),m=gun.mount,n=point(ship,{x:m.x+m.normal.x,y:m.y+m.normal.y,z:m.z+m.normal.z}),p=new T.Vector3(p0.x,p0.y,p0.z),surface=new T.Vector3(n.x-p.x,n.y-p.y,n.z-p.z),t=gun.target?.health>0?gun.target.flight:null,aim=gun.aim?new T.Vector3(gun.aim.x,gun.aim.y,gun.aim.z):t?new T.Vector3(t.x-p.x,t.y-p.y,t.z-p.z):surface;place(p,surface,(ship.flight.modelScale||1)*(ship.faction==='republic'?.27:.42),gun,time,camera,aim);}
+   for(const gun of ship.defenses){if(gun.health<=0)continue;const p0=point(ship,gun.mount),m=gun.mount,n=point(ship,{x:m.x+m.normal.x,y:m.y+m.normal.y,z:m.z+m.normal.z}),p=new T.Vector3(p0.x,p0.y,p0.z),surface=new T.Vector3(n.x-p.x,n.y-p.y,n.z-p.z),t=gun.target?.health>0?gun.target.flight:null,aim=gun.aim?new T.Vector3(gun.aim.x,gun.aim.y,gun.aim.z):t?new T.Vector3(t.x-p.x,t.y-p.y,t.z-p.z):surface;place(p,surface,visualScale*(ship.faction==='republic'?.27:.42),gun,time,camera,aim);}
    if(distanceSquared>1800**2)continue;
    for(const gun of ship.interceptors||[]){
     if(gun.health<=0||micro.count>=micro.instanceMatrix.count)continue;
@@ -56518,7 +56588,7 @@ function createDefenseViews(T,scene,capacity=1360,geometryFactory=null,softTextu
     up.set(n.x-p.x,n.y-p.y,n.z-p.z).normalize();dummy.position.set(p.x,p.y,p.z);
     dummy.quaternion.setFromUnitVectors(axisY,up);
     if(gun.aim){dir.set(gun.aim.x,gun.aim.y,gun.aim.z).projectOnPlane(up).normalize();if(dir.lengthSq()>.01){side.crossVectors(dir,up);dummy.quaternion.setFromRotationMatrix(matrix.makeBasis(dir,up,side));}}
-    dummy.scale.setScalar((ship.flight.modelScale||1)*m.size);dummy.updateMatrix();micro.setMatrixAt(micro.count++,dummy.matrix);
+    dummy.scale.setScalar(visualScale*m.size);dummy.updateMatrix();micro.setMatrixAt(micro.count++,dummy.matrix);
    }
   }
   if(craftPoint)for(const fighter of fighters){const gun=fighter.rear;if(!gun||fighter.health<=0)continue;if(frustum){visibility.center.set(fighter.flight.x,fighter.flight.y,fighter.flight.z);visibility.radius=26;if(!frustum.intersectsSphere(visibility))continue;}const p0=craftPoint(fighter,{x:6.18,y:1.5,z:0}),u=craftPoint(fighter,{x:6.18,y:2.5,z:0}),d=craftPoint(fighter,{x:6.18+Math.cos(gun.yaw)*Math.cos(gun.pitch),y:1.5+Math.sin(gun.pitch),z:Math.sin(gun.yaw)*Math.cos(gun.pitch)}),p=new T.Vector3(p0.x,p0.y,p0.z),surface=new T.Vector3(u.x-p.x,u.y-p.y,u.z-p.z).normalize();place(p.clone().addScaledVector(surface,-.224),surface,.8,gun,time,camera,new T.Vector3(d.x-p.x,d.y-p.y,d.z-p.z));}
@@ -56762,7 +56832,7 @@ function stepEntrance(entrance,dt){entrance.time+=dt;return entrance.ships.map(s
 
 function endlessSpawnPoint(ship,ships,fallback={x:0,z:0,yaw:0}){
  const home=ship.endlessHome||fallback,c=Math.cos(home.yaw||0),s=Math.sin(home.yaw||0);let p={...home};
- for(const back of [0,1000,2000,3000,4500])for(const side of [0,-900,900,-1800,1800]){p={x:home.x-c*back+s*side,z:home.z+s*back+c*side,yaw:home.yaw||0};if(ships.every(other=>other===ship||other.health<=0||other.arriving||Math.hypot(p.x-other.flight.x,p.z-other.flight.z)>850))return p;}return p;
+ for(const back of [0,1000,2000,3000,4500])for(const side of [0,-900,900,-1800,1800]){p={x:home.x-c*back+s*side,z:home.z+s*back+c*side,yaw:home.yaw||0};if(ships.every(other=>other===ship||other.health<=0||other.arriving||Math.hypot(p.x-other.flight.x,p.z-other.flight.z)>Math.max(850,(ship.radius||0)+(other.radius||0)+60)))return p;}return p;
 }
 function endlessCameraCenter(ships,fallback){const live=ships.filter(s=>s.health>0&&!s.arriving);if(!live.length)return {...fallback};return live.reduce((p,s)=>({x:p.x+s.flight.x/live.length,y:p.y+(s.flight.y||0)/live.length,z:p.z+s.flight.z/live.length}),{x:0,y:0,z:0});}
 function reinforcementPose(arrival){const p=Math.min(1,Math.max(0,arrival.time/.65));return {offset:-6500*(1-p)**3,stretch:1+18*(1-p),settled:p===1};}
@@ -56930,7 +57000,7 @@ let capitalLosses={republic:0,imperial:0};
 function feedback(text){q('hit-feedback').textContent=text;}
 function notice(text){q('notice').textContent=text;noticeUntil=performance.now()+5000;}
 function makeShip(faction,x,z,yaw,index,isPlayer=false,team=faction){
- spawnSerial++;const worldScale=SHIP_SCALE;
+ spawnSerial++;const worldScale=CAPITAL_SCALE[faction];
  const model=faction==='republic'?factory.venator():factory.imperial(),localBounds=new T.Box3().setFromObject(model);const ship={id:`ship-${spawnSerial}`,name:isPlayer?(faction==='republic'?'Venator command':'Imperial command'):`${faction==='republic'?'Venator':'Imperial'} ${spawnSerial}`,faction,team,model,localBounds,flight:createFlight(x,z,yaw),health:1000,maxHealth:1000,radius:faction==='republic'?27:29,isPlayer,mortal:true,invulnerable:false,totalDamage:0,selfDamage:0,recentHits:[],aiIndex:index,nextFire:{normal:index*.3,missile:4+index,mbc:8+index},damageMarks:[]};
  model.scale.setScalar(worldScale);ship.flight.modelScale=worldScale;ship.radius*=worldScale;
  const hullMaterials=new Map();model.traverse(o=>{if(o.isMesh&&o.material.isMeshStandardMaterial){const source=o.material;if(!hullMaterials.has(source)){const material=polishHullMaterial(source.clone(),faction==='republic');material.userData={privateMaterial:true};hullMaterials.set(source,{material,base:source.color.clone()});}o.material=hullMaterials.get(source).material;}});ship.hullMaterials=[...hullMaterials.values()];
@@ -56958,7 +57028,8 @@ function clearWorld(){
  Object.assign(combat,createCombat());combat.obstruction=(owner,state,kind,tip)=>owner?.probe?.(state,kind,tip)||null;targetGroup.visible=false;q('target-markers').replaceChildren();markerElements.clear();contactsKey='';clearKeys();
 }
 function viewedShip(){return spectating&&spectatorShip?spectatorShip:selected;}
-function resetCamera(close=false){endlessCameraReturn=false;endlessCameraElapsed=0;inspecting=close;const f=viewedShip().flight;controls.target.set(f.x,(f.y||0)+18,f.z);const offset=(close?new T.Vector3(-260,120,180):(planetMaps.active?new T.Vector3(-1900,850,1100):new T.Vector3(-2080,600,0))).applyAxisAngle(new T.Vector3(0,1,0),f.yaw);cam.up.set(0,1,0);cam.position.copy(controls.target).add(offset);cameraFollow.set(f.x,f.y||0,f.z);controls.update();}
+function capitalCameraOffset(f,close=false){return (close?new T.Vector3(-260,120,180):planetMaps.active?new T.Vector3(-1900,850,1100):new T.Vector3(-2080,600,0)).multiplyScalar(Math.sqrt(f.modelScale/SHIP_SCALE)).applyAxisAngle(new T.Vector3(0,1,0),f.yaw);}
+function resetCamera(close=false){endlessCameraReturn=false;endlessCameraElapsed=0;inspecting=close;const f=viewedShip().flight;controls.target.set(f.x,(f.y||0)+18,f.z);cam.up.set(0,1,0);cam.position.copy(controls.target).add(capitalCameraOffset(f,close));cameraFollow.set(f.x,f.y||0,f.z);controls.update();}
 function buildWorld(mode,count=1){
  clearWorld();session=mode;capitalLosses={republic:0,imperial:0};friendlySelection=null;autoLockPoll=0;nextAutoFire=0;hud.mode='full';hud.lastPress=-Infinity;document.body.dataset.hud='full';
  if(mode==='attract')for(let i=0;i<5;i++){const angle=i/5*Math.PI*2;ships.push(makeShip(i%2?'imperial':'republic',Math.cos(angle)*1400,Math.sin(angle)*1400,angle+Math.PI,i,false,`ffa-${i}`));}
@@ -57053,7 +57124,7 @@ function updateHUD(){
 }
 const surfaceRay=new T.Raycaster();
 function surfaceImpact(ship,x,z,y){
- ship.model.updateMatrixWorld(true);if(Number.isFinite(y)){const point=new T.Vector3(x,y,z),direction=new T.Vector3(ship.flight.x,(ship.flight.y||0)+1.5*SHIP_SCALE,ship.flight.z).sub(point).normalize();surfaceRay.set(point.addScaledVector(direction,-ship.radius*2),direction);}else surfaceRay.set(new T.Vector3(x,500,z),new T.Vector3(0,-1,0));const hit=surfaceRay.intersectObjects(ship.model.userData.collisionMeshes.filter(m=>m.visible),false)[0];if(!hit)return null;
+ ship.model.updateMatrixWorld(true);if(Number.isFinite(y)){const point=new T.Vector3(x,y,z),direction=new T.Vector3(ship.flight.x,(ship.flight.y||0)+1.5*ship.flight.modelScale,ship.flight.z).sub(point).normalize();surfaceRay.set(point.addScaledVector(direction,-ship.radius*2),direction);}else surfaceRay.set(new T.Vector3(x,500,z),new T.Vector3(0,-1,0));const hit=surfaceRay.intersectObjects(ship.model.userData.collisionMeshes.filter(m=>m.visible),false)[0];if(!hit)return null;
  const point=ship.model.worldToLocal(hit.point.clone()),normal=hit.face.normal.clone().transformDirection(hit.object.matrixWorld).transformDirection(new T.Matrix4().copy(ship.model.matrixWorld).invert());return {point,normal};
 }
 function addHullDamage(ship,x,z,y){
@@ -57133,7 +57204,9 @@ function updateVisuals(dt){defenseRing.visible=playing()&&selected.carrier.order
     if(!ship.arriving)ship.model.visible=targetAlive(ship)||!!ship.destruction&&!ship.destruction.exploded;
     if(ship.destruction?.exploded)continue;
     shipVisibility.center.copy(ship.model.position);shipVisibility.radius=ship.radius+60;
-    const detailed=cam.position.distanceToSquared(ship.model.position)<(mobileRenderer?1550:2600)**2&&visibleFrustum.intersectsSphere(shipVisibility);
+    const inView=visibleFrustum.intersectsSphere(shipVisibility);
+    if(mobileRenderer&&!ship.arriving&&!inView){ship.model.visible=false;continue;}
+    const detailed=inView&&cam.position.distanceToSquared(ship.model.position)<(mobileRenderer?1550:2600+ship.radius*.75)**2;
     const visibilityChanged=ship.detailVisible!==detailed;
     if(visibilityChanged){for(const mesh of ship.detailMeshes)mesh.visible=detailed;ship.detailVisible=detailed;}
     const doorOpen=ship.carrier.doorOpen,doorEase=doorOpen*doorOpen*(3-2*doorOpen);
@@ -57256,7 +57329,7 @@ function restoreEndlessShip(old,fullEntrance=false){
 function requestEndlessReturn(){if(session!=='endless'||!endlessWaiting)return;if(selected.health>0&&!selected.arriving){endlessWaiting=false;spectating=false;selected.isPlayer=true;endlessCameraReturn=true;endlessCameraElapsed=0;selected.navigation.openingSelection=true;clearKeys();return;}}
 function stepEndlessMode(dt){
  if(selected.health<=0&&!endlessWaiting){endlessWaiting=true;endlessSpectatorElapsed=0;endlessReturnRequested=false;selected.isPlayer=false;spectating=true;spectatorShip=null;clearKeys();}
- for(const ship of [...ships]){if(!ship.endlessHome)ship.endlessHome={x:ship.flight.x,z:ship.flight.z,yaw:ship.flight.yaw};if(ship.reinforcement){ship.reinforcement.time+=dt;if(reinforcementPose(ship.reinforcement).settled){ship.reinforcement=null;ship.arriving=false;ship.model.scale.setScalar(SHIP_SCALE);}}
+ for(const ship of [...ships]){if(!ship.endlessHome)ship.endlessHome={x:ship.flight.x,z:ship.flight.z,yaw:ship.flight.yaw};if(ship.reinforcement){ship.reinforcement.time+=dt;if(reinforcementPose(ship.reinforcement).settled){ship.reinforcement=null;ship.arriving=false;ship.model.scale.setScalar(ship.flight.modelScale);}}
  if(ship.health<=0&&!ship.endlessRetired){ship.endlessDiedAt??=combat.time;if(combat.time-ship.endlessDiedAt>=10-1e-8)restoreEndlessShip(ship);}
  }
  if(endlessReturnRequested&&!selected.arriving&&selected.health>0){endlessReturnRequested=false;requestEndlessReturn();}
@@ -57265,7 +57338,7 @@ function stepEndlessMode(dt){
 }
 function updateEndlessCamera(dt){
  if(!endlessWaiting&&!endlessCameraReturn)return;const rendered=selected.model.position;
- if(endlessCameraReturn){endlessCameraElapsed+=dt;const goal=rendered.clone().add(new T.Vector3(0,18,0)),offset=(planetMaps.active?new T.Vector3(-1900,850,1100):new T.Vector3(-2080,600,0)).applyAxisAngle(new T.Vector3(0,1,0),selected.flight.yaw),position=goal.clone().add(offset),blend=1-Math.exp(-dt*6);controls.target.lerp(goal,blend);cam.position.lerp(position,blend);cameraFollow.copy(rendered);cam.lookAt(controls.target);if(endlessCameraElapsed>=.85){endlessCameraReturn=false;controls.target.copy(goal);cam.position.copy(position);controls.update();}return;}
+ if(endlessCameraReturn){endlessCameraElapsed+=dt;const goal=rendered.clone().add(new T.Vector3(0,18,0)),position=goal.clone().add(capitalCameraOffset(selected.flight)),blend=1-Math.exp(-dt*6);controls.target.lerp(goal,blend);cam.position.lerp(position,blend);cameraFollow.copy(rendered);cam.lookAt(controls.target);if(endlessCameraElapsed>=.85){endlessCameraReturn=false;controls.target.copy(goal);cam.position.copy(position);controls.update();}return;}
  endlessSpectatorElapsed+=dt;if(endlessSpectatorElapsed>=2.5)return;const center=endlessCameraCenter(ships,selected.flight),goal=new T.Vector3(center.x,center.y+25,center.z),position=goal.clone().add(new T.Vector3(-500,4000,1400)),blend=1-Math.exp(-dt*1.8);controls.target.lerp(goal,blend);cam.position.lerp(position,blend);cameraFollow.copy(goal);cam.lookAt(controls.target);
 }
 for(const [id,key] of [['effects-volume','effects'],['music-volume','music'],['ambience-volume','ambience']])q(id).addEventListener('input',event=>audio.setVolumes({[key]:Number(event.target.value)/100}));
@@ -57340,11 +57413,11 @@ function animate(){
 
  if(Math.abs(f.x)>10000||Math.abs(f.z)>10000){const sx=f.x,sz=f.z;for(const ship of ships){if(ship.endlessHome){ship.endlessHome.x-=sx;ship.endlessHome.z-=sz;}ship.flight.x-=sx;ship.flight.z-=sz;if(ship.renderPrevious){ship.renderPrevious.x-=sx;ship.renderPrevious.z-=sz;}}cameraFollow.x-=sx;cameraFollow.z-=sz;cam.position.x-=sx;cam.position.z-=sz;controls.target.x-=sx;controls.target.z-=sz;for(const blast of reactorBlasts){blast.group.position.x-=sx;blast.group.position.z-=sz;}capitalWreckage.rebase(sx,sz);rebaseFleetTactics(ships,sx,sz);rebaseCombat(combat,sx,sz);rebaseCarriers(carrierBattle,sx,sz);failureEffects.rebase(sx,sz);decor.rebase(sx,sz);planetMaps.rebase(sx,sz);for(const b of bursts){b.mesh.position.x-=sx;b.mesh.position.z-=sz;}for(const view of projectileViews.values())if(view.userData.trail)for(const p of view.userData.trail.points){p.x-=sx;p.z-=sz;}for(const trail of fadingTrails){const a=trail.line.geometry.attributes.position;for(let i=0;i<a.count;i++)a.setXYZ(i,a.getX(i)-sx,a.getY(i),a.getZ(i)-sz);a.needsUpdate=true;}}
  for(const ship of ships){const f=ship.flight;if(!f.crash)f.bank=(f.bank||0)+(-f.yawRate*.2-(f.bank||0))*Math.min(1,dt*2);const previous=ship.renderPrevious||f,alpha=playing()?accumulator/fixedStep:1;ship.model.position.set(previous.x+(f.x-previous.x)*alpha,(previous.y??f.y??0)+((f.y||0)-(previous.y??f.y??0))*alpha,previous.z+(f.z-previous.z)*alpha);ship.model.rotation.set((f.bank||0)+(ship.destruction&&!ship.destruction.planet&&!ship.destruction.exploded?Math.sin(ship.destruction.age*.5)*.12:0),previous.yaw+angleDelta(f.yaw,previous.yaw)*alpha,f.pitch||0,'YXZ');}
- for(const ship of ships)if(ship.reinforcement){const pose=reinforcementPose(ship.reinforcement),f=ship.flight;ship.model.position.set(f.x+Math.cos(f.yaw)*pose.offset,0,f.z-Math.sin(f.yaw)*pose.offset);ship.model.scale.set(SHIP_SCALE*pose.stretch,SHIP_SCALE,SHIP_SCALE);}
+ for(const ship of ships)if(ship.reinforcement){const pose=reinforcementPose(ship.reinforcement),f=ship.flight,k=f.modelScale;ship.model.position.set(f.x+Math.cos(f.yaw)*pose.offset,0,f.z-Math.sin(f.yaw)*pose.offset);ship.model.scale.set(k*pose.stretch,k,k);}
  if(playing()&&!(session==='endless'&&(endlessWaiting||endlessCameraReturn))){const rendered=viewedShip().model.position,movement=new T.Vector3(rendered.x-cameraFollow.x,rendered.y-cameraFollow.y,rendered.z-cameraFollow.z);cam.position.add(movement);controls.target.add(movement);cameraFollow.set(rendered.x,rendered.y,rendered.z);}
  if(attracting()){attractTime+=dt;const fleet=ships.filter(s=>targetAlive(s)||s.destruction&&!s.destruction.exploded),center=new T.Vector3();for(const ship of fleet)center.add(new T.Vector3(ship.flight.x,0,ship.flight.z));center.divideScalar(Math.max(1,fleet.length));const angle=attractTime*.035,spread=Math.max(150,...fleet.map(s=>Math.hypot(s.flight.x-center.x,s.flight.z-center.z)+65)),distance=spread*1.25;cam.position.copy(center).add(new T.Vector3(Math.sin(angle)*distance+15,distance*.72,Math.cos(angle)*distance));controls.target.copy(center);cam.lookAt(controls.target);}
  if(entrance&&(phase==='arrival'||playing())){
-  const poses=stepEntrance(entrance,dt);for(const pose of poses){const ship=pose.ship,f=ship.flight;if(!ship.arriving)continue;ship.model.visible=pose.visible;ship.model.position.set(f.x+Math.cos(f.yaw)*pose.offset,0,f.z-Math.sin(f.yaw)*pose.offset);ship.model.scale.set(SHIP_SCALE*pose.stretch,SHIP_SCALE,SHIP_SCALE);if(pose.settled){ship.arriving=false;ship.model.scale.setScalar(SHIP_SCALE);if(ship===selected&&phase==='arrival'){setPhase(session==='endless'?'endless':'custom');resetCamera();notice('ARRIVAL COMPLETE · WEAPONS FREE');}}}
+  const poses=stepEntrance(entrance,dt);for(const pose of poses){const ship=pose.ship,f=ship.flight,k=f.modelScale;if(!ship.arriving)continue;ship.model.visible=pose.visible;ship.model.position.set(f.x+Math.cos(f.yaw)*pose.offset,0,f.z-Math.sin(f.yaw)*pose.offset);ship.model.scale.set(k*pose.stretch,k,k);if(pose.settled){ship.arriving=false;ship.model.scale.setScalar(k);if(ship===selected&&phase==='arrival'){setPhase(session==='endless'?'endless':'custom');resetCamera();notice('ARRIVAL COMPLETE · WEAPONS FREE');}}}
   q('arrival-label').textContent=entrance.time<2?'HYPERSPACE':'FLEET ARRIVAL';q('arrival-overlay').hidden=entrance.time>2.5;
   if(entrance.time>=entrance.duration){entrance=null;q('arrival-overlay').hidden=true;}
  }
