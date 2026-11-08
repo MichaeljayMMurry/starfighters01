@@ -23,7 +23,14 @@ body{color-scheme:dark}body.touch-mode #arsenal{overscroll-behavior:contain;scro
 /* Carrier revision: menus fit their full padding inside the dynamic viewport. */
 .screen-card{box-sizing:border-box;max-height:calc(100dvh - 24px - env(safe-area-inset-top) - env(safe-area-inset-bottom));overscroll-behavior:contain;scroll-padding-bottom:20px}
 .screen-card>.row:last-child{position:sticky;bottom:-1px;background:#08121df5;padding:10px 0 3px;margin-bottom:0;z-index:2}
-.target-marker{border-color:#ff4545}.target-marker span{color:#ff4545}
+@media (pointer:coarse), (max-height:480px){
+ .screen:not(.intro){align-items:flex-start;overflow-y:auto;overscroll-behavior-y:contain;pointer-events:auto;touch-action:pan-y;padding:max(12px,env(safe-area-inset-top)) max(12px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-left))}
+ .screen .screen-card{flex:none;width:min(570px,100%);max-height:none;overflow:visible}
+ .screen .screen-card>.row:last-child{position:static}
+ .screen .menu-content{margin-block:auto}
+ .screen button,.screen a,#contacts button{touch-action:pan-y}
+ #contacts{overscroll-behavior-y:contain;touch-action:pan-y}
+}
 #carrier-panel{left:18px;top:110px;padding:8px 10px;font-size:10px;line-height:1.7}#carrier-panel button{font-size:10px;padding:6px 10px}button:disabled{opacity:.45;cursor:default}
 #spectator-panel{position:absolute;z-index:9;right:max(12px,env(safe-area-inset-right));left:auto;top:50%;width:170px;transform:translateY(-50%);background:#08121de8;border:1px solid #725e39;padding:7px;border-radius:5px;font-size:10px;text-align:center}#spectator-panel button{font-size:9px;padding:6px;margin-top:4px}#spectator-panel[hidden]{display:none}.spectating #arsenal{opacity:.5}
 #touch-boost{position:absolute;left:9px;bottom:118px}#touch-boost button{width:153px;height:40px}
